@@ -21,9 +21,9 @@ class Category extends Model
     public static function toOptionList()
     {
         $list = [];
-        $categories = parent::all();
-        foreach ($categories as $category) {
-            $list[$category->id] = $category->name;
+        $items = parent::all();
+        foreach ($items as $item) {
+            $list[$item->id] = $item->name;
         }
         return $list;
     }

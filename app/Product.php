@@ -15,11 +15,33 @@ class Product extends Model
 
     public function variations()
     {
-        return $this->hasMany(ProductVariation::class);
+        return $this->belongsToMany(Variation::class);
+    }
+
+    public function getVariationAttribute()
+    {
+        $list = [];
+        $items = $this->belongsToMany(Variation::class)
+            ->select('variation_id','price')
+            ->getResults();
+        foreach ($items as $item) {
+            $list[$item->variation_id] = $item->price;
+        }
+        return $list;
     }
 
     public function items()
     {
         return $this->belongsToMany(ProductItem::class);
+    }
+
+    public static function toOptionList()
+    {
+        $list = [];
+        $items = parent::all();
+        foreach ($items as $item) {
+            $list[$item->id] = $item->name;
+        }
+        return $list;
     }
 }

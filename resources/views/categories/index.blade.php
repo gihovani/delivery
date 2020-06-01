@@ -58,13 +58,14 @@
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json'
                 },
+                order: [[ 0, 'desc']],
                 searchDelay: 1000,
                 processing: true,
                 serverSide: true,
                 ajax: actionUrl,
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
+                    {data: 'id'},
+                    {data: 'name'},
                     {
                         data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
                             return (type === 'display') ? (

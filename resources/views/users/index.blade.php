@@ -67,11 +67,11 @@
                 serverSide: true,
                 ajax: actionUrl,
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'telephone', name: 'telephone'},
+                    {data: 'id'},
+                    {data: 'name'},
+                    {data: 'telephone'},
                     {
-                        data: 'is_admin', name: 'is_admin', render: function (data, type) {
+                        data: 'is_admin', render: function (data, type) {
                             return (type === 'display') ? (userProfiles[parseInt(data)] ? userProfiles[parseInt(data)] : data) : data
                         }
                     },

@@ -21,6 +21,19 @@ class CreateVariationsTable extends Migration
                 ->constrained()
                 ->onDelete('cascade');
         });
+
+        Schema::create('product_variation', function (Blueprint $table) {
+            $table->id();
+            $table->decimal('price')->default(0);
+            $table->timestamps();
+
+            $table->foreignId('variation_id')
+                ->constrained()
+                ->onDelete('cascade');
+            $table->foreignId('product_id')
+                ->constrained()
+                ->onDelete('cascade');
+        });
     }
 
     /**
@@ -30,6 +43,7 @@ class CreateVariationsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('product_variation');
         Schema::dropIfExists('variations');
     }
 }

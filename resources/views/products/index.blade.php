@@ -10,8 +10,7 @@
 @section('breadcrumb')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('Home')}}</a></li>
-        <li class="breadcrumb-item"><a href="{{route('users.show', $user)}}">{{ $user->name }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{__('Addresses')}}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ __('Products') }}</li>
     </ol>
 @endsection
 @section('content')
@@ -21,9 +20,9 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex">
-                            <div class="mt-2">{{ __('Addresses') }}</div>
+                            <div class="mt-2">{{ __('Products') }}</div>
                             <div class="ml-auto">
-                                <a class="btn btn-success" id="new-entity" href="{{route('addresses.create', $user)}}">{{__('Add New')}}</a>
+                                <a class="btn btn-success" id="new-entity" href="{{route('products.create')}}">{{__('Add New')}}</a>
                             </div>
                         </div>
                     </div>
@@ -32,14 +31,10 @@
                         <table class="table table-bordered data-table">
                             <thead>
                             <tr>
-                                <th width="15%">{{__('Zip Code')}}</th>
-                                <th width="25%">{{__('Street')}}</th>
-                                <th width="5%">{{__('Number')}}</th>
-                                <th width="5%">{{__('Complement')}}</th>
-                                <th width="10%">{{__('Neighborhood')}}</th>
-                                <th width="10%">{{__('City')}}</th>
-                                <th width="5%">{{__('State')}}</th>
-                                <th width="25%">{{__('Action')}}</th>
+                                <th width="5%">{{__('Id')}}</th>
+                                <th width="35%">{{__('Category')}}</th>
+                                <th width="30%">{{__('Name')}}</th>
+                                <th width="30%">{{__('Action')}}</th>
                             </tr>
                             </thead>
                         </table>
@@ -50,7 +45,7 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var actionUrl = '{{ route('addresses.index', $user) }}';
+            var actionUrl = '{{ route('products.index') }}';
             var msgTimeout;
             function showMsg(message) {
                 var $msg = $('#msg');
@@ -70,13 +65,9 @@
                 serverSide: true,
                 ajax: actionUrl,
                 columns: [
-                    {data: 'zipcode'},
-                    {data: 'street'},
-                    {data: 'number'},
-                    {data: 'complement'},
-                    {data: 'neighborhood'},
-                    {data: 'city'},
-                    {data: 'state'},
+                    {data: 'id'},
+                    {data: 'category'},
+                    {data: 'name'},
                     {
                         data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
                             return (type === 'display') ? (
@@ -84,7 +75,7 @@
                                     '<i class="far fa-eye"></i>' +
                                 '</a> ' +
                                 '<a class="btn btn-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
-                                '<i class="far fa-edit"></i>' +
+                                    '<i class="far fa-edit"></i>' +
                                 '</a> ' +
                                 '<a class="btn btn-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
                                     '<i class="far fa-trash-alt"></i>' +

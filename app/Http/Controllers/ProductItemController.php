@@ -3,83 +3,72 @@
 namespace App\Http\Controllers;
 
 use App\ProductItem;
+use App\Http\Requests\ProductItemRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use DataTables;
 
 class ProductItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $data = ProductItem::latest()->get();
+            return Datatables::of($data)->make(true);
+        }
+
+        return view('product_items.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('product_items.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ProductItemRequest $request)
     {
-        //
+        ProductItem::create($this->getData($request));
+        return request()->ajax() ?
+            new Response(__('Entity saved successfully.'), 201) :
+            redirect()->route('product_items.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ProductItem  $productItem
-     * @return \Illuminate\Http\Response
-     */
     public function show(ProductItem $productItem)
     {
-        //
+        return request()->ajax() ?
+            $productItem :
+            view('product_items.show', compact('productItem'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ProductItem  $productItem
-     * @return \Illuminate\Http\Response
-     */
     public function edit(ProductItem $productItem)
     {
-        //
+        return request()->ajax() ?
+            $productItem :
+            view('product_items.edit', compact('productItem'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ProductItem  $productItem
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ProductItem $productItem)
+    public function update(ProductItemRequest $request, ProductItem $productItem)
     {
-        //
+        $productItem->update($this->getData($request));
+        return request()->ajax() ?
+            new Response(__('Entity updated successfully.')) :
+            redirect()->route('product_items.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ProductItem  $productItem
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(ProductItem $productItem)
     {
-        //
+        $productItem->delete();
+        return request()->ajax() ?
+            new Response(__('Entity successfully deleted.'), 209) :
+            redirect()->route('product_items.index');
+    }
+
+    private function getData(Request $request)
+    {
+        $data = $request->all();
+        if (strpos($data['price'], ',')) {
+            $data['price'] = floatval(str_replace(['.',','], ['', '.'], $data['price']));
+        }
+        return $data;
     }
 }

@@ -17,16 +17,16 @@ class ProductVariationSeeder extends Seeder
                 $sizes = [1,2,3];
                 $prices = [34.90, 42.90, 54.90];
                 for ($i = 0; $i < 3; $i++) {
-                    factory(App\ProductVariation::class)
-                        ->create([
-                            'product_id' => $product->id,
-                            'variation_id' => $sizes[$i],
-                            'price' => $prices[$i]
-                        ]);
+                    $product->variations()->attach([
+//                        'product_id' => $product->id,
+                        'variation_id' => $sizes[$i]
+                    ], ['price' => $prices[$i]]);
                 }
             } else {
-                factory(App\ProductVariation::class)
-                    ->create(['product_id' => $product->id, 'variation_id' => 4]);
+                $product->variations()->attach([
+//                    'product_id' => $product->id,
+                    'variation_id' => 4
+                ], ['price' => rand(10,50)]);
             }
         });
     }

@@ -53,6 +53,12 @@
                                 <a class="nav-link{{ Route::is('variations*') ? ' active' : '' }}" href="{{ route('variations.index') }}">{{ __('Variations') }}</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link{{ Route::is('product_items*') ? ' active' : '' }}" href="{{ route('product_items.index') }}">{{ __('Product Items') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link{{ Route::is('products*') ? ' active' : '' }}" href="{{ route('products.index') }}">{{ __('Products') }}</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link{{ Route::is('users*') ? ' active' : '' }}" href="{{ route('users.index') }}">{{ __('Users') }}</a>
                             </li>
                             <li class="nav-item dropdown">

@@ -2,84 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Product;
+use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use DataTables;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $data = Product::latest()->get();
+            return Datatables::of(ProductResource::collection($data))
+                ->make(true);
+        }
+
+        return view('products.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $product = Product::create($request->all());
+        $this->saveItemsAndVariations($request, $product);
+        return request()->ajax() ?
+            new Response(__('Entity saved successfully.'), 201) :
+            redirect()->route('products.edit', $product);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function show(Product $product)
     {
-        //
+        return request()->ajax() ?
+            $product :
+            view('products.show', compact('product'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Product $product)
     {
-        //
+        return request()->ajax() ?
+            $product :
+            view('products.edit', compact('product'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->all());
+        $this->saveItemsAndVariations($request, $product);
+        return request()->ajax() ?
+            new Response(__('Entity updated successfully.')) :
+            redirect()->route('products.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return request()->ajax() ?
+            new Response(__('Entity successfully deleted.'), 209) :
+            redirect()->route('products.index');
+    }
+
+    private function saveItemsAndVariations(Request $request, Product $product)
+    {
+        $product->items()->sync($request->post('items'));
+        $variations = $request->post('variation');
+        if (empty($variations)) {
+            return;
+        }
+
+        foreach ($variations as $variationId => $variation) {
+            $price = floatval(str_replace(['.',','], ['', '.'], $variation['price']));
+            $product->variations()
+                ->attach([
+                    'variation_id' => $variationId
+                ], ['price' => $price]);
+        }
     }
 }
