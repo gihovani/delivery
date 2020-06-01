@@ -15,7 +15,7 @@ class AddColumnsToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('is_admin')->default(0);
-            $table->string('telephone')->unique();
+            $table->string('telephone')->unique()->default('');
             $table->text('observation')->nullable();
         });
     }
