@@ -30,12 +30,12 @@
     </div>
 </div>
 <div class="form-group row{{isset($hide_profile) ? ' d-none' : ''}}">
-    {!! Form::label('is_admin', __('Profile'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
+    {!! Form::label('roles', __('Profile'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-6">
-        {!! Form::select('is_admin',\App\User::types(),$user->is_admin ?? 0,['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('is_admin') ? ' is-invalid' : '')]) !!}
+        {!! Form::select('roles',\App\User::rolesToOptionList(), explode(',', $user->roles) ?? '',['required' => true, 'multiple' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('roles') ? ' is-invalid' : '')]) !!}
 
-        <span class="invalid-feedback" role="alert" id="invalid-is_admin">
-            <strong>@error('is_admin') {{ $message }} @enderror</strong>
+        <span class="invalid-feedback" role="alert" id="invalid-roles">
+            <strong>@error('roles') {{ $message }} @enderror</strong>
         </span>
     </div>
 </div>

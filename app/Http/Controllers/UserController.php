@@ -13,8 +13,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::latest()->get();
-            return Datatables::of($data)->make(true);
+            return Datatables::eloquent(User::latest())
+                ->make(true);
         }
 
         return view('users.index');

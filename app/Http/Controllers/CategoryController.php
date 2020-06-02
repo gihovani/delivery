@@ -13,8 +13,8 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Category::latest()->get();
-            return Datatables::of($data)->make(true);
+            return Datatables::eloquent(Category::latest())
+                ->make(true);
         }
 
         return view('categories.index');

@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
         factory(App\User::class)->create([
             'email' => 'teste@teste.com',
             'password' => 'abcd1234',
-            'is_admin' => 1
+            'roles' => implode(',', App\User::ROLES)
         ]);
         factory(App\User::class, 100)->create();
     }

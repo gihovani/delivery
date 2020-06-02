@@ -20,8 +20,8 @@
                         @include('variations._form')
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <a class="btn btn-info" href="{{ route('variations.index') }}">
+                            <div class="col-md-6 offset-md-4 btn-group btn-group-justified">
+                                <a class="btn btn-outline-secondary" href="{{ route('variations.index') }}">
                                     {{ __('Back') }}
                                 </a>
                                 <button type="submit" class="btn btn-primary">

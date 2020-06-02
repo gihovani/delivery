@@ -10,6 +10,8 @@ Laravel Delivery is a web application developed for the Jose Pan Pizzeria.
 git clone git@github.com:gihovani/delivery.git
 cd delivery
 composer install
+npm install
+npm run production
 rename .env.exemple to .env (you can change the settings if you need)
 artisan key:generate
 artisan migrate

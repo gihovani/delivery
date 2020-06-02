@@ -14,8 +14,7 @@ class VariationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Variation::latest()->get();
-            return Datatables::of(VariationResource::collection($data))
+            return Datatables::eloquent(Variation::latest()->with('category'))
                 ->make(true);
         }
 

@@ -14,8 +14,8 @@
                         @include('users._form', ['hide_profile' => true])
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <a class="btn btn-info" href="{{ route('home') }}">
+                            <div class="col-md-6 offset-md-4 btn-group btn-group-justified">
+                                <a class="btn btn-outline-secondary" href="{{ route('home') }}">
                                     {{ __('Back') }}
                                 </a>
                                 <button type="submit" class="btn btn-primary">

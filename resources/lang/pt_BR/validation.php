@@ -182,7 +182,7 @@ return [
         "number" => "número",
         "complement" => "complemento",
         "neighborhood" => "bairro",
-        "is_admin" => "é administrador"
+        "roles" => "perfis"
     ],
 
 ];

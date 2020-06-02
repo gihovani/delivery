@@ -18,8 +18,8 @@
                     @include('addresses._form', ['disabled' => true])
 
                     <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <a class="btn btn-info" href="{{ route('addresses.index', $address->user) }}">
+                        <div class="col-md-6 offset-md-4 btn-group btn-group-justified">
+                            <a class="btn btn-outline-secondary" href="{{ route('addresses.index', $address->user) }}">
                                 {{ __('Back') }}
                             </a>
                         </div>

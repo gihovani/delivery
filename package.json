@@ -24,6 +24,8 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.13.0",
-        "jquery-mask-plugin": "^1.14.16"
+        "@ttskch/select2-bootstrap4-theme": "^1.4.0",
+        "jquery-mask-plugin": "^1.14.16",
+        "select2": "^4.0.13"
     }
 }

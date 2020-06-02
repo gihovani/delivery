@@ -17,13 +17,16 @@
     @yield('css')
 </head>
 <body>
-    <div id="app">
+<div id="app" class="d-flex w-100 h-100 mx-auto flex-column">
+    <header class="mb-auto">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Laravel') }}" height="30">
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -38,7 +41,8 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link{{ Route::is('login') ? ' active' : '' }}" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link{{ Route::is('login') ? ' active' : '' }}"
+                                   href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item{{ Route::is('register') ? ' active' : '' }}">
@@ -47,22 +51,30 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link{{ Route::is('categories*') ? ' active' : '' }}" href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
+                                <a class="nav-link{{ Route::is('categories*') ? ' active' : '' }}"
+                                   href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link{{ Route::is('variations*') ? ' active' : '' }}" href="{{ route('variations.index') }}">{{ __('Variations') }}</a>
+                                <a class="nav-link{{ Route::is('variations*') ? ' active' : '' }}"
+                                   href="{{ route('variations.index') }}">{{ __('Variations') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link{{ Route::is('product_items*') ? ' active' : '' }}" href="{{ route('product_items.index') }}">{{ __('Product Items') }}</a>
+                                <a class="nav-link{{ Route::is('product_items*') ? ' active' : '' }}"
+                                   href="{{ route('product_items.index') }}">{{ __('Product Items') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link{{ Route::is('products*') ? ' active' : '' }}" href="{{ route('products.index') }}">{{ __('Products') }}</a>
+                                <a class="nav-link{{ Route::is('products*') ? ' active' : '' }}"
+                                   href="{{ route('products.index') }}">{{ __('Products') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link{{ Route::is('users*') ? ' active' : '' }}" href="{{ route('users.index') }}">{{ __('Users') }}</a>
+                                <a class="nav-link{{ Route::is('users*') ? ' active' : '' }}"
+                                   href="{{ route('users.index') }}">{{ __('Users') }}</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle{{ Route::is('profile*') ? ' active' : '' }}" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown"
+                                   class="nav-link dropdown-toggle{{ Route::is('profile*') ? ' active' : '' }}" href="#"
+                                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                   v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -76,7 +88,8 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                          style="display: none;">
                                         @csrf
                                     </form>
                                 </div>
@@ -91,12 +104,18 @@
                 @yield('breadcrumb')
             </div>
         </nav>
-        <main>
-            @yield('content')
-        </main>
-    </div>
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    @yield('scripts')
+    </header>
+    <main role="main" class="inner cover">
+        @yield('content')
+    </main>
+    <footer class="mt-auto">
+        <div class="inner">
+            <p>Desenvolvido por <a href="https://gg2.com.br/" target="_blank" rel="external">GG2</a>.</p>
+        </div>
+    </footer>
+</div>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
+@yield('scripts')
 </body>
 </html>

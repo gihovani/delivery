@@ -69,13 +69,13 @@
                     {
                         data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
                             return (type === 'display') ? (
-                                '<a class="btn btn-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
+                                '<a class="btn btn-outline-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
                                     '<i class="far fa-eye"></i>' +
                                 '</a> ' +
-                                '<a class="btn btn-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
+                                '<a class="btn btn-outline-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
                                     '<i class="far fa-edit"></i>' +
                                 '</a> ' +
-                                '<a class="btn btn-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
+                                '<a class="btn btn-outline-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
                                     '<i class="far fa-trash-alt"></i>' +
                                 '</a>'
                             ) : data;

@@ -1,7 +1,7 @@
 <div class="form-group row">
     {!! Form::label('zipcode', __('Zip Code'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-6">
-        {!! Form::text('zipcode',$address->zipcode ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'zipcode', 'data-mask' => '00000-000', 'class'=>'form-control'.($errors->has('zipcode') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('zipcode',$address->zipcode ?? '',['required' => true, 'autofocus' => 'true', 'disabled' => (isset($disabled)), 'autocomplete' => 'zipcode', 'data-mask' => '00000-000', 'class'=>'form-control'.($errors->has('zipcode') ? ' is-invalid' : '') ]) !!}
 
         @error('zipcode')
         <span class="invalid-feedback" role="alert">

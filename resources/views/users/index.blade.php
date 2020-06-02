@@ -47,7 +47,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var actionUrl = '{{ route('users.index') }}';
-            var userProfiles = @json(\App\User::types());
+            var userProfiles = @json(\App\User::rolesToOptionList());
             var msgTimeout;
             function showMsg(message) {
                 var $msg = $('#msg');
@@ -71,23 +71,30 @@
                     {data: 'name'},
                     {data: 'telephone'},
                     {
-                        data: 'is_admin', render: function (data, type) {
-                            return (type === 'display') ? (userProfiles[parseInt(data)] ? userProfiles[parseInt(data)] : data) : data
+                        data: 'roles', render: function (data, type) {
+                            if (type === 'display') {
+                                var roles = [];
+                                data.split(',').forEach(function (value) {
+                                    roles.push(userProfiles.hasOwnProperty(value) ? userProfiles[value] : value);
+                                });
+                                return roles.join(',');
+                            }
+                            return data;
                         }
                     },
                     {
                         data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
                             return (type === 'display') ? (
-                                '<a class="btn btn-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
+                                '<a class="btn btn-outline-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
                                     '<i class="far fa-eye"></i>' +
                                 '</a> ' +
-                                '<a class="btn btn-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
+                                '<a class="btn btn-outline-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
                                     '<i class="far fa-edit"></i>' +
                                 '</a> ' +
-                                '<a class="btn btn-dark address-entity" title="{{ __('Addresses') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/addresses">' +
+                                '<a class="btn btn-outline-dark address-entity" title="{{ __('Addresses') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/addresses">' +
                                     '<i class="fas fa-map-marked-alt"></i>' +
                                 '</a> ' +
-                                '<a class="btn btn-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
+                                '<a class="btn btn-outline-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
                                     '<i class="far fa-trash-alt"></i>' +
                                 '</a>'
                             ) : data;

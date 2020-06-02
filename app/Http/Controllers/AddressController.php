@@ -15,8 +15,8 @@ class AddressController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = $user->addresses()->get();
-            return Datatables::of($data)->make(true);
+            return Datatables::eloquent($user->addresses())
+                ->make(true);
         }
 
         return view('addresses.index', compact('user'));

@@ -69,7 +69,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             var $modal = $('#crud-modal');
             var msgTimeout;
-            var clearData = {id: '', name: '', email: '', telephone: '', is_admin: 0};
+            var clearData = {id: '', name: '', email: '', telephone: '', roles: ''};
             var actionUrl = '{{ route('users.index') }}';
             var userProfiles = @json(\App\User::types());
             function showModal(data, readOnly, title) {
@@ -79,7 +79,7 @@
                 $('#name').prop('readonly', readOnly).val(data.name);
                 $('#email').prop('readonly', readOnly).val(data.email);
                 $('#telephone').prop('readonly', readOnly).val(data.telephone);
-                $('#is_admin').prop('disabled', readOnly).val(data.is_admin);
+                $('#roles').prop('disabled', readOnly).val(data.roles);
                 $modal.find('button[type=submit]').toggleClass('d-none', readOnly);
                 $modal.find('.modal-title').html(title);
                 $modal.modal('show');
@@ -108,24 +108,20 @@
                 serverSide: true,
                 ajax: actionUrl,
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'telephone', name: 'telephone'},
-                    {
-                        data: 'is_admin', name: 'is_admin', render: function (data, type) {
-                            return (type === 'display') ? (userProfiles[parseInt(data)] ? userProfiles[parseInt(data)] : data) : data
-                        }
-                    },
+                    {data: 'id'},
+                    {data: 'name'},
+                    {data: 'telephone'},
+                    {data: 'roles'},
                     {
                         data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
                             return (type === 'display') ? (
-                                '<a class="btn btn-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
+                                '<a class="btn btn-outline-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
                                     '<i class="far fa-eye"></i>' +
                                 '</a> ' +
-                                '<a class="btn btn-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
+                                '<a class="btn btn-outline-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
                                     '<i class="far fa-edit"></i>' +
                                 '</a> ' +
-                                '<a class="btn btn-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
+                                '<a class="btn btn-outline-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
                                     '<i class="far fa-trash-alt"></i>' +
                                 '</a>'
                             ) : data;

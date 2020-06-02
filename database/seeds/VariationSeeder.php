@@ -11,8 +11,8 @@ class VariationSeeder extends Seeder
      */
     public function run()
     {
-        $sizes = ['Pequena', 'Média', 'Grande'];
-        for ($i = 0; $i < 3; $i++) {
+        $sizes = ['Broto', 'Grande'];
+        for ($i = 0; $i < 2; $i++) {
             factory(App\Variation::class)
                 ->create([
                     'name' => $sizes[$i],

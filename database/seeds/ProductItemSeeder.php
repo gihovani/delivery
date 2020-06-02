@@ -11,14 +11,21 @@ class ProductItemSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\ProductItem::class, 30)
-            ->create()
-            ->each(function ($item) {
-                $productIds = array_rand(range(1,10), 5);
-                unset($productIds[0]);
-                /** @var App\ProductItem $item */
-                $item->products()->attach($productIds);
-        });
-
+        $items = [
+            'Amendoim', 'Atum', 'Azeitonas', 'Banana', 'Batata Palha',
+            'Bombom', 'Camarão ao Molho', 'Canela', 'Carne Moida',
+            'Cebola Caramelizada ', 'Cheddar', 'Chocolate ao Leite',
+            'Chocolate Branco', 'Chocolate Granulado', 'Coco Ralado',
+            'Confetes Coloridos', 'Coração de Frango', 'Costela Desfiada',
+            'Creme de Leite', 'Doce de Leite', 'Filé Mignon',
+            'Leite Condensado', 'Lingüiça Blumenau', 'Milho',
+            'Molho Barbicue', 'Molho de Tomate', 'Morango', 'Orégano',
+            'Ovo Cozido', 'Pepperoni', 'Pimentão', 'Presunto', 'Queijo Mussarela',
+            'Queijo Parmesão', 'Strogonoff de Carne', 'Strogonoff de Frango',
+            'Tomate'
+        ];
+        foreach ($items as $item) {
+            factory(App\ProductItem::class)->create(['name' => $item]);
+        }
     }
 }
