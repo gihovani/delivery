@@ -70,6 +70,8 @@ class ProductController extends Controller
     private function saveItemsAndVariations(Request $request, Product $product)
     {
         $product->items()->sync($request->post('items'));
+        $teste = $request->file('image')
+            ->storeAs('images/products/' . $product->category_id, $product->image, ['disk' => 'public']);
         $variations = $request->post('variation');
         if (empty($variations)) {
             return;

@@ -14,7 +14,7 @@
                 <div class="card-header">{{ __('Edit Data') }}</div>
 
                 <div class="card-body">
-                    <form action="{{ route('products.update', $product) }}" method="POST">
+                    <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         @include('products._form')

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -29,15 +30,19 @@ class Product extends Model
         return $this->belongsToMany(Variation::class);
     }
 
+    public function getImageAttribute()
+    {
+        return Str::slug($this->name, '-', 'pt_BR') . '.png';
+    }
+
     public function getImageUrlAttribute()
     {
-        $image = Str::slug($this->name, '-', 'pt_BR') . '.png';
         $imagePath = '/images/products/' . $this->category_id . '/';
-        $imageUrl = $imagePath . $image;
-        if (!file_exists(public_path() . $imageUrl)) {
+        $imageUrl = $imagePath . $this->image;
+        if (!Storage::disk('public')->exists($imageUrl)) {
             $imageUrl = $imagePath . 'noimage.png';
         }
-        return asset($imageUrl);
+        return Storage::url($imageUrl);
     }
 
     public function getVariationAttribute()

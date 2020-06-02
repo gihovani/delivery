@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "cleanup": "rm -rf public/images",
+        "cleanup": "rm -rf storage/app/public/images",
         "predevelopment": "npm run cleanup",
         "prewatch": "npm run cleanup",
         "prehot": "npm run cleanup",

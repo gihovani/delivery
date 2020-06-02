@@ -16,6 +16,7 @@ rename .env.exemple to .env (you can change the settings if you need)
 artisan key:generate
 artisan migrate
 artisan db:seed
+artisan storage:link
 artisan serve
 open http://127.0.0.1:8000
 login with credentials: teste@teste.com / abcd1234

@@ -2,13 +2,23 @@
 <div class="row">
     <div class="col-md-7">
         <div class="form-group row">
+            {!! Form::label('image', __('Image'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
+            <div class="col-md-8">
+                {!! Form::file('image',['required' => !isset($product), 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('image') ? ' is-invalid' : '')]) !!}
+
+                <span class="invalid-feedback" role="alert" id="invalid-category_id">
+                    <strong>@error('image') {{ $message }} @enderror</strong>
+                </span>
+            </div>
+        </div>
+        <div class="form-group row">
             {!! Form::label('category_id', __('Category'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
             <div class="col-md-8">
                 {!! Form::select('category_id',\App\Category::toOptionList(),$product->category_id ?? 0,['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('category_id') ? ' is-invalid' : '')]) !!}
 
                 <span class="invalid-feedback" role="alert" id="invalid-category_id">
-                <strong>@error('category_id') {{ $message }} @enderror</strong>
-            </span>
+                    <strong>@error('category_id') {{ $message }} @enderror</strong>
+                </span>
             </div>
         </div>
         <div class="form-group row">
@@ -17,8 +27,8 @@
                 {!! Form::text('name',$product->name ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'name', 'autofocus' => 'true', 'class'=>'form-control'.($errors->has('name') ? ' is-invalid' : '')]) !!}
 
                 <span class="invalid-feedback" role="alert" id="invalid-name">
-                <strong>@error('name') {{ $message }} @enderror</strong>
-            </span>
+                    <strong>@error('name') {{ $message }} @enderror</strong>
+                </span>
             </div>
         </div>
         <div class="form-group row">
@@ -27,8 +37,8 @@
                 {!! Form::textarea('description',$product->description ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'description', 'class'=>'form-control'.($errors->has('description') ? ' is-invalid' : '')]) !!}
 
                 <span class="invalid-feedback" role="alert" id="invalid-description">
-                <strong>@error('description') {{ $message }} @enderror</strong>
-            </span>
+                    <strong>@error('description') {{ $message }} @enderror</strong>
+                </span>
             </div>
         </div>
     </div>

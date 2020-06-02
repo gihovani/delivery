@@ -24,9 +24,15 @@ class ProductRequest extends FormRequest
         public function rules()
     {
         $entityId = request()->post('entity_id');
+        $imageRules = ['mimes:png'];
+        if (!$entityId) {
+            $imageRules[] = ['required'];
+        }
         return [
+            'image' => $imageRules,
             'name' => ['required', 'string', 'max:255', 'unique:variations,name,'.$entityId],
             'category_id' => ['required', 'string', 'exists:categories,id'],
+            'description' => ['string']
         ];
     }
 }

@@ -22,7 +22,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Laravel') }}" height="30">
+                    <img src="{{ asset('storage/images/logo.png') }}" alt="{{ config('app.name', 'Laravel') }}" height="30">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
