@@ -1,6 +1,6 @@
 <div class="form-group row">
     {!! Form::label('zipcode', __('Zip Code'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::text('zipcode',$address->zipcode ?? '',['required' => true, 'autofocus' => 'true', 'disabled' => (isset($disabled)), 'autocomplete' => 'zipcode', 'data-mask' => '00000-000', 'class'=>'form-control'.($errors->has('zipcode') ? ' is-invalid' : '') ]) !!}
 
         @error('zipcode')
@@ -12,7 +12,7 @@
 </div>
 <div class="form-group row">
     {!! Form::label('street', __('Street'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::text('street',$address->street ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'street', 'class'=>'form-control'.($errors->has('street') ? ' is-invalid' : '') ]) !!}
 
         @error('street')
@@ -24,7 +24,7 @@
 </div>
 <div class="form-group row">
     {!! Form::label('number', __('Number'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::text('number',$address->number ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'number', 'class'=>'form-control'.($errors->has('number') ? ' is-invalid' : '') ]) !!}
 
         @error('number')
@@ -36,7 +36,7 @@
 </div>
 <div class="form-group row">
     {!! Form::label('complement', __('Complement'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::text('complement',$address->complement ?? '',['disabled' => (isset($disabled)), 'autocomplete' => 'complement', 'class'=>'form-control'.($errors->has('complement') ? ' is-invalid' : '') ]) !!}
 
         @error('complement')
@@ -48,7 +48,7 @@
 </div>
 <div class="form-group row">
     {!! Form::label('neighborhood', __('Neighborhood'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::text('neighborhood',$address->neighborhood ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'neighborhood', 'class'=>'form-control'.($errors->has('neighborhood') ? ' is-invalid' : '') ]) !!}
 
         @error('neighborhood')
@@ -60,7 +60,7 @@
 </div>
 <div class="form-group row">
     {!! Form::label('city', __('City'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::text('city',$address->zipcode ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'city', 'class'=>'form-control'.($errors->has('city') ? ' is-invalid' : '') ]) !!}
 
         @error('city')
@@ -72,7 +72,7 @@
 </div>
 <div class="form-group row">
     {!! Form::label('state', __('State'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::select('state',\App\Address::ufs(),$address->state ?? '',['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('state') ? ' is-invalid' : '') ]) !!}
 
         @error('state')

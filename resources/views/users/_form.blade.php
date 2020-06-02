@@ -1,7 +1,8 @@
+
 {!! Form::hidden('entity_id',$user->id ?? '', ['id' => 'entity_id']) !!}
 <div class="form-group row">
     {!! Form::label('name', __('Name'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::text('name',$user->name ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'name', 'autofocus' => 'true', 'class'=>'form-control'.($errors->has('name') ? ' is-invalid' : '')]) !!}
 
         <span class="invalid-feedback" role="alert" id="invalid-name">
@@ -11,7 +12,7 @@
 </div>
 <div class="form-group row">
     {!! Form::label('email', __('E-Mail Address'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::email('email',$user->email ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'email', 'class'=>'form-control'.($errors->has('email') ? ' is-invalid' : '')]) !!}
 
         <span class="invalid-feedback" role="alert" id="invalid-email">
@@ -21,7 +22,7 @@
 </div>
 <div class="form-group row">
     {!! Form::label('telephone', __('Telephone'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
+    <div class="col-md-7">
         {!! Form::text('telephone',$user->telephone ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'phone', 'class'=>'form-control'.($errors->has('telephone') ? ' is-invalid' : '')]) !!}
 
         <span class="invalid-feedback" role="alert" id="invalid-telephone">
@@ -31,8 +32,8 @@
 </div>
 <div class="form-group row{{isset($hide_profile) ? ' d-none' : ''}}">
     {!! Form::label('roles', __('Profile'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
-    <div class="col-md-6">
-        {!! Form::select('roles',\App\User::rolesToOptionList(), explode(',', $user->roles) ?? '',['required' => true, 'multiple' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('roles') ? ' is-invalid' : '')]) !!}
+    <div class="col-md-7">
+        {!! Form::select('roles',\App\User::rolesToOptionList(), isset($user->roles) ? explode(',', $user->roles) : '',['required' => true, 'multiple' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('roles') ? ' is-invalid' : '')]) !!}
 
         <span class="invalid-feedback" role="alert" id="invalid-roles">
             <strong>@error('roles') {{ $message }} @enderror</strong>

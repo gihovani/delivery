@@ -9,18 +9,23 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Add New') }}</div>
 
                 <div class="card-body">
                     <form action="{{ route('users.store') }}" method="POST">
                         @csrf
-                        @include('users._form')
-                        @include('addresses._form')
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                @include('users._form')
+                            </div>
+                            <div class="col-md-6">
+                                @include('addresses._form')
+                            </div>
+                        </div>
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4 btn-group btn-group-justified">
+                            <div class="col-md-8 offset-md-2 btn-group btn-group-justified">
                                 <a class="btn btn-outline-secondary" href="{{ route('users.index') }}">
                                     {{ __('Back') }}
                                 </a>
