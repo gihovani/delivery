@@ -31,7 +31,7 @@ Mussarela;Queijo Mussarela, Tomate, Molho de Tomate e Orégano;14.9;24.9
 Coração;Coração de Frango, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano;14.9;24.9
 Strogonoff de Carne;Strogonoff de Carne, Queijo Mussarela, Batata Palha, Molho de Tomate e Orégano;14.9;24.9
 Strogonoff de Frango;Strogonoff de Frango, Queijo Mussarela, Batata Palha, Molho de Tomate e Orégano;14.9;24.9
-Brigadeiro Creme de Leite, Chocolate ao Leite e Chocolate Granulado;14.9;24.9
+Brigadeiro;Creme de Leite, Chocolate ao Leite e Chocolate Granulado;14.9;24.9
 Chocolate Branco;Creme de Leite e Chocolate Branco;14.9;24.9
 Prestígio;Creme de Leite, Leite Condensado, Chocolate ao Leite e Coco Ralado;14.9;24.9
 Confete;Creme de Leite, Chocolate ao Leite e Confetes Coloridos;14.9;24.9

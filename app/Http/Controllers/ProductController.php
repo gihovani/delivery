@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Product;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
@@ -13,7 +14,8 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return Datatables::eloquent(Product::latest()->with('category'))
+            $model = Product::all();
+            return Datatables::of(ProductResource::collection($model))
                 ->make(true);
         }
 
