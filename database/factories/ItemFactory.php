@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\ProductItem;
+use App\Item;
 use Faker\Generator as Faker;
 
-$factory->define(ProductItem::class, function (Faker $faker) {
+$factory->define(Item::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
         'price' => $faker->randomFloat(2, 1, 10)

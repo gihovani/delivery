@@ -22,7 +22,7 @@
                         <div class="d-flex">
                             <div class="mt-2">{{ __('Product Items') }}</div>
                             <div class="ml-auto">
-                                <a class="btn btn-success" id="new-entity" href="{{route('product_items.create')}}">{{__('Add New')}}</a>
+                                <a class="btn btn-success" id="new-entity" href="{{route('items.create')}}">{{__('Add New')}}</a>
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var actionUrl = '{{ route('product_items.index') }}';
+            var actionUrl = '{{ route('items.index') }}';
             var msgTimeout;
             function showMsg(message) {
                 var $msg = $('#msg');

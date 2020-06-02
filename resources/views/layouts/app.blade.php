@@ -59,8 +59,8 @@
                                    href="{{ route('variations.index') }}">{{ __('Variations') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link{{ Route::is('product_items*') ? ' active' : '' }}"
-                                   href="{{ route('product_items.index') }}">{{ __('Product Items') }}</a>
+                                <a class="nav-link{{ Route::is('items*') ? ' active' : '' }}"
+                                   href="{{ route('items.index') }}">{{ __('Items') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link{{ Route::is('products*') ? ' active' : '' }}"

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ProductItemSeeder extends Seeder
+class ItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,7 +25,7 @@ class ProductItemSeeder extends Seeder
             'Tomate'
         ];
         foreach ($items as $item) {
-            factory(App\ProductItem::class)->create(['name' => $item]);
+            factory(App\Item::class)->create(['name' => $item]);
         }
     }
 }

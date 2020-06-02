@@ -26,5 +26,5 @@ Route::resource('users','UserController')->middleware('auth');
 Route::resource('users/{user}/addresses','AddressController')->middleware('auth');
 Route::resource('categories','CategoryController')->middleware('auth');
 Route::resource('variations','VariationController')->middleware('auth');
-Route::resource('product_items','ProductItemController')->middleware('auth');
+Route::resource('items','ItemController')->middleware('auth');
 Route::resource('products','ProductController')->middleware('auth');

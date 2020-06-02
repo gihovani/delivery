@@ -2,7 +2,7 @@
 @section('breadcrumb')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('Home')}}</a></li>
-        <li class="breadcrumb-item"><a href="{{route('product_items.index')}}">{{ __('Product Items') }}</a></li>
+        <li class="breadcrumb-item"><a href="{{route('items.index')}}">{{ __('Product Items') }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{__('Show Data')}}</li>
     </ol>
 @endsection
@@ -14,11 +14,11 @@
                 <div class="card-header">{{ __('Show Data') }}</div>
 
                 <div class="card-body">
-                    @include('product_items._form', ['disabled' => true])
+                    @include('items._form', ['disabled' => true])
 
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4 btn-group btn-group-justified">
-                            <a class="btn btn-outline-secondary" href="{{ route('product_items.index') }}">
+                            <a class="btn btn-outline-secondary" href="{{ route('items.index') }}">
                                 {{ __('Back') }}
                             </a>
                         </div>

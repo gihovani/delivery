@@ -32,7 +32,7 @@ class Product extends Model
 
     public function items()
     {
-        return $this->belongsToMany(ProductItem::class);
+        return $this->belongsToMany(Item::class);
     }
 
     public static function toOptionList()

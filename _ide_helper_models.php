@@ -66,7 +66,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $category_id
  * @property-read \App\Category $category
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\ProductItem[] $items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
  * @property-read int|null $items_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\ProductVariation[] $variations
  * @property-read int|null $variations_count
@@ -159,14 +159,14 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $products
  * @property-read int|null $products_count
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductItem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductItem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductItem query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductItem whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductItem whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductItem wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductItem whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereUpdatedAt($value)
  */
 	class ProductItem extends \Eloquent {}
 }

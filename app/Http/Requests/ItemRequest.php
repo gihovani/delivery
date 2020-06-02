@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductItemRequest extends FormRequest
+class ItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class ProductItemRequest extends FormRequest
     {
         $entityId = request()->post('entity_id');
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:product_items,name,'.$entityId],
+            'name' => ['required', 'string', 'max:255', 'unique:items,name,'.$entityId],
             'price' => ['required', 'string'],
         ];
     }

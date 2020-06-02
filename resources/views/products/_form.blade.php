@@ -35,7 +35,7 @@
     <div class="col-md-4">
         <div class="form-group">
             {!! Form::label('items', __('Product Items'), ['class'=>'col-form-label']) !!}
-            {!! Form::select('items[]',App\ProductItem::toOptionList(),$product->items ?? '',['multiple' => true, 'disabled' => (isset($disabled)), 'style'=> 'height:300px', 'class'=>'form-control'.($errors->has('items[]') ? ' is-invalid' : '')]) !!}
+            {!! Form::select('items[]',App\Item::toOptionList(),$product->items ?? '',['multiple' => true, 'disabled' => (isset($disabled)), 'style'=> 'height:300px', 'class'=>'form-control'.($errors->has('items[]') ? ' is-invalid' : '')]) !!}
 
             <span class="invalid-feedback" role="alert" id="invalid-name">
                 <strong>@error('items[]') {{ $message }} @enderror</strong>
