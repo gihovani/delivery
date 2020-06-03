@@ -2,84 +2,64 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Order;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use DataTables;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            return Datatables::eloquent(Order::latest())
+                ->make(true);
+        }
+
+        return view('orders.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('orders.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        //
+        Order::create($request->all());
+        return request()->ajax() ?
+            new Response(__('Entity saved successfully.'), 201) :
+            redirect()->route('orders.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
     public function show(Order $order)
     {
-        //
+        return request()->ajax() ?
+            $order :
+            view('orders.show', compact('order'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Order $order)
     {
-        //
+        return request()->ajax() ?
+            $order :
+            view('orders.edit', compact('order'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Order $order)
+    public function update(OrderRequest $request, Order $order)
     {
-        //
+        $order->update($request->all());
+        return request()->ajax() ?
+            new Response(__('Entity updated successfully.')) :
+            redirect()->route('orders.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Order  $order
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return request()->ajax() ?
+            new Response(__('Entity successfully deleted.'), 209) :
+            redirect()->route('orders.index');
     }
 }

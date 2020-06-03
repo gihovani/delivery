@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
+    CONST IMAGE_PATH = 'images/products/';
     protected $fillable = ['category_id', 'name', 'description'];
 
     public static function toOptionList()
@@ -30,17 +31,28 @@ class Product extends Model
         return $this->belongsToMany(Variation::class);
     }
 
+    private function getPath()
+    {
+        return self::IMAGE_PATH . $this->category_id;
+    }
     public function getImageAttribute()
     {
         return Str::slug($this->name, '-', 'pt_BR') . '.png';
     }
 
+    public function getImagePathAttribute()
+    {
+        $imagePath = $this->getPath() . '/';
+        $imageUrl = $imagePath . $this->image;
+        return Storage::disk('public')->path($imageUrl);
+    }
+
     public function getImageUrlAttribute()
     {
-        $imagePath = '/images/products/' . $this->category_id . '/';
-        $imageUrl = $imagePath . $this->image;
-        if (!Storage::disk('public')->exists($imageUrl)) {
-            $imageUrl = $imagePath . 'noimage.png';
+        $imagePath = $this->getPath() . '/';
+        $imageUrl = $imagePath . 'noimage.png';
+        if (file_exists($this->image_path)) {
+            $imageUrl = $imagePath . $this->image;
         }
         return Storage::url($imageUrl);
     }
@@ -60,5 +72,11 @@ class Product extends Model
     public function items()
     {
         return $this->belongsToMany(Item::class);
+    }
+
+    public function delete()
+    {
+        unlink($this->image_path);
+        return parent::delete();
     }
 }

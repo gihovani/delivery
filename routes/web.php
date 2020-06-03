@@ -28,3 +28,4 @@ Route::resource('categories','CategoryController')->middleware('auth');
 Route::resource('variations','VariationController')->middleware('auth');
 Route::resource('items','ItemController')->middleware('auth');
 Route::resource('products','ProductController')->middleware('auth');
+Route::resource('orders','OrderController')->middleware('auth');
