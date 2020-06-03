@@ -13,11 +13,6 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function variations()
-    {
-        return $this->hasMany(Variation::class);
-    }
-
     public static function toOptionList()
     {
         $list = [];

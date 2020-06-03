@@ -33,7 +33,7 @@
 <div class="form-group row{{isset($hide_profile) ? ' d-none' : ''}}">
     {!! Form::label('roles', __('Profile'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::select('roles',\App\User::rolesToOptionList(), isset($user->roles) ? explode(',', $user->roles) : '',['required' => true, 'multiple' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('roles') ? ' is-invalid' : '')]) !!}
+        {!! Form::select('roles[]',\App\User::rolesToOptionList(), isset($user->roles) ? explode(',', $user->roles) : '',['required' => true, 'multiple' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('roles') ? ' is-invalid' : '')]) !!}
 
         <span class="invalid-feedback" role="alert" id="invalid-roles">
             <strong>@error('roles') {{ $message }} @enderror</strong>

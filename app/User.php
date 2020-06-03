@@ -86,7 +86,7 @@ class User extends Authenticatable
     public function setRolesAttribute($value)
     {
         $roles = [];
-        $values = explode(',', $value);
+        $values = (is_array($value)) ? $value : explode(',', $value);
         foreach ($values as $role) {
             $role = trim($role);
             if (in_array($role, self::ROLES)) {

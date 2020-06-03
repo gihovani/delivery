@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Http\Requests\OrderRequest;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ProductResource;
 use App\Order;
+use App\Product;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use DataTables;
 
 class OrderController extends Controller
 {
@@ -16,13 +20,24 @@ class OrderController extends Controller
             return Datatables::eloquent(Order::latest())
                 ->make(true);
         }
-
         return view('orders.index');
     }
 
     public function create()
     {
-        return view('orders.create');
+        $categories = $this->getAllCategories();
+        $products = $this->getAllProducts();
+        return view('orders.create', compact('categories'), compact('products'));
+    }
+
+    private function getAllCategories()
+    {
+        return CategoryResource::collection(Category::all());
+    }
+
+    private function getAllProducts()
+    {
+        return ProductResource::collection(Product::orderBy('category_id')->orderBy('name')->get());
     }
 
     public function store(OrderRequest $request)

@@ -35,9 +35,11 @@
                                 <th width="5%">{{__('Id')}}</th>
                                 <th width="10%">{{__('Image')}}</th>
                                 <th width="10%">{{__('Category')}}</th>
-                                <th width="20%">{{__('Name')}}</th>
-                                <th width="25%">{{__('Description')}}</th>
-                                <th width="30%">{{__('Action')}}</th>
+                                <th width="15%">{{__('Name')}}</th>
+                                <th width="10%">{{__('Price')}}</th>
+                                <th width="10%">{{__('Pieces')}}</th>
+                                <th width="18%">{{__('Description')}}</th>
+                                <th width="12%">{{__('Action')}}</th>
                             </tr>
                             </thead>
                         </table>
@@ -80,18 +82,20 @@
                     },
                     {data: 'category.name'},
                     {data: 'name'},
+                    {data: 'price_formated', name: 'price'},
+                    {data: 'pieces'},
                     {data: 'description'},
                     {
                         data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
                             return (type === 'display') ? (
                                 '<a class="btn btn-outline-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
-                                '<i class="far fa-eye"></i>' +
+                                    '<i class="far fa-eye"></i>' +
                                 '</a> ' +
                                 '<a class="btn btn-outline-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
-                                '<i class="far fa-edit"></i>' +
+                                    '<i class="far fa-edit"></i>' +
                                 '</a> ' +
                                 '<a class="btn btn-outline-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
-                                '<i class="far fa-trash-alt"></i>' +
+                                    '<i class="far fa-trash-alt"></i>' +
                                 '</a>'
                             ) : data;
                         }

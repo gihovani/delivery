@@ -27,14 +27,22 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-        $data = $request->all();
-        if (!$request->has('password')) {
-            $data['password'] = '12345678';
-        }
-        User::createWithAddress($data);
+        User::createWithAddress($this->getData($request, !$request->has('password')));
         return request()->ajax() ?
             new Response(__('Entity saved successfully.'), 201) :
             redirect()->route('users.index');
+    }
+
+    private function getData(Request $request, $forcePassword = false)
+    {
+        $data = $request->all();
+        if ($forcePassword) {
+            $data['password'] = '12345678';
+        }
+        if (is_array($data['roles'])) {
+            $data['roles'] = implode(',', $data['roles']);
+        }
+        return $data;
     }
 
     public function show(User $user)
@@ -53,7 +61,7 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        $user->update($request->all());
+        $user->update($this->getData($request));
         return request()->ajax() ?
             new Response(__('Entity updated successfully.')) :
             redirect()->route('users.index');

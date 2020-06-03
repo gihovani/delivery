@@ -16,15 +16,12 @@ class CreateVariationsTable extends Migration
         Schema::create('variations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamps();
-            $table->foreignId('category_id')
-                ->constrained()
-                ->onDelete('cascade');
         });
 
         Schema::create('product_variation', function (Blueprint $table) {
             $table->id();
-            $table->decimal('price')->default(0);
             $table->timestamps();
 
             $table->foreignId('variation_id')
@@ -33,6 +30,7 @@ class CreateVariationsTable extends Migration
             $table->foreignId('product_id')
                 ->constrained()
                 ->onDelete('cascade');
+            $table->unique(['variation_id', 'product_id']);
         });
     }
 

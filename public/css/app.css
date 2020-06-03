@@ -17022,3 +17022,12 @@ footer {
   text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
 }
 
+.product-card .card-footer {
+  padding: 0.5rem;
+  height: 135px;
+}
+
+.product-card .input-group-text {
+  width: 83px;
+}
+

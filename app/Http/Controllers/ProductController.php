@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Product;
-use App\Http\Requests\ProductRequest;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use DataTables;
 
 class ProductController extends Controller
 {
@@ -27,13 +27,30 @@ class ProductController extends Controller
         return view('products.create');
     }
 
+    private function getData(Request $request)
+    {
+        $data = $request->all();
+        $data['price'] = floatval(str_replace(['.',','], ['', '.'], $data['price']));
+        return $data;
+    }
     public function store(ProductRequest $request)
     {
-        $product = Product::create($request->all());
-        $this->saveItemsAndVariations($request, $product);
+        $product = Product::create($this->getData($request));
+        $this->saveImageAndVariations($request, $product);
         return request()->ajax() ?
             new Response(__('Entity saved successfully.'), 201) :
-            redirect()->route('products.edit', $product);
+            redirect()->route('products.index');
+    }
+
+    private function saveImageAndVariations(Request $request, Product $product)
+    {
+        if ($request->has('variations')) {
+            $product->variations()->sync($request->post('variations'));
+        }
+        if ($request->hasFile('image')) {
+            $request->file('image')
+                ->storeAs('images/products', $product->image, ['disk' => 'public']);
+        }
     }
 
     public function show(Product $product)
@@ -52,8 +69,8 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
-        $product->update($request->all());
-        $this->saveItemsAndVariations($request, $product);
+        $product->update($this->getData($request));
+        $this->saveImageAndVariations($request, $product);
         return request()->ajax() ?
             new Response(__('Entity updated successfully.')) :
             redirect()->route('products.index');
@@ -65,24 +82,5 @@ class ProductController extends Controller
         return request()->ajax() ?
             new Response(__('Entity successfully deleted.'), 209) :
             redirect()->route('products.index');
-    }
-
-    private function saveItemsAndVariations(Request $request, Product $product)
-    {
-        $product->items()->sync($request->post('items'));
-        $request->file('image')
-            ->storeAs('images/products/' . $product->category_id, $product->image, ['disk' => 'public']);
-        $variations = $request->post('variation');
-        if (empty($variations)) {
-            return;
-        }
-
-        foreach ($variations as $variationId => $variation) {
-            $price = floatval(str_replace(['.',','], ['', '.'], $variation['price']));
-            $product->variations()
-                ->attach([
-                    'variation_id' => $variationId
-                ], ['price' => $price]);
-        }
     }
 }

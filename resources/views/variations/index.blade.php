@@ -32,9 +32,10 @@
                             <thead>
                             <tr>
                                 <th width="5%">{{__('Id')}}</th>
-                                <th width="35%">{{__('Category')}}</th>
-                                <th width="30%">{{__('Name')}}</th>
-                                <th width="30%">{{__('Action')}}</th>
+                                <th width="15%">{{__('Image')}}</th>
+                                <th width="20%">{{__('Name')}}</th>
+                                <th width="45%">{{__('Description')}}</th>
+                                <th width="15%">{{__('Action')}}</th>
                             </tr>
                             </thead>
                         </table>
@@ -66,8 +67,15 @@
                 ajax: actionUrl,
                 columns: [
                     {data: 'id'},
-                    {data: 'category.name'},
+                    {
+                        data: 'image_url', orderable: false, searchable: false, render: function (data, type) {
+                            return (type === 'display') ? (
+                                '<img src="' + data + '" class="img-fluid" />'
+                            ) : data;
+                        }
+                    },
                     {data: 'name'},
+                    {data: 'description'},
                     {
                         data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
                             return (type === 'display') ? (

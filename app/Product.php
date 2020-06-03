@@ -3,13 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    CONST IMAGE_PATH = 'images/products/';
-    protected $fillable = ['category_id', 'name', 'description'];
+    const IMAGE_PATH = 'images/products/';
+    protected $fillable = ['category_id', 'name', 'description', 'price', 'pieces'];
 
     public static function toOptionList()
     {
@@ -30,10 +30,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Variation::class);
     }
-
-    private function getPath()
+    public function getPriceFormatedAttribute()
     {
-        return self::IMAGE_PATH . $this->category_id;
+        return 'R$'.number_format($this->price, 2, ',', '.');
     }
     public function getImageAttribute()
     {
@@ -42,41 +41,40 @@ class Product extends Model
 
     public function getImagePathAttribute()
     {
-        $imagePath = $this->getPath() . '/';
+        $imagePath = self::IMAGE_PATH . '/';
         $imageUrl = $imagePath . $this->image;
         return Storage::disk('public')->path($imageUrl);
     }
 
     public function getImageUrlAttribute()
     {
-        $imagePath = $this->getPath() . '/';
-        $imageUrl = $imagePath . 'noimage.png';
+        $imagePath = self::IMAGE_PATH . '/';
+        $imageUrl = $imagePath . 'noimage' . $this->category_id . '.png';
         if (file_exists($this->image_path)) {
             $imageUrl = $imagePath . $this->image;
         }
-        return Storage::url($imageUrl);
+        return Storage::disk('public')->url($imageUrl);
+    }
+
+    public function getVariationToOptionList()
+    {
+        $list = [];
+        $items = $this->getVariationAttribute();
+        foreach ($items as $item) {
+            $list[$item->variation_id] = $item->name;
+        }
+        return $list;
     }
 
     public function getVariationAttribute()
     {
         $list = [];
         $items = $this->belongsToMany(Variation::class)
-            ->select('variation_id', 'price')
+            ->select('variation_id', 'name', 'description')
             ->getResults();
         foreach ($items as $item) {
-            $list[$item->variation_id] = $item->price;
+            $list[$item->variation_id] = $item;
         }
         return $list;
-    }
-
-    public function items()
-    {
-        return $this->belongsToMany(Item::class);
-    }
-
-    public function delete()
-    {
-        unlink($this->image_path);
-        return parent::delete();
     }
 }

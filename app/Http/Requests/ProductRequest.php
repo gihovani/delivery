@@ -32,7 +32,9 @@ class ProductRequest extends FormRequest
             'image' => $imageRules,
             'name' => ['required', 'string', 'max:255', 'unique:variations,name,'.$entityId],
             'category_id' => ['required', 'string', 'exists:categories,id'],
-            'description' => ['string']
+            'price' => ['required', 'string'],
+            'pieces' => ['required', 'integer'],
+            'description' => ['nullable', 'string']
         ];
     }
 }

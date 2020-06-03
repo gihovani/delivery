@@ -32,10 +32,10 @@
                             <thead>
                             <tr>
                                 <th width="5%">{{__('Id')}}</th>
-                                <th width="30%">{{__('Name')}}</th>
+                                <th width="35%">{{__('Name')}}</th>
                                 <th width="20%">{{__('Telephone')}}</th>
-                                <th width="15%">{{__('Profile')}}</th>
-                                <th width="30%">{{__('Action')}}</th>
+                                <th width="22%">{{__('Profile')}}</th>
+                                <th width="18%">{{__('Action')}}</th>
                             </tr>
                             </thead>
                         </table>

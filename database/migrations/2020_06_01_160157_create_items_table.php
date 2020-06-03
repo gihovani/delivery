@@ -21,17 +21,17 @@ class CreateItemsTable extends Migration
         });
 
 
-        Schema::create('item_product', function (Blueprint $table) {
+        Schema::create('item_variation', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('product_id')
+            $table->foreignId('variation_id')
                 ->constrained()
                 ->onDelete('cascade');
 
             $table->foreignId('item_id')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->unique(['product_id', 'item_id']);
+            $table->unique(['variation_id', 'item_id']);
         });
 
     }

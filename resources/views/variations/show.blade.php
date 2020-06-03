@@ -9,7 +9,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Show Data') }}</div>
 
@@ -17,7 +17,7 @@
                     @include('variations._form', ['disabled' => true])
 
                     <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4 btn-group btn-group-justified">
+                        <div class="col-md-8 offset-md-2 btn-group btn-group-justified">
                             <a class="btn btn-outline-secondary" href="{{ route('variations.index') }}">
                                 {{ __('Back') }}
                             </a>

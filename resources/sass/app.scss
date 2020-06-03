@@ -14,3 +14,13 @@
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 
 @import 'cover';
+
+.product-card {
+    .card-footer {
+        padding: 0.5rem;
+        height: 135px;
+    }
+    .input-group-text {
+        width: 83px;
+    }
+}

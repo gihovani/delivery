@@ -30,7 +30,7 @@ class AddressRequest extends FormRequest
             'city' => ['required', 'string'],
             'state' => ['required', 'size:2'],
             'neighborhood' => ['required', 'string'],
-            'complement' => ['string'],
+            'complement' => ['string', 'nullable'],
         ];
     }
 }

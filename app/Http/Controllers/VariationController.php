@@ -14,7 +14,8 @@ class VariationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return Datatables::eloquent(Variation::latest()->with('category'))
+            $model = Variation::all();
+            return Datatables::of(VariationResource::collection($model))
                 ->make(true);
         }
 
@@ -28,7 +29,8 @@ class VariationController extends Controller
 
     public function store(VariationRequest $request)
     {
-        Variation::create($request->all());
+        $variation = Variation::create($request->all());
+        $this->saveImageAndItems($request, $variation);
         return request()->ajax() ?
             new Response(__('Entity saved successfully.'), 201) :
             redirect()->route('variations.index');
@@ -51,6 +53,7 @@ class VariationController extends Controller
     public function update(VariationRequest $request, Variation $variation)
     {
         $variation->update($request->all());
+        $this->saveImageAndItems($request, $variation);
         return request()->ajax() ?
             new Response(__('Entity updated successfully.')) :
             redirect()->route('variations.index');
@@ -62,5 +65,16 @@ class VariationController extends Controller
         return request()->ajax() ?
             new Response(__('Entity successfully deleted.'), 209) :
             redirect()->route('variations.index');
+    }
+
+    private function saveImageAndItems(Request $request, Variation $variation)
+    {
+        if ($request->has('items')) {
+            $variation->items()->sync($request->post('items'));
+        }
+        if ($request->hasFile('image')) {
+            $request->file('image')
+                ->storeAs('images/products/', $variation->image, ['disk' => 'public']);
+        }
     }
 }

@@ -11,27 +11,32 @@ class ProductVariationSeeder extends Seeder
      */
     public function run()
     {
-        App\Product::all()->each(function ($product) {
-            /** @var App\Product $product */
-            if ($product->category_id === 1) {
-                $sizes = [1,2];
-                $prices = [14.90, 24.90, 44.90];
-                if ($product->id >= 18) {
-                    $prices = [24.90, 44.90];
+
+        $items = [
+            'Amendoim', 'Atum', 'Azeitonas', 'Banana', 'Batata Palha',
+            'Bombom', 'Camarão ao Molho', 'Canela', 'Carne Moida',
+            'Cebola Caramelizada ', 'Cheddar', 'Chocolate ao Leite',
+            'Chocolate Branco', 'Chocolate Granulado', 'Coco Ralado',
+            'Confetes Coloridos', 'Coração de Frango', 'Costela Desfiada',
+            'Creme de Leite', 'Doce de Leite', 'Filé Mignon',
+            'Leite Condensado', 'Lingüiça Blumenau', 'Milho',
+            'Molho Barbicue', 'Molho de Tomate', 'Morango', 'Orégano',
+            'Ovo Cozido', 'Pepperoni', 'Pimentão', 'Presunto', 'Queijo Mussarela',
+            'Queijo Parmesão', 'Strogonoff de Carne', 'Strogonoff de Frango',
+            'Tomate'
+        ];
+
+        App\Variation::all()->each(function ($variation) use ($items) {
+            $variationItems = explode(',', str_replace([' e ', ' + Acompanhamento: '], ', ', $variation->description));
+            $listItem = [];
+            foreach ($variationItems as $item) {
+                $hasItem = array_search(trim($item), $items);
+                if ($hasItem) {
+                    $listItem[] = $hasItem + 1;
                 }
-                for ($i = 0; $i < count($sizes); $i++) {
-                    $size = $sizes[$i];
-                    $price = $prices[$i];
-                    $product->variations()->attach([
-//                        'product_id' => $product->id,
-                        'variation_id' => $size
-                    ], ['price' => $price]);
-                }
-            } else {
-                $product->variations()->attach([
-//                    'product_id' => $product->id,
-                    'variation_id' => 3
-                ], ['price' => rand(6,10)]);
+            }
+            if ($listItem) {
+                $variation->items()->sync($listItem);
             }
         });
     }

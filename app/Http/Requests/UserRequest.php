@@ -35,7 +35,7 @@ class UserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$entityId],
             'telephone' => ['required', 'string', 'celular_com_ddd', 'unique:users,telephone,'.$entityId],
-            'roles[]' => ['required', 'string[]']
+            'roles' => ['required']
         ];
         if (empty($entityId)) {
             $rules['zipcode'] = ['required', 'string', 'size:9'];
@@ -44,7 +44,7 @@ class UserRequest extends FormRequest
             $rules['city'] = ['required', 'string'];
             $rules['state'] = ['required', 'size:2'];
             $rules['neighborhood'] = ['required', 'string'];
-            $rules['complement'] = ['string'];
+            $rules['complement'] = ['string', 'nullable'];
         }
         return $rules;
     }
