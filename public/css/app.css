@@ -17022,12 +17022,26 @@ footer {
   text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
 }
 
-.product-card .card-footer {
+.cart-page .input-group-text {
+  width: 83px;
+}
+
+.cart-page .product-form .card-footer {
   padding: 0.5rem;
   height: 135px;
 }
 
-.product-card .input-group-text {
-  width: 83px;
+.cart-page .btn-remove-cart {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
+#my-alert {
+  position: fixed;
+  top: 10px;
+  right: 30px;
+  z-index: 2;
 }
 

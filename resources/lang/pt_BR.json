@@ -56,7 +56,8 @@
     "Add New": "Adicionar Novo",
     "Yes": "Sim",
     "No": "Não",
-    "Add": "Comprar",
+    "Add To Cart": "Comprar",
+    "All": "Todos",
     "Are You sure want to delete?": "Você tem certeza que deseja remover?",
     "Entity updated successfully.": "Dados atualizados com sucesso.",
     "Entity saved successfully.": "Dados salvos com sucesso.",
@@ -75,5 +76,17 @@
     "sale": "venda",
     "admin": "administrador",
     "customer": "cliente",
-    "deliveryman": "entregador"
+    "deliveryman": "entregador",
+    "credit card": "cartão de crédito",
+    "in cash": "em dinheiro",
+    "subsidized": "bonificado",
+    "Shopping Cart": "Carrinho",
+    "Discount": "Desconto",
+    "Apply": "Aplicar",
+    "Couldn't add item": "Não foi possivel adicionar o item",
+    "has been added to the cart.": "foi adicionado ao carrinho.",
+    "has been removed from the cart.": "foi removido do carrinho.",
+    "The item could not be removed from the cart.": "Não foi possível remover o item do carrinho.",
+    "The discount could not be applied.": "Não foi possivel aplicar o desconto.",
+    "cart empty": "carrinho vazio"
 }

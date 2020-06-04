@@ -6,8 +6,10 @@ use App\Category;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\VariationResource;
 use App\Order;
 use App\Product;
+use App\Variation;
 use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -25,9 +27,12 @@ class OrderController extends Controller
 
     public function create()
     {
-        $categories = $this->getAllCategories();
-        $products = $this->getAllProducts();
-        return view('orders.create', compact('categories'), compact('products'));
+        $data = [
+            'categories' => $this->getAllCategories(),
+            'products' => $this->getAllProducts(),
+            'variations' => $this->getAllVariations()
+        ];
+        return view('orders.create', $data);
     }
 
     private function getAllCategories()
@@ -37,7 +42,13 @@ class OrderController extends Controller
 
     private function getAllProducts()
     {
-        return ProductResource::collection(Product::orderBy('category_id')->orderBy('name')->get());
+        $model = Product::orderBy('category_id')->orderBy('name')->get();
+        return ProductResource::collection($model);
+    }
+
+    private function getAllVariations()
+    {
+        return VariationResource::collection(Variation::all());
     }
 
     public function store(OrderRequest $request)

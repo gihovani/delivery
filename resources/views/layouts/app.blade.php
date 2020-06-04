@@ -51,6 +51,10 @@
                             @endif
                         @else
                             <li class="nav-item">
+                                <a class="nav-link{{ Route::is('orders*') ? ' active' : '' }}"
+                                   href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link{{ Route::is('categories*') ? ' active' : '' }}"
                                    href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
                             </li>
@@ -114,8 +118,28 @@
         </div>
     </footer>
 </div>
+<div class="toast" id="my-alert" data-delay="3000" role="alert" aria-live="polite" aria-atomic="true">
+    <div class="toast-header">
+        <strong class="mr-auto"><i class="far fa-comment"></i> <span id="toast-title"></span></strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body" id="toast-content"></div>
+</div>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+<script>
+    function myAlert(content, title) {
+        if (typeof(title) === 'undefined') {
+            title = '{{__('Attention')}}';
+        }
+
+        $('#toast-title').html(title);
+        $('#toast-content').html(content);
+        $('#my-alert').toast('show');
+    };
+</script>
 @yield('scripts')
 </body>
 </html>

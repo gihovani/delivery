@@ -17,6 +17,17 @@ class Order extends Model
         self::STATUS_COMPLETE => self::STATUS_COMPLETE
     ];
 
+
+    const METHOD_SUBSIDIZED = 'subsidized';
+    const METHOD_CREDIT_CARD = 'credit card';
+    const METHOD_IN_CASH = 'in cash';
+
+    const PAYMENT_METHODS = [
+        self::METHOD_SUBSIDIZED => self::METHOD_SUBSIDIZED,
+        self::METHOD_CREDIT_CARD => self::METHOD_CREDIT_CARD,
+        self::METHOD_IN_CASH => self::METHOD_IN_CASH
+    ];
+
     public static function create($data = [])
     {
         if (isset($data['user_id'])) {
@@ -50,6 +61,19 @@ class Order extends Model
         return __($value);
     }
 
+    public function setPaymentMethodAttribute($value)
+    {
+        if (!in_array($value, self::PAYMENT_METHODS)) {
+            $value = self::PAYMENT_METHODS[0];
+        }
+        $this->attributes['payment_method'] = $value;
+    }
+
+    public function getPaymentMethodAttribute($value)
+    {
+        return __($value);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -63,5 +87,14 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public static function getPaymentMethodToOptionList()
+    {
+        $list = [];
+        foreach (array_reverse(self::PAYMENT_METHODS) as $key => $value) {
+            $list[$key] = __($value);
+        }
+        return $list;
     }
 }

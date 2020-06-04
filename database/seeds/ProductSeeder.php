@@ -22,9 +22,9 @@ class ProductSeeder extends Seeder
             44.90, 24.90
         ];
         $pieces = [
-            4, 8,
-            4, 8,
-            4, 8
+            8, 4,
+            8, 4,
+            8, 4
         ];
         foreach ($products as $key => $product) {
             factory(App\Product::class)
