@@ -32,6 +32,7 @@ Route::resource('categories','CategoryController')->middleware('auth');
 Route::resource('variations','VariationController')->middleware('auth');
 Route::resource('items','ItemController')->middleware('auth');
 Route::resource('products','ProductController')->middleware('auth');
+Route::get('products/{product}/details', 'ProductController@details')->name('products.details')->middleware('auth');
 Route::get('config/{config}', 'ConfigController@edit')->name('configs.edit')->middleware('auth');
 Route::put('config/{config}', 'ConfigController@update')->name('configs.update')->middleware('auth');
 Route::get('orders','OrderController@index')->name('orders.index')->middleware('auth');

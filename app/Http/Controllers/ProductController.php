@@ -88,4 +88,9 @@ class ProductController extends Controller
                 ->json(['data' => $product, 'message' => __('Entity successfully deleted.')]) :
             redirect()->route('products.index');
     }
+
+    public function details(Product $product)
+    {
+        return view('products.details', compact('product'));
+    }
 }

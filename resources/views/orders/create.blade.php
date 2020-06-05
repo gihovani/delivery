@@ -40,10 +40,12 @@
                                 {!! Form::hidden('name', $product->name) !!}
                                 {!! Form::hidden('price', $product->price) !!}
                                 {!! Form::hidden('image_url', $product->image_url) !!}
-                                <img src="{{$product->image_url}}" class="card-img-top" alt="{{$product->name}}">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{$product->name}}</h5>
-                                    <p class="card-text">{{$product->description}}</p>
+                                <div data-remote="{{route('products.details', $product)}}" data-toggle="modal" data-target="#product-modal">
+                                    <img src="{{$product->image_url}}" class="card-img-top" alt="{{$product->name}}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{$product->name}}</h5>
+                                        <p class="card-text">{{$product->description}}</p>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     @for ($i=0;$i<$product->pieces;$i++)
@@ -157,6 +159,7 @@
 
     @include('orders.modals.user-modal', ['modal-id' => 'customer-modal'])
     @include('orders.modals.address-modal', ['modal-id' => 'address-modal'])
+    @include('orders.modals.products-modal', ['modal-id' => 'product-modal'])
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var variations = @json($variations);
@@ -581,7 +584,6 @@
                     cart.setCustomer(new Customer(suggestion.data));
                 }
             });
-
         });
     </script>
 @endsection
