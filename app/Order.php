@@ -27,14 +27,19 @@ class Order extends Model
         self::STATUS_COMPLETE => self::STATUS_COMPLETE
     ];
 
-
     const METHOD_SUBSIDIZED = 'subsidized';
     const METHOD_CREDIT_CARD = 'credit card';
+    const METHOD_DEBIT_CARD = 'debit card';
+    const METHOD_FOOD_VOUCHER = 'food voucher';
+    const METHOD_MEAL_TICKET = 'meal ticket';
     const METHOD_IN_CASH = 'in cash';
 
     const PAYMENT_METHODS = [
         self::METHOD_SUBSIDIZED => self::METHOD_SUBSIDIZED,
         self::METHOD_CREDIT_CARD => self::METHOD_CREDIT_CARD,
+        self::METHOD_DEBIT_CARD => self::METHOD_DEBIT_CARD,
+        self::METHOD_FOOD_VOUCHER => self::METHOD_FOOD_VOUCHER,
+        self::METHOD_MEAL_TICKET => self::METHOD_MEAL_TICKET,
         self::METHOD_IN_CASH => self::METHOD_IN_CASH
     ];
 
@@ -46,22 +51,12 @@ class Order extends Model
         $this->attributes['status'] = $value;
     }
 
-    public function getStatusAttribute($value)
-    {
-        return __($value);
-    }
-
     public function setPaymentMethodAttribute($value)
     {
         if (!in_array($value, self::PAYMENT_METHODS)) {
             $value = self::PAYMENT_METHODS[0];
         }
         $this->attributes['payment_method'] = $value;
-    }
-
-    public function getPaymentMethodAttribute($value)
-    {
-        return __($value);
     }
 
     public function user()

@@ -22,6 +22,9 @@ Auth::routes();
 Route::get('/profile', 'Auth\ProfileController@show')->name('profile.show');
 Route::post('/profile', 'Auth\ProfileController@update');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/reports', 'ReportController@index')->name('reports.index');
+Route::post('/reports/orders', 'ReportController@orders')->name('reports.orders');
+Route::post('/reports/transactions', 'ReportController@transactions')->name('reports.transactions');
 Route::get('/users/autocomplete','UserController@autocomplete')->name('users.autocomplete');
 Route::resource('users','UserController')->middleware('auth');
 Route::resource('users/{user}/addresses','AddressController')->middleware('auth');
@@ -34,6 +37,7 @@ Route::put('config/{config}', 'ConfigController@update')->name('configs.update')
 Route::get('orders','OrderController@index')->name('orders.index')->middleware('auth');
 Route::get('orders/create','OrderController@create')->name('orders.create')->middleware('auth');
 Route::post('orders','OrderController@store')->name('orders.store')->middleware('auth');
+Route::get('orders/{order}/print','OrderController@print')->name('orders.print')->middleware('auth');
 Route::get('orders/{order}/processing','OrderController@processing')->name('orders.processing')->middleware('auth');
 Route::get('orders/{order}/delivery','OrderController@delivery')->name('orders.delivery')->middleware('auth');
 Route::get('orders/{order}/complete','OrderController@complete')->name('orders.complete')->middleware('auth');

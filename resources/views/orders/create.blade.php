@@ -131,7 +131,7 @@
                     </div>
                     <div class="input-group has-customer d-none">
                         <div class="input-group-prepend">
-                            {!! Form::label('payment-method', __('Method'), ['class' => 'input-group-text']) !!}
+                            {!! Form::label('payment-method', __('Payment Method'), ['class' => 'input-group-text']) !!}
                         </div>
                         {!! Form::select('payment_method', \App\Order::getPaymentMethodToOptionList(), '', ['required' => true, 'class' => 'form-control', 'id'=> 'payment-method']) !!}
                     </div>
@@ -159,7 +159,6 @@
     @include('orders.modals.address-modal', ['modal-id' => 'address-modal'])
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var mapsDir = 'https://www.google.com.br/maps/dir/{{App\Config::getValue('zipcode')}}/'
             var variations = @json($variations);
             var $customerModal = $('#customer-modal');
             var $addressModal = $('#address-modal');
@@ -512,7 +511,7 @@
             }).on('click', '#label-customer-address', function (e) {
                 var zipcode = $('#customer-address option:selected').data('zipcode');
                 if (zipcode) {
-                    window.open(mapsDir + zipcode, 'new');
+                    window.open(mapsUrl(zipcode), 'new');
                 } else {
                     myAlert('{{__('Select an address.')}}');
                 }

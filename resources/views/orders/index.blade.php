@@ -33,13 +33,11 @@
                             <thead>
                             <tr>
                                 <th width="5%">{{__('Id')}}</th>
-                                <th width="11%">{{__('Created At')}}</th>
-                                <th width="8%">{{__('Total')}}</th>
-                                <th width="15%">{{__('Customer')}}</th>
-                                <th width="8%">{{__('Telephone')}}</th>
-                                <th width="20%">{{__('Address')}}</th>
-                                <th width="8%">{{__('Status')}}</th>
-                                <th width="25%">{{__('Action')}}</th>
+                                <th width="15%">{{__('Created At')}}</th>
+                                <th width="10%">{{__('Total')}}</th>
+                                <th width="35%">{{__('Customer')}}</th>
+                                <th width="15%">{{__('Status')}}</th>
+                                <th width="20%">{{__('Action')}}</th>
                             </tr>
                             </thead>
                         </table>
@@ -50,13 +48,12 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var mapsDir = 'https://www.google.com.br/maps/dir/{{App\Config::getValue('zipcode')}}/'
             var actionUrl = '{{ route('orders.index') }}';
             var table = $('.data-table').DataTable({
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json'
                 },
-                order: [[0, 'desc']],
+                order: [[1, 'desc']],
                 searchDelay: 1000,
                 processing: true,
                 serverSide: true,
@@ -69,19 +66,19 @@
                     },
                     {data: 'created_at'},
                     {data: 'total_formated', name: 'total'},
-                    {data: 'customer_name'},
-                    {data: 'customer_telephone'},
                     {
-                        data: 'address_street',
-                        name: 'address',
-                        orderable: false,
-                        searchable: false,
-                        render: function (data, type, row) {
-                            return (type === 'display') ? (
-                                row.address_street + ' ' + row.address_number + ' ' + row.address_complement + '<br/>' +
-                                row.address_neighborhood + ' ' + row.address_city + '/' + row.address_state + '<br/>' +
-                                row.address_zipcode
-                            ) : data;
+                        data: 'customer_name', render: function (data, type, row) {
+                            if (type === 'display') {
+                                return data + (
+                                    !row.customer_telephone ? '' : '<br/>' + whatsAppLink(row.customer_telephone)
+                                ) + '<br/>' + (!row.address_id ? row.deliveryman_name : (
+                                        row.address_street + ' ' + row.address_number + ' ' + row.address_complement + '<br/>' +
+                                        row.address_neighborhood + ' ' + row.address_city + '/' + row.address_state + '<br/>' +
+                                        row.address_zipcode
+                                    )
+                                );
+                            }
+                            return data;
                         }
                     },
                     {data: 'status'},
@@ -133,15 +130,15 @@
                         alert(err.message);
                     }
                 });
-            }).on('click', '.btn-show i', function () {
+            }).on('click', '.btn-show', function () {
                 var $this = $(this);
-                var tr = $(this).closest('tr');
+                var tr = $this.closest('tr');
                 var row = table.row(tr);
 
                 if (row.child.isShown()) {
                     // This row is already open - close it
                     row.child.hide();
-                    $this.addClass('fa-plus-square').removeClass('fa-minus-square');
+                    $this.find('i').addClass('fa-plus-square').removeClass('fa-minus-square');
                 } else {
                     // Open this row
                     if (row.child() && row.child().length) {
@@ -149,7 +146,7 @@
                     } else {
                         row.child(formatOrder(row.data()), 'p-0').show();
                     }
-                    $this.removeClass('fa-plus-square').addClass('fa-minus-square');
+                    $this.find('i').removeClass('fa-plus-square').addClass('fa-minus-square');
                 }
             });
 
@@ -166,33 +163,54 @@
                 var items = (data.items) ? data.items.reduce(formatItem, '') : '';
                 return '<table class="table table-dark">\n' +
                     '   <tr>\n' +
-                    '       <th width="20%">{{__('Customer')}}:</th>\n' +
+                    '       <th width="20%">{{__('Order')}}:</th>\n' +
+                    '       <td>\n' + data.id +
+                    '           <a href="' + actionUrl + '/' + data.id + '/print" target="_blank"><i class="fas fa-print"></i> {{__('Print')}}</a>' +
+                    '       </td>\n' +
+                    '   </tr>\n' +
+                    '   <tr>\n' +
+                    '       <th>{{__('Customer')}}:</th>\n' +
                     '       <td>\n' +
-                    data.customer_name + (data.customer_telephone ? ' - ' + data.customer_telephone : '') +
+                    data.customer_name +
+                    (!data.customer_telephone ? '' : ' - ' + whatsAppLink(data.customer_telephone)) +
+                    '       </td>\n' +
+                    '   </tr>\n' +
+                    '   <tr>\n' +
+                    '       <th>{{__('Payment Method')}}:</th>\n' +
+                    '       <td>\n' +
+                    '       <label>{{__('Subtotal')}}</label>: ' + data.subtotal_formated + '<br/>' +
+                    '       <label>{{__('Shipping Amount')}}</label>: ' + data.shipping_amount_formated + '<br/>' +
+                    '       <label>{{__('Discount')}}</label>: ' + data.discount_formated + '<br/>' +
+                    '       <label>{{__('Total')}}</label>: ' + data.total_formated + '<br/>' +
+                    '       <label>{{__('Payment Method')}}</label>: ' + data.payment_method +
+                    (data.cash_amount ? ' ' + data.cash_amount_formated : '') +
+                    (data.back_change ? ' - {{__('Back Change')}}: ' + data.back_change_formated : '') +
                     '       </td>\n' +
                     '   </tr>\n' +
                     '   <tr>\n' +
                     '       <th>{{__('Deliveryman')}}:</th>\n' +
                     '       <td>\n' +
-                    data.deliveryman_name + (data.deliveryman_telephone ? ' - ' + data.deliveryman_telephone : '') +
+                    data.deliveryman_name +
+                    (!data.deliveryman_telephone ? '' : ' - ' + whatsAppLink(data.deliveryman_telephone)) +
                     '       </td>\n' +
                     '   </tr>\n' +
+                    (!data.deliveryman_id ? '' :
+                        '   <tr>\n' +
+                        '       <th>{{__('Address')}}:</th>\n' +
+                        '       <td>\n' +
+                        '           <a target="_blank" href="' + mapsUrl(data.address_zipcode) + '"><i class="fas fa-map-marked-alt"></i> ' +
+                        data.address_street + ' ' + data.address_number + ' ' + (data.address_complement ? data.address_complement : '') + '<br/>' +
+                        data.address_neighborhood + ' ' + data.address_city + '/' + data.address_state + '<br/>' +
+                        data.address_zipcode +
+                        '           </a>' +
+                        '       </td>\n' +
+                        '   </tr>\n') +
                     '   <tr>\n' +
-                    '       <th>{{__('Address')}}:</th>\n' +
-                    '       <td>\n' +
-                    '           <a target="_blank" href="' + mapsDir + data.address_zipcode + '">' +
-                    data.address_street + ' ' + data.address_number + ' ' + (data.address_complement ? data.address_complement : '') + '<br/>' +
-                    data.address_neighborhood + ' ' + data.address_city + '/' + data.address_state + '<br/>' +
-                    data.address_zipcode +
-                    '           </a>' +
-                '       </td>\n' +
-                '   </tr>\n' +
-                '   <tr>\n' +
-                '      <th>{{__('Products')}}:</th>\n' +
-                '      <td><ul>' + items + '</ul></td>\n' +
-                '   </tr>\n' +
-                '</table>\n';
+                    '      <th>{{__('Products')}}:</th>\n' +
+                    '      <td><ul>' + items + '</ul></td>\n' +
+                    '   </tr>\n' +
+                    '</table>\n';
             }
         });
-        </script>
+    </script>
 @endsection

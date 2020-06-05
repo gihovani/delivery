@@ -23,6 +23,8 @@ class OrderResource extends JsonResource
         $data['subtotal_formated'] = $this->subtotal_formated;
         $data['discount_formated'] = $this->discount_formated;
         $data['shipping_amount_formated'] = $this->shipping_amount_formated;
+        $data['status'] = __($this->status);
+        $data['payment_method'] = __($this->payment_method);
         $data['items'] = $this->items;
         return $data;
     }

@@ -66,6 +66,10 @@
                                    href="{{ route('configs.update', 1) }}">{{ __('Config') }}</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link{{ Route::is('reports*') ? ' active' : '' }}"
+                                   href="{{ route('reports.index', 1) }}">{{ __('Reports') }}</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link{{ Route::is('categories*') ? ' active' : '' }}"
                                    href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
                             </li>
@@ -149,7 +153,22 @@
         $('#toast-title').html(title);
         $('#toast-content').html(content);
         $('#my-alert').toast('show');
-    };
+    }
+    function whatsAppUrl(telephone) {
+        var whatsAppApi = '{{App\Config::WHATSAPP_API}}';
+        return whatsAppApi + '+55' + telephone.replace(/[^\d]/g, '');
+    }
+    function mapsUrl(zipcode) {
+        var mapsApi = '{{App\Config::MAPS_API}}{{App\Config::getValue('zipcode')}}/'
+        return mapsApi + zipcode;
+    }
+    function whatsAppLink(telephone) {
+
+        if (telephone.replace(/[^\d]/g, '').length !== 11) {
+            return telephone;
+        }
+        return '<a href="' + whatsAppUrl(telephone) + '" target="_blank"><i class="fab fa-whatsapp"></i> ' + telephone + '</a>';
+    }
 </script>
 @yield('scripts')
 </body>

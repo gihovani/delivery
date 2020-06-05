@@ -71,9 +71,7 @@ class ItemController extends Controller
     private function getData(Request $request)
     {
         $data = $request->all();
-        if (strpos($data['price'], ',')) {
-            $data['price'] = floatval(str_replace(['.',','], ['', '.'], $data['price']));
-        }
+        $data['price'] = $this->removeMaskMoney($data['price']);
         return $data;
     }
 }

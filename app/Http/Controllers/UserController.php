@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $customerRole = User::ROLE_CUSTOMER;
-            $query = preg_replace('/\D/', '', $request->input('q'));
+            $query = $this->onlyNumbers($request->input('q'));
             $user = User::where('telephone', 'LIKE', "%{$query}%")
                 ->where('roles', 'LIKE', "%{$customerRole}%")
                 ->get();

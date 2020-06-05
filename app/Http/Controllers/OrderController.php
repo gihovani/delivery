@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Config;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\OrderResource;
@@ -68,39 +69,6 @@ class OrderController extends Controller
             redirect()->route('orders.index');
     }
 
-    private function updateStatus(Order $order, $status, $message)
-    {
-        if (in_array($order->status, [Order::STATUS_CANCELED, Order::STATUS_COMPLETE])) {
-            abort(404, __('Not permited'));
-        }
-        $order->status = $status;
-        $order->save();
-        return request()->ajax() ?
-            response()
-                ->json(['data' => $order, 'message' => __($message)]) :
-            redirect()->route('orders.index');
-    }
-
-    public function processing(Order $order)
-    {
-        return $this->updateStatus($order, Order::STATUS_PROCESSING, 'The order being produced.');
-    }
-
-    public function delivery(Order $order)
-    {
-        return $this->updateStatus($order, Order::STATUS_DELIVERY, 'The order is pending delivery.');
-    }
-
-    public function complete(Order $order)
-    {
-        return $this->updateStatus($order, Order::STATUS_COMPLETE, 'The order has been completed.');
-    }
-
-    public function canceled(Order $order)
-    {
-        return $this->updateStatus($order, Order::STATUS_CANCELED, 'The order has been canceled.');
-    }
-
     private function getData(Request $request)
     {
         $data = $request->all();
@@ -140,8 +108,52 @@ class OrderController extends Controller
         return $total;
     }
 
-    private function removeMaskMoney($value = '0,0')
+    public function processing(Order $order)
     {
-        return floatval(str_replace(['.', ','], ['', '.'], $value));
+        return $this->updateStatus($order, Order::STATUS_PROCESSING, 'The order being produced.');
+    }
+
+    private function updateStatus(Order $order, $status, $message)
+    {
+        if (in_array($order->status, [Order::STATUS_CANCELED, Order::STATUS_COMPLETE])) {
+            abort(404, __('Not permited'));
+        }
+        $order->status = $status;
+        $order->save();
+        $message = __($message);
+//        if ($order->status === Order::STATUS_DELIVERY) {
+        $telephone = $this->onlyNumbers($order->getAttribute('customer_telephone'));
+
+        if (strlen($telephone) === 11) {
+            $whatsappUrl = Config::WHATSAPP_API . $telephone . '&text=' . urlencode($message);
+            $message = '<a href="' . $whatsappUrl . '" target="_blank"><i class="fab fa-whatsapp"></i> ' . $message . '</a>';
+        }
+//        }
+        return request()->ajax() ?
+            response()
+                ->json(['data' => $order, 'message' => $message]) :
+            redirect()->route('orders.index');
+    }
+
+    public function delivery(Order $order)
+    {
+        return $this->updateStatus($order, Order::STATUS_DELIVERY, 'The order is pending delivery.');
+    }
+
+    public function complete(Order $order)
+    {
+        return $this->updateStatus($order, Order::STATUS_COMPLETE, 'The order has been completed.');
+    }
+
+    public function canceled(Order $order)
+    {
+        return $this->updateStatus($order, Order::STATUS_CANCELED, 'The order has been canceled.');
+    }
+
+    public function print(Order $order)
+    {
+        $view = view('orders.print', compact('order'));
+        return response($view)
+            ->header('Content-Type', 'text/plain');
     }
 }

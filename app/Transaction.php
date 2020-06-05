@@ -12,7 +12,7 @@ class Transaction extends Model
         self::TYPE_SALE => self::TYPE_SALE,
         self::TYPE_WITHDRAWAL => self::TYPE_WITHDRAWAL
     ];
-    protected $fillable = ['type', 'value', 'description'];
+    protected $fillable = ['type', 'value', 'payment_method', 'description'];
 
     public function setTypeAttribute($value)
     {
@@ -22,8 +22,11 @@ class Transaction extends Model
         $this->attributes['type'] = $value;
     }
 
-    public function getTypeAttribute($value)
+    public function setPaymentMethodAttribute($value)
     {
-        return __($value);
+        if (!in_array($value, Order::PAYMENT_METHODS)) {
+            $value = Order::METHOD_IN_CASH;
+        }
+        $this->attributes['payment_method'] = $value;
     }
 }

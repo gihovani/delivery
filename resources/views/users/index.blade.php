@@ -60,7 +60,14 @@
                 columns: [
                     {data: 'id'},
                     {data: 'name'},
-                    {data: 'telephone'},
+                    {
+                        data: 'telephone', render: function (data, type) {
+                            if (type === 'display') {
+                                return whatsAppLink(data);
+                            }
+                            return data;
+                        }
+                    },
                     {
                         data: 'roles', render: function (data, type) {
                             if (type === 'display') {

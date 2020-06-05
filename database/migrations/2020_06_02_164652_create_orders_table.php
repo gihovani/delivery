@@ -29,11 +29,11 @@ class CreateOrdersTable extends Migration
             $table->string('customer_telephone');
             $table->string('deliveryman_name')->nullable();
             $table->string('deliveryman_telephone')->nullable();
-            $table->string('address_zipcode');
+            $table->string('address_zipcode')->nullable();
             $table->string('address_street')->nullable();
             $table->string('address_number')->nullable();
-            $table->string('address_city');
-            $table->string('address_state');
+            $table->string('address_city')->nullable();
+            $table->string('address_state')->nullable();
             $table->string('address_neighborhood')->nullable();
             $table->string('address_complement')->nullable();
             $table->timestamps();
