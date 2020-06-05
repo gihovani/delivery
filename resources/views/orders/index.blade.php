@@ -33,10 +33,11 @@
                             <thead>
                             <tr>
                                 <th width="5%">{{__('Id')}}</th>
-                                <th width="15%">{{__('Created At')}}</th>
+                                <th width="12%">{{__('Created At')}}</th>
+                                <th width="13%">{{__('Expected At')}}</th>
                                 <th width="10%">{{__('Total')}}</th>
-                                <th width="35%">{{__('Customer')}}</th>
-                                <th width="15%">{{__('Status')}}</th>
+                                <th width="30%">{{__('Customer')}}</th>
+                                <th width="10%">{{__('Status')}}</th>
                                 <th width="20%">{{__('Action')}}</th>
                             </tr>
                             </thead>
@@ -65,6 +66,7 @@
                         defaultContent: '<button class="btn btn-show"><i class="far fa-plus-square"></i></button>'
                     },
                     {data: 'created_at'},
+                    {data: 'expected_at'},
                     {data: 'total_formated', name: 'total'},
                     {
                         data: 'customer_name', render: function (data, type, row) {
@@ -81,7 +83,18 @@
                             return data;
                         }
                     },
-                    {data: 'status'},
+                    {
+                        data: 'status', render: function (data, type, row) {
+                            if (type === 'display') {
+                                return data + (
+                                    !row.is_delayed ? '' :
+                                    '<br/><span class="badge badge-warning">'+row.is_delayed+'</span>'
+                                )
+                            }
+
+                            return data;
+                        }
+                    },
                     {
                         data: 'id',
                         name: 'action',

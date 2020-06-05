@@ -15,8 +15,9 @@ class OrderResource extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['created_at'] = $this->created_at->format('d/m/Y H:i:s');
-        $data['updated_at'] = $this->updated_at->format('d/m/Y H:i:s');
+        $data['created_at'] = $this->created_at->format('d/m/y H:i:s');
+        $data['updated_at'] = $this->updated_at->format('d/m/y H:i:s');
+        $data['expected_at'] = $this->expected_at->format('d/m/y H:i:s');
         $data['cash_amount_formated'] = $this->cash_amount_formated;
         $data['total_formated'] = $this->total_formated;
         $data['back_change_formated'] = $this->back_change_formated;
@@ -24,6 +25,7 @@ class OrderResource extends JsonResource
         $data['discount_formated'] = $this->discount_formated;
         $data['shipping_amount_formated'] = $this->shipping_amount_formated;
         $data['status'] = __($this->status);
+        $data['is_delayed'] = ($this->is_delayed) ? __('Is Delayed') : '';
         $data['payment_method'] = __($this->payment_method);
         $data['items'] = $this->items;
         return $data;

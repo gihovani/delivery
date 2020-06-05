@@ -99,6 +99,8 @@
     "Cash Amount": "Dinheiro",
     "Back Change": "Troco",
     "Print": "Imprimir",
+    "Is Delayed": "Atrasado",
+    "Expected At": "Data Previsão",
     "Created At": "Data Registro",
     "Updated At": "Data Atualização",
     "Couldn't add item": "Não foi possivel adicionar o item",

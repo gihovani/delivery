@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Address;
+use App\Config;
 use App\Order;
 use App\Transaction;
 use App\User;
@@ -32,6 +33,7 @@ class OrderObserver
             $order->address_id = null;
         }
 
+        $order->expected_at = time() + (intval(Config::getValue('waiting_time')) * 60);
         if ($address = $this->getAddress($order->address_id)) {
             $order->address_zipcode = $address->zipcode;
             $order->address_street = $address->street;

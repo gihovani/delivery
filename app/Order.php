@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -11,7 +12,7 @@ class Order extends Model
         'cash_amount', 'total', 'back_change', 'subtotal', 'discount',
         'shipping_amount'
     ];
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at', 'expected_at'];
 
     const STATUS_PENDING = 'pending';
     const STATUS_PROCESSING = 'processing';
@@ -43,6 +44,13 @@ class Order extends Model
         self::METHOD_IN_CASH => self::METHOD_IN_CASH
     ];
 
+    public function getIsDelayedAttribute()
+    {
+        if (in_array($this->status, [self::STATUS_PROCESSING, self::STATUS_PENDING])) {
+            return !$this->expected_at->greaterThan(Carbon::now());
+        }
+        return false;
+    }
     public function setStatusAttribute($value)
     {
         if (!in_array($value, self::STATUSES)) {

@@ -15,6 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->timestamp('expected_at')->nullable();
             $table->string('status')
                 ->default(\App\Order::STATUS_PENDING);
             $table->string('payment_method')

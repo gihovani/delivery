@@ -33,26 +33,27 @@ namespace App{
 
 namespace App{
 /**
- * App\ProductVariation
+ * App\Transaction
  *
  * @property int $id
- * @property string $name
- * @property float $price
+ * @property string $type
+ * @property string $payment_method
+ * @property float $value
+ * @property string $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $product_id
- * @property-read \App\Product $product
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductVariation newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductVariation newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductVariation query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductVariation whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductVariation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductVariation whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductVariation wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductVariation whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\ProductVariation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction wherePaymentMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction whereValue($value)
  */
-	class ProductVariation extends \Eloquent {}
+	class Transaction extends \Eloquent {}
 }
 
 namespace App{
@@ -61,14 +62,19 @@ namespace App{
  *
  * @property int $id
  * @property string $name
- * @property string $description
+ * @property float $price
+ * @property int $pieces
+ * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $category_id
  * @property-read \App\Category $category
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
- * @property-read int|null $items_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\ProductVariation[] $variations
+ * @property-read mixed $image
+ * @property-read mixed $image_path
+ * @property-read mixed $image_url
+ * @property-read mixed $price_formated
+ * @property-read mixed $variation
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Variation[] $variations
  * @property-read int|null $variations_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product newQuery()
@@ -78,9 +84,85 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product wherePieces($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUpdatedAt($value)
  */
 	class Product extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\Order
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $expected_at
+ * @property string $status
+ * @property string $payment_method
+ * @property float $subtotal
+ * @property float $total
+ * @property float $discount
+ * @property float $shipping_amount
+ * @property float $cash_amount
+ * @property float $back_change
+ * @property string $customer_name
+ * @property string $customer_telephone
+ * @property string|null $deliveryman_name
+ * @property string|null $deliveryman_telephone
+ * @property string|null $address_zipcode
+ * @property string|null $address_street
+ * @property string|null $address_number
+ * @property string|null $address_city
+ * @property string|null $address_state
+ * @property string|null $address_neighborhood
+ * @property string|null $address_complement
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $address_id
+ * @property int|null $customer_id
+ * @property int|null $deliveryman_id
+ * @property-read \App\Address|null $address
+ * @property-read mixed $back_change_formated
+ * @property-read mixed $cash_amount_formated
+ * @property-read mixed $discount_formated
+ * @property-read mixed $is_delayed
+ * @property-read mixed $shipping_amount_formated
+ * @property-read mixed $subtotal_formated
+ * @property-read mixed $total_formated
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\OrderItem[] $items
+ * @property-read int|null $items_count
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressComplement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressNeighborhood($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressStreet($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressZipcode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereBackChange($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCashAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCustomerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCustomerName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCustomerTelephone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereDeliverymanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereDeliverymanName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereDeliverymanTelephone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereExpectedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order wherePaymentMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereShippingAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereSubtotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereUpdatedAt($value)
+ */
+	class Order extends \Eloquent {}
 }
 
 namespace App{
@@ -89,11 +171,12 @@ namespace App{
  *
  * @property int $id
  * @property string $zipcode
- * @property string $street
- * @property string $number
+ * @property string|null $street
+ * @property string|null $number
  * @property string $city
  * @property string $state
- * @property string $neighborhood
+ * @property string|null $neighborhood
+ * @property string|null $complement
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $user_id
@@ -102,6 +185,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereComplement($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereNeighborhood($value)
@@ -117,6 +201,38 @@ namespace App{
 
 namespace App{
 /**
+ * App\OrderItem
+ *
+ * @property int $id
+ * @property string $name
+ * @property float $quantity
+ * @property float $price
+ * @property string|null $description
+ * @property string|null $observation
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $product_id
+ * @property int $order_id
+ * @property-read \App\Order $order
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem whereObservation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem whereUpdatedAt($value)
+ */
+	class OrderItem extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\User
  *
  * @property int $id
@@ -128,8 +244,11 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $roles
+ * @property string $telephone
+ * @property string|null $observation
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Address[] $addresses
  * @property-read int|null $addresses_count
+ * @property-read mixed $roles_translated
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
@@ -139,10 +258,12 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereIsAdmin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereObservation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRoles($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereTelephone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}
@@ -150,7 +271,69 @@ namespace App{
 
 namespace App{
 /**
- * App\ProductItem
+ * App\Config
+ *
+ * @property int $id
+ * @property string $store
+ * @property string|null $address
+ * @property string $zipcode
+ * @property string $telephone
+ * @property string|null $google_maps
+ * @property int $is_open
+ * @property int $waiting_time
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $image
+ * @property-read mixed $image_path
+ * @property-read mixed $image_url
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereGoogleMaps($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereIsOpen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereStore($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereTelephone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereWaitingTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereZipcode($value)
+ */
+	class Config extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\Variation
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $image
+ * @property-read mixed $image_path
+ * @property-read mixed $image_url
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
+ * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $products
+ * @property-read int|null $products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Variation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Variation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Variation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Variation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Variation whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Variation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Variation whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Variation whereUpdatedAt($value)
+ */
+	class Variation extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\Item
  *
  * @property int $id
  * @property string $name
@@ -168,6 +351,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Item wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereUpdatedAt($value)
  */
-	class ProductItem extends \Eloquent {}
+	class Item extends \Eloquent {}
 }
 
