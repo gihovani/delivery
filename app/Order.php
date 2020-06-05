@@ -8,7 +8,8 @@ class Order extends Model
 {
     protected $fillable = [
         'customer_id', 'deliveryman_id', 'address_id', 'payment_method',
-        'cash_amount', 'total', 'back_change', 'subtotal', 'discount', 'shipping_amount'
+        'cash_amount', 'total', 'back_change', 'subtotal', 'discount',
+        'shipping_amount'
     ];
     protected $dates = ['created_at', 'updated_at'];
 
@@ -16,9 +17,12 @@ class Order extends Model
     const STATUS_PROCESSING = 'processing';
     const STATUS_CANCELED = 'canceled';
     const STATUS_COMPLETE = 'complete';
+    const STATUS_DELIVERY = 'delivery';
+
     const STATUSES = [
         self::STATUS_PENDING => self::STATUS_PENDING,
         self::STATUS_PROCESSING => self::STATUS_PROCESSING,
+        self::STATUS_DELIVERY => self::STATUS_DELIVERY,
         self::STATUS_CANCELED => self::STATUS_CANCELED,
         self::STATUS_COMPLETE => self::STATUS_COMPLETE
     ];

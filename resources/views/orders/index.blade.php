@@ -32,8 +32,13 @@
                             <thead>
                             <tr>
                                 <th width="5%">{{__('Id')}}</th>
-                                <th width="65%">{{__('Created At')}}</th>
-                                <th width="30%">{{__('Action')}}</th>
+                                <th width="8%">{{__('Created At')}}</th>
+                                <th width="8%">{{__('Total')}}</th>
+                                <th width="15%">{{__('Customer')}}</th>
+                                <th width="8%">{{__('Telephone')}}</th>
+                                <th width="28%">{{__('Address')}}</th>
+                                <th width="8%">{{__('Status')}}</th>
+                                <th width="20%">{{__('Action')}}</th>
                             </tr>
                             </thead>
                         </table>
@@ -57,36 +62,54 @@
                 columns: [
                     {data: 'id'},
                     {data: 'created_at'},
+                    {data: 'total_formated', name: 'total'},
+                    {data: 'customer_name'},
+                    {data: 'customer_telephone'},
                     {
-                        data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
+                        data: 'address_street', name: 'address', orderable: false, searchable: false, render: function (data, type, row) {
                             return (type === 'display') ? (
-                                '<a class="btn btn-outline-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
-                                    '<i class="far fa-eye"></i>' +
-                                '</a> ' +
-                                '<a class="btn btn-outline-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
-                                    '<i class="far fa-edit"></i>' +
-                                '</a> ' +
-                                '<a class="btn btn-outline-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
+                                row.address_street + ' ' + row.address_number + ' ' + row.address_complement + '<br/>' +
+                                row.address_neighborhood + ' ' + row.address_city + '/'  + row.address_state + '<br/>' +
+                                row.address_zipcode
+                            ) : data;
+                        }
+                    },
+                    {data: 'status'},
+                    {
+                        data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type, row) {
+                            var statusNotPermited = ['{{__('canceled')}}','{{__('complete')}}'];
+
+                            return (type === 'display') ? (
+                                ((statusNotPermited.concat('{{__('processing')}}').indexOf(row.status) >= 0) ? '' :
+                                '<a class="btn btn-status btn-outline-info" title="{{ __('processing') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/processing">' +
+                                    '<i class="fas fa-tasks"></i>' +
+                                '</a>\n') +
+                                ((statusNotPermited.concat('{{__('delivery')}}').indexOf(row.status) >= 0) ? '' :
+                                '<a class="btn btn-status btn-outline-success" title="{{ __('delivery') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/delivery">' +
+                                '   <i class="fas fa-motorcycle"></i>' +
+                                '</a>\n') +
+                                ((statusNotPermited.indexOf(row.status) >= 0) ? '' :
+                                '<a class="btn btn-status btn-outline-success" title="{{ __('complete') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/complete">' +
+                                '   <i class="fas fa-check"></i>' +
+                                '</a>\n') +
+                                ((statusNotPermited.indexOf(row.status) >= 0) ? '' :
+                                '<a class="btn btn-status btn-outline-danger" title="{{ __('canceled') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/canceled">' +
                                     '<i class="far fa-trash-alt"></i>' +
-                                '</a>'
+                                '</a>\n')
                             ) : data;
                         }
                     },
                 ]
             });
-            $('body').on('click', '.delete-entity', function () {
-                var id = $(this).data('id');
-                var token = $('meta[name="csrf-token"]').attr('content');
-                if (!confirm('{{ __('Are You sure want to delete?') }}')) {
+            $('body').on('click', '.btn-status', function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                if (!confirm('{{ __('Are you sure you want to change the status to') }} (' +$this.attr('title')+ ')?')) {
                     return '';
                 }
                 $.ajax({
-                    type: 'DELETE',
-                    url: actionUrl + '/' + id,
-                    data: {
-                        id: id,
-                        _token: token,
-                    },
+                    type: 'GET',
+                    url: $this.attr('href'),
                     success: function (data) {
                         myAlert(data.message);
                         table.ajax.reload();

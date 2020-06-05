@@ -68,6 +68,39 @@ class OrderController extends Controller
             redirect()->route('orders.index');
     }
 
+    private function updateStatus(Order $order, $status, $message)
+    {
+        if (in_array($order->status, [Order::STATUS_CANCELED, Order::STATUS_COMPLETE])) {
+            abort(404, __('Not permited'));
+        }
+        $order->status = $status;
+        $order->save();
+        return request()->ajax() ?
+            response()
+                ->json(['data' => $order, 'message' => __($message)]) :
+            redirect()->route('orders.index');
+    }
+
+    public function processing(Order $order)
+    {
+        return $this->updateStatus($order, Order::STATUS_PROCESSING, 'The order being produced.');
+    }
+
+    public function delivery(Order $order)
+    {
+        return $this->updateStatus($order, Order::STATUS_DELIVERY, 'The order is pending delivery.');
+    }
+
+    public function complete(Order $order)
+    {
+        return $this->updateStatus($order, Order::STATUS_COMPLETE, 'The order has been completed.');
+    }
+
+    public function canceled(Order $order)
+    {
+        return $this->updateStatus($order, Order::STATUS_CANCELED, 'The order has been canceled.');
+    }
+
     private function getData(Request $request)
     {
         $data = $request->all();
