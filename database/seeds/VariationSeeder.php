@@ -11,7 +11,24 @@ class VariationSeeder extends Seeder
      */
     public function run()
     {
-        $variations = explode(PHP_EOL, 'Baiana;Presunto, Queijo Mussarela, Pimentão, Milho, Ovo Cozido, Tomate, Molho de Tomate e Orégano;1;2
+        $variations = explode(PHP_EOL, 'Frango c/ Cheddar;Frango Desfiado, Cheddar, Queijo Mussarela, Tomate, Molho de Tomate e Orégano;1;2
+Frango Supremo;Frango Desfiado, Queijo Mussarela, Milho, Creme de Leite, Molho de Tomate e Orégano;1;2
+Frango Caipira;Frango Desfiado, Queijo Mussarela, Bacon, Milho, Molho de Tomate e Orégano;1;2
+Calabresa;Calabresa, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano;1;2
+Calabresa Suprema;Calabresa, Queijo Mussarela, Cebola, Requeijão, Molho de Tomate e Orégano;1;2
+Toscana;Calabresa Ralada, Ovo Cozido, Queijo Mussarela, Requeijão, Molho de Tomate, Azeitonas e Orégano;1;2
+Portuguesa;Presunto, Queijo Mussarela, Cebola, Tomate, Ovo Cozido, Requeijão, Molho de Tomate, Azeitonas e Orégano;1;2
+Catuperu;Peito de Peru, Queijo Mussarela, Champignon, Milho, Requeijão, Molho de Tomate e Orégano;1;2
+Bacon;Bacon, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano;1;2
+Lombinho;Lombinho, Queijo Mussarela, Milho, Champignon, Molho de Tomate, Azeitonas e Orégano;1;2
+Barreado;Carne de Panela, Queijo Mussarela, Cebola Caramelizada, Molho de Tomate e Orégano;1;2
+4 Queijos;Queijo Mussarela, Parmesão, Provolone, Requeijão, Molho de Tomate e Orégano;1;2
+Alho e Óleo;Alho, Azeite de Oliva, Queijo Mussarela, Molho de Tomate e Orégano;1;2
+Margarita;Manjericão desidratado, Tomate Cereja, Queijo Mussarela, Molho de Tomate e Orégano;1;2
+Palmito;Palmito, Queijo Mussarela, Molho de Tomate e Orégano;1;2
+Champignon;Champignon, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano;1;2
+Vegetariana;Queijo Mussarela, Brócolis, Palmito, Ervilha, Molho de Tomate e Orégano;1;2
+Baiana;Presunto, Queijo Mussarela, Pimentão, Milho, Ovo Cozido, Tomate, Molho de Tomate e Orégano;1;2
 Mexicana;Carne Moida, Pimentão, Tomate, Queijo Mussarela, Molho de Tomate e Orégano;1;2
 Atum;Atum, Queijo Mussarela, Tomate, Molho de Tomate e Orégano;1;2
 Mussarela;Queijo Mussarela, Tomate, Molho de Tomate e Orégano;1;2
@@ -29,7 +46,7 @@ Bombom;Creme de Leite, Bombom, Leite Condensado e Chocolate ao Leite;3;4
 Banana com Canela;Creme de Leite, Banana, Canela e Leite Condensado;3;4
 2 Amores;Creme de Leite, Chocolate ao Leite, Chocolate Branco e Leite Condensado;3;4
 Filé Josepan;Filé Mignon, Queijo Mussarela, Cheddar, Molho de Tomate e Orégano;5;6
-Costela;Costela Desfiada, Cebola Caramelizada , Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano + Acompanhamento: Molho Barbicue;5;6
+Costela;Costela Desfiada, Cebola Caramelizada, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano + Acompanhamento: Molho Barbicue;5;6
 Moda da Casa Josepan;Lingüiça Blumenau, Queijo Mussarela, Molho de Tomate, Tomate e Orégano;5;6
 Pepperoni;Pepperoni, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano;5;6
 Camarão;Camarão ao Molho, Queijo Mussarela, Queijo Parmesão, Molho de Tomate e Orégano;5;6');

@@ -37,17 +37,25 @@ class ProductSeeder extends Seeder
                 ]);
         }
 
-        foreach (['Pureza 2L', 'Coca-cola 2L', 'Fanta 2L', 'Sprite 2L'] as $productName) {
-            $product = factory(App\Product::class)
+        $product = factory(App\Product::class)
                 ->create([
                     'category_id' => 2,
-                    'name' => $productName,
+                    'name' => 'Refrigerante 2L',
                     'pieces' => 1,
                     'description' => ''
                 ]);
+        foreach (['Pureza 2L', 'Coca-cola 2L', 'Fanta 2L', 'Sprite 2L'] as $variation) {
             $product->variations()
-                ->create(['name' => $product->name, 'description' => '']);
-
+                ->create(['name' => $variation, 'description' => '']);
         }
+        $product = factory(App\Product::class)
+            ->create([
+                'category_id' => 2,
+                'name' => 'Promocional Refrigerante',
+                'pieces' => 1,
+                'description' => 'Refrigerante para promoção do combo'
+            ]);
+        $product->variations()
+            ->create(['name' => 'Pureza 2L', 'description' => '']);
     }
 }

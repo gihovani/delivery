@@ -16,6 +16,6 @@ class UserSeeder extends Seeder
             'password' => 'abcd1234',
             'roles' => implode(',', App\User::ROLES)
         ]);
-        factory(App\User::class, 100)->create();
+//        factory(App\User::class, 100)->create();
     }
 }
