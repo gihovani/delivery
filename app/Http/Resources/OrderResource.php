@@ -25,7 +25,7 @@ class OrderResource extends JsonResource
         $data['discount_formated'] = $this->discount_formated;
         $data['shipping_amount_formated'] = $this->shipping_amount_formated;
         $data['status'] = __($this->status);
-        $data['is_delayed'] = ($this->is_delayed) ? __('Is Delayed') : '';
+        $data['is_late'] = ($this->is_late) ? __('Is Late') : '';
         $data['payment_method'] = __($this->payment_method);
         $data['items'] = $this->items;
         return $data;

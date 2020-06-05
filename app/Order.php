@@ -44,7 +44,7 @@ class Order extends Model
         self::METHOD_IN_CASH => self::METHOD_IN_CASH
     ];
 
-    public function getIsDelayedAttribute()
+    public function getIsLateAttribute()
     {
         if (in_array($this->status, [self::STATUS_PROCESSING, self::STATUS_PENDING])) {
             return !$this->expected_at->greaterThan(Carbon::now());

@@ -87,8 +87,8 @@
                         data: 'status', render: function (data, type, row) {
                             if (type === 'display') {
                                 return data + (
-                                    !row.is_delayed ? '' :
-                                    '<br/><span class="badge badge-warning">'+row.is_delayed+'</span>'
+                                    !row.is_late ? '' :
+                                    '<br/><span class="badge badge-warning">'+row.is_late+'</span>'
                                 )
                             }
 
