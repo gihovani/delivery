@@ -107,5 +107,10 @@
     "Are you sure you want to change the status to": "Tem certeza de que deseja alterar o status para",
     "cart empty": "carrinho vazio",
     "Pick Up in Store": "Retirar na loja",
-    "Save Order": "Salvar Pedido"
+    "Save Order": "Salvar Pedido",
+    "Customer": "Cliente",
+    "Address": "Endereço",
+    "Waiting Time": "Tempo de Espera",
+    "Select an address.": "Selecione um endereço.",
+    "Is Open": "Está Aberto"
 }

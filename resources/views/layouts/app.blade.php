@@ -21,9 +21,16 @@
     <header class="mb-auto">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a href="{{ url('/') }}">
-                    <img src="{{ asset('storage/images/logo.png') }}" alt="{{ config('app.name', 'Laravel') }}" height="30">
-                </a>
+                <div class="position-relative">
+                    <a href="{{ url('/') }}">
+                        <img src="{{ \App\Config::getValue('image_url') }}" alt="{{ config('app.name', 'Laravel') }}" height="30">
+                        @if(\App\Config::getValue('is_open'))
+                            <span class="badge badge-success position-absolute" style="top: -8px; left: 0">{{\App\Config::getValue('waiting_time')}}</span>
+                        @else
+                            <span class="badge badge-danger position-absolute" style="top: -8px; left: 0">-</span>
+                        @endif
+                    </a>
+                </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -53,6 +60,10 @@
                             <li class="nav-item">
                                 <a class="nav-link{{ Route::is('orders*') ? ' active' : '' }}"
                                    href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link{{ Route::is('config*') ? ' active' : '' }}"
+                                   href="{{ route('configs.update', 1) }}">{{ __('Config') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link{{ Route::is('categories*') ? ' active' : '' }}"

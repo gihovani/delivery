@@ -50,7 +50,7 @@ class ProductController extends Controller
         }
         if ($request->hasFile('image')) {
             $request->file('image')
-                ->storeAs('images/products', $product->image, ['disk' => 'public']);
+                ->storeAs(Product::IMAGE_PATH, $product->image, ['disk' => 'public']);
         }
     }
 

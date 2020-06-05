@@ -93,7 +93,7 @@
 
                     <div class="input-group has-customer d-none">
                         <div class="input-group-prepend">
-                            {!! Form::label('customer-address', __('Address'), ['class' => 'input-group-text']) !!}
+                            {!! Form::label('customer-address', __('Address'), ['class' => 'input-group-text', 'id' => 'label-customer-address']) !!}
                         </div>
                         {!! Form::select('address_id', [], '', ['required' => true, 'class' => 'form-control', 'id' => 'customer-address']) !!}
                     </div>
@@ -159,6 +159,7 @@
     @include('orders.modals.address-modal', ['modal-id' => 'address-modal'])
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            var mapsDir = 'https://www.google.com.br/maps/dir/{{App\Config::getValue('zipcode')}}/'
             var variations = @json($variations);
             var $customerModal = $('#customer-modal');
             var $addressModal = $('#address-modal');
@@ -413,7 +414,7 @@
                             myAlert('{{__('The discount could not be applied.')}}')
                         }
                     },
-                    setCashAmount: function(value) {
+                    setCashAmount: function (value) {
                         cashAmount = parseFloat(value);
                         this.toHtml();
                     },
@@ -435,7 +436,7 @@
                             var text = address.street +
                                 ' ' + address.number +
                                 ' ' + address.complement;
-                            $('<option>')
+                            $('<option data-zipcode="' + address.zipcode + '">')
                                 .val(address.id)
                                 .prop('selected', (address.id === addressId))
                                 .text(text)
@@ -508,6 +509,13 @@
                 if (this.value < 1) {
                     showModal($addressModal, '{{ __('Add New') }}');
                 }
+            }).on('click', '#label-customer-address', function (e) {
+                var zipcode = $('#customer-address option:selected').data('zipcode');
+                if (zipcode) {
+                    window.open(mapsDir + zipcode, 'new');
+                } else {
+                    myAlert('{{__('Select an address.')}}');
+                }
             });
 
 
@@ -548,7 +556,7 @@
                 },
                 serviceUrl: '{{route('users.autocomplete')}}',
                 deferRequestBy: 1000,
-                minChars: 4,
+                minChars: 3,
                 autoSelectFirst: false,
                 showNoSuggestionNotice: true,
                 noSuggestionNotice: '<a class="btn btn-block btn-outline-secondary btn-new-customer">{{__('Add New')}}</a>',
