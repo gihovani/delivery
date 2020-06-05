@@ -32,21 +32,24 @@ class VariationController extends Controller
         $variation = Variation::create($request->all());
         $this->saveImageAndItems($request, $variation);
         return request()->ajax() ?
-            new Response(__('Entity saved successfully.'), 201) :
+            response()
+                ->json(['data' => $variation, 'message' => __('Entity saved successfully.')]) :
             redirect()->route('variations.index');
     }
 
     public function show(Variation $variation)
     {
         return request()->ajax() ?
-            $variation :
+            response()
+                ->json(['data' => $variation, 'message' => __('Show Data')]) :
             view('variations.show', compact('variation'));
     }
 
     public function edit(Variation $variation)
     {
         return request()->ajax() ?
-            $variation :
+            response()
+                ->json(['data' => $variation, 'message' => __('Edit Data')]) :
             view('variations.edit', compact('variation'));
     }
 
@@ -55,7 +58,8 @@ class VariationController extends Controller
         $variation->update($request->all());
         $this->saveImageAndItems($request, $variation);
         return request()->ajax() ?
-            new Response(__('Entity updated successfully.')) :
+            response()
+                ->json(['data' => $variation, 'message' => __('Entity updated successfully.')]) :
             redirect()->route('variations.index');
     }
 
@@ -63,7 +67,8 @@ class VariationController extends Controller
     {
         $variation->delete();
         return request()->ajax() ?
-            new Response(__('Entity successfully deleted.'), 209) :
+            response()
+                ->json(['data' => $variation, 'message' => __('Entity successfully deleted.')]) :
             redirect()->route('variations.index');
     }
 

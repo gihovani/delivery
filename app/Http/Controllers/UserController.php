@@ -3,13 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\UserResource;
 use App\User;
 use DataTables;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+    public function autocomplete(Request $request)
+    {
+        if ($request->ajax()) {
+            $customerRole = User::ROLE_CUSTOMER;
+            $query = preg_replace('/\D/', '', $request->input('q'));
+            $user = User::where('telephone', 'LIKE', "%{$query}%")
+                ->where('roles', 'LIKE', "%{$customerRole}%")
+                ->get();
+            return UserResource::collection($user);
+        }
+        return redirect()->route('users.index');
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -27,9 +40,10 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-        User::createWithAddress($this->getData($request, !$request->has('password')));
+        $user = User::createWithAddress($this->getData($request, !$request->has('password')));
         return request()->ajax() ?
-            new Response(__('Entity saved successfully.'), 201) :
+            response()
+                ->json(['data' => new UserResource($user), 'message' => __('Entity saved successfully.')]) :
             redirect()->route('users.index');
     }
 
@@ -39,7 +53,7 @@ class UserController extends Controller
         if ($forcePassword) {
             $data['password'] = '12345678';
         }
-        if (is_array($data['roles'])) {
+        if (isset($data['roles']) && is_array($data['roles'])) {
             $data['roles'] = implode(',', $data['roles']);
         }
         return $data;
@@ -48,14 +62,16 @@ class UserController extends Controller
     public function show(User $user)
     {
         return request()->ajax() ?
-            $user :
+            response()
+                ->json(['data' => $user, 'message' => __('Show Data')]) :
             view('users.show', compact('user'));
     }
 
     public function edit(User $user)
     {
         return request()->ajax() ?
-            $user :
+            response()
+                ->json(['data' => $user, 'message' => __('Edit Data')]) :
             view('users.edit', compact('user'));
     }
 
@@ -63,7 +79,8 @@ class UserController extends Controller
     {
         $user->update($this->getData($request));
         return request()->ajax() ?
-            new Response(__('Entity updated successfully.')) :
+            response()
+                ->json(['data' => $user, 'message' => __('Entity updated successfully.')]) :
             redirect()->route('users.index');
     }
 
@@ -75,7 +92,8 @@ class UserController extends Controller
 
         $user->delete();
         return request()->ajax() ?
-            new Response(__('Entity successfully deleted.'), 209) :
+            response()
+                ->json(['data' => $user, 'message' => __('Entity successfully deleted.')]) :
             redirect()->route('users.index');
     }
 }

@@ -29,10 +29,11 @@ class AddressController extends Controller
 
     public function store(AddressRequest $request, User $user)
     {
-        $user->addresses()->create($request->all());
+        $address = $user->addresses()->create($request->all());
         return request()->ajax() ?
-            new Response(__('Entity saved successfully.'), 201) :
-            redirect()->route('addresses.index', $user);
+            response()
+                ->json(['data' => $address, 'message' => __('Entity saved successfully.')]) :
+            redirect()->route('users.index');
     }
 
     public function show(User $user, Address $address)
@@ -40,7 +41,8 @@ class AddressController extends Controller
         $this->assertAddressUser($address, $user);
 
         return request()->ajax() ?
-            $address :
+            response()
+                ->json(['data' => $address, 'message' => __('Show Data')]) :
             view('addresses.show', compact('address'));
     }
 
@@ -49,7 +51,8 @@ class AddressController extends Controller
         $this->assertAddressUser($address, $user);
 
         return request()->ajax() ?
-            $address :
+            response()
+                ->json(['data' => $address, 'message' => __('Edit Data')]) :
             view('addresses.edit', compact('address'));
     }
 
@@ -59,8 +62,9 @@ class AddressController extends Controller
 
         $address->update($request->all());
         return request()->ajax() ?
-            new Response(__('Entity updated successfully.')) :
-            redirect()->route('addresses.index', $user);
+            response()
+                ->json(['data' => $address, 'message' => __('Entity updated successfully.')]) :
+            redirect()->route('addresses.index');
     }
 
     public function destroy(User $user, Address $address)
@@ -69,8 +73,9 @@ class AddressController extends Controller
 
         $address->delete();
         return request()->ajax() ?
-            new Response(__('Entity successfully deleted.'), 209) :
-            redirect()->route('addresses.index', $user);
+            response()
+                ->json(['data' => $address, 'message' => __('Entity successfully deleted.')]) :
+            redirect()->route('addresses.index');
     }
 
     /**

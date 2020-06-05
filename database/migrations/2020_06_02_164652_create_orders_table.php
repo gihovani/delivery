@@ -17,12 +17,18 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('status')
                 ->default(\App\Order::STATUS_PENDING);
+            $table->string('payment_method')
+                ->default(\App\Order::METHOD_SUBSIDIZED);
             $table->decimal('subtotal');
-            $table->decimal('discount');
-            $table->decimal('shipping_amount');
             $table->decimal('total');
-            $table->string('user_name');
-            $table->string('user_telephone');
+            $table->decimal('discount')->default(0);
+            $table->decimal('shipping_amount')->default(0);
+            $table->decimal('cash_amount')->default(0);
+            $table->decimal('back_change')->default(0);
+            $table->string('customer_name');
+            $table->string('customer_telephone');
+            $table->string('deliveryman_name')->nullable();
+            $table->string('deliveryman_telephone')->nullable();
             $table->string('address_zipcode');
             $table->string('address_street')->nullable();
             $table->string('address_number')->nullable();
@@ -36,9 +42,15 @@ class CreateOrdersTable extends Migration
                 ->nullable()
                 ->constrained()
                 ->onDelete('set null');
-            $table->foreignId('user_id')
+
+            $table->foreignId('customer_id')
                 ->nullable()
-                ->constrained()
+                ->constrained('users')
+                ->onDelete('set null');
+
+            $table->foreignId('deliveryman_id')
+                ->nullable()
+                ->constrained('users')
                 ->onDelete('set null');
         });
     }

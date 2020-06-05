@@ -1,95 +1,81 @@
 <div class="form-group row">
     {!! Form::label('zipcode', __('Zip Code'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('zipcode',$address->zipcode ?? '',['required' => true, 'autofocus' => 'true', 'disabled' => (isset($disabled)), 'autocomplete' => 'zipcode', 'data-mask' => '00000-000', 'class'=>'form-control'.($errors->has('zipcode') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('zipcode',$address->zipcode ?? '',['required' => true, 'autofocus' => 'true', 'disabled' => (isset($disabled)), 'autocomplete' => 'zipcode', 'data-mask' => '00000-000', 'class'=>'form-control input-zipcode'.($errors->has('zipcode') ? ' is-invalid' : '') ]) !!}
 
-        @error('zipcode')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
+        <span class="invalid-feedback invalid-zipcode" role="alert">
+            <strong>@error('zipcode') {{ $message }} @enderror</strong>
         </span>
-        @enderror
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('street', __('Street'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('street',$address->street ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'street', 'class'=>'form-control'.($errors->has('street') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('street',$address->street ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'street', 'class'=>'form-control input-street'.($errors->has('street') ? ' is-invalid' : '') ]) !!}
 
-        @error('street')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
+        <span class="invalid-feedback invalid-street" role="alert">
+            <strong>@error('street') {{ $message }} @enderror</strong>
         </span>
-        @enderror
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('number', __('Number'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('number',$address->number ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'number', 'class'=>'form-control'.($errors->has('number') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('number',$address->number ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'number', 'class'=>'form-control input-number'.($errors->has('number') ? ' is-invalid' : '') ]) !!}
 
-        @error('number')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
+        <span class="invalid-feedback invalid-number" role="alert">
+            <strong>@error('number') {{ $message }} @enderror</strong>
         </span>
-        @enderror
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('complement', __('Complement'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('complement',$address->complement ?? '',['disabled' => (isset($disabled)), 'autocomplete' => 'complement', 'class'=>'form-control'.($errors->has('complement') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('complement',$address->complement ?? '',['disabled' => (isset($disabled)), 'autocomplete' => 'complement', 'class'=>'form-control input-complement'.($errors->has('complement') ? ' is-invalid' : '') ]) !!}
 
-        @error('complement')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
+        <span class="invalid-feedback invalid-complement" role="alert">
+            <strong>@error('complement') {{ $message }} @enderror</strong>
         </span>
-        @enderror
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('neighborhood', __('Neighborhood'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('neighborhood',$address->neighborhood ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'neighborhood', 'class'=>'form-control'.($errors->has('neighborhood') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('neighborhood',$address->neighborhood ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'neighborhood input-neighborhood', 'class'=>'form-control'.($errors->has('neighborhood') ? ' is-invalid' : '') ]) !!}
 
-        @error('neighborhood')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
+        <span class="invalid-feedback invalid-neighborhood" role="alert">
+            <strong>@error('neighborhood') {{ $message }} @enderror</strong>
         </span>
-        @enderror
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('city', __('City'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('city',$address->zipcode ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'city', 'class'=>'form-control'.($errors->has('city') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('city',$address->zipcode ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'city', 'class'=>'form-control input-city'.($errors->has('city') ? ' is-invalid' : '') ]) !!}
 
-        @error('city')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
+        <span class="invalid-feedback invalid-city" role="alert">
+            <strong>@error('city') {{ $message }} @enderror</strong>
         </span>
-        @enderror
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('state', __('State'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::select('state',\App\Address::ufs(),$address->state ?? '',['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('state') ? ' is-invalid' : '') ]) !!}
+        {!! Form::select('state',\App\Address::ufs(),$address->state ?? '',['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control input-state'.($errors->has('state') ? ' is-invalid' : '') ]) !!}
 
-        @error('state')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
+        <span class="invalid-feedback invalid-state" role="alert">
+            <strong>@error('state') {{ $message }} @enderror</strong>
         </span>
-        @enderror
     </div>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var $street = $('#street');
-        var $neighborhood = $('#neighborhood');
-        var $city = $('#city');
-        var $state = $('#state');
-        var $number = $('#number');
-        var $complement = $('#complement');
+        var $street = $('.input-street');
+        var $neighborhood = $('.input-neighborhood');
+        var $city = $('.input-city');
+        var $state = $('.input-state');
+        var $number = $('.input-number');
+        var $complement = $('.input-complement');
         var oldCep = '';
 
         function clearFields() {
@@ -110,7 +96,7 @@
         }
 
         //Quando o campo cep perde o foco.
-        $('#zipcode').blur(function() {
+        $('.input-zipcode').blur(function() {
             //Nova variável 'cep' somente com dígitos.
             var cep = $(this).val().replace(/\D/g, '');
             if (cep === oldCep) {
@@ -143,7 +129,7 @@
                     else {
                         //CEP pesquisado não foi encontrado.
                         clearFields();
-                        alert('CEP não encontrado.');
+                        myAlert('CEP não encontrado.');
                     }
                 });
             } //end if

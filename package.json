@@ -30,6 +30,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.13.0",
         "@ttskch/select2-bootstrap4-theme": "^1.4.0",
+        "devbridge-autocomplete": "github:devbridge/jquery-autocomplete",
         "jquery-mask-plugin": "^1.14.16",
         "select2": "^4.0.13"
     }

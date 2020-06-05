@@ -22,7 +22,6 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="alert alert-success d-none" role="alert" id="msg"></div>
                         <table class="table table-bordered data-table">
                             <thead>
                             <tr>
@@ -68,10 +67,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var $modal = $('#crud-modal');
-            var msgTimeout;
             var clearData = {id: '', name: '', email: '', telephone: '', roles: ''};
             var actionUrl = '{{ route('users.index') }}';
-            var userProfiles = @json(\App\User::types());
             function showModal(data, readOnly, title) {
                 $('.is-invalid').removeClass('is-invalid');
                 $('.invalid-feedback').find('strong').html('');
@@ -91,14 +88,6 @@
                 });
             }
 
-            function showMsg(message) {
-                var $msg = $('#msg');
-                $msg.removeClass('d-none').html(message);
-                clearTimeout(msgTimeout);
-                msgTimeout = setTimeout(function () {
-                    $msg.addClass('d-none');
-                }, 5000);
-            }
             var table = $('.data-table').DataTable({
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json'
@@ -157,12 +146,12 @@
                         _token: token,
                     },
                     success: function (data) {
-                        showMsg(data);
+                        myAlert(data);
                         table.ajax.reload();
                     },
                     error: function (xhr) {
                         var err = eval("(" + xhr.responseText + ")");
-                        alert(err.message);
+                        myAlert(err.message);
                     }
                 });
             }).on('submit', '#form-save', function (e) {
@@ -176,7 +165,7 @@
                     url: url,
                     data: data,
                     success: function (data) {
-                        showMsg(data);
+                        myAlert(data);
                         $modal.modal('hide');
                         table.ajax.reload();
                     },

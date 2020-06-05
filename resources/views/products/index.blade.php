@@ -51,16 +51,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var actionUrl = '{{ route('products.index') }}';
-            var msgTimeout;
-
-            function showMsg(message) {
-                var $msg = $('#msg');
-                $msg.removeClass('d-none').html(message);
-                clearTimeout(msgTimeout);
-                msgTimeout = setTimeout(function () {
-                    $msg.addClass('d-none');
-                }, 5000);
-            }
 
             var table = $('.data-table').DataTable({
                 language: {
@@ -116,7 +106,7 @@
                         _token: token,
                     },
                     success: function (data) {
-                        showMsg(data);
+                        myAlert(data.message);
                         table.ajax.reload();
                     },
                     error: function (xhr) {

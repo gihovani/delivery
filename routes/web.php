@@ -22,6 +22,7 @@ Auth::routes();
 Route::get('/profile', 'Auth\ProfileController@show')->name('profile.show');
 Route::post('/profile', 'Auth\ProfileController@update');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/users/autocomplete','UserController@autocomplete')->name('users.autocomplete');
 Route::resource('users','UserController')->middleware('auth');
 Route::resource('users/{user}/addresses','AddressController')->middleware('auth');
 Route::resource('categories','CategoryController')->middleware('auth');

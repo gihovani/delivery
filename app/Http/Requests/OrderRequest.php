@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Order;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OrderRequest extends FormRequest
@@ -24,9 +25,17 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required', 'exits:users,id'],
-            'address_id' => ['required', 'exits:address,id'],
-            'items[]' => ['required']
+            'customer_id' => ['required', 'exists:users,id'],
+            'address_id' => ['required', 'exists:addresses,id'],
+            'deliveryman_id' => ['required', 'integer'],
+            'items' => ['required'],
+            'payment_method' => ['required', 'string', 'in:'.implode(',', Order::PAYMENT_METHODS)],
+            'subtotal' => ['required', 'string'],
+            'discount' => ['required', 'string'],
+            'shipping_amount' => ['required', 'string'],
+            'total' => ['required', 'string'],
+            'cash_amount' => ['nullable', 'string'],
+            'back_change' => ['nullable', 'string'],
         ];
     }
 }

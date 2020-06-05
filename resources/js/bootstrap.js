@@ -12,6 +12,7 @@ try {
 
     require('bootstrap');
     require('jquery-mask-plugin');
+    require('devbridge-autocomplete/dist/jquery.autocomplete');
 } catch (e) {}
 
 /**

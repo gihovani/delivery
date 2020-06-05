@@ -18,6 +18,8 @@ class User extends Authenticatable
         self::ROLE_DELIVERYMAN => self::ROLE_DELIVERYMAN
     ];
 
+    const DELIVERY_PICK_UP_IN_STORE = 'Pick Up in Store';
+
     use Notifiable;
 
     /**
@@ -118,12 +120,20 @@ class User extends Authenticatable
         return $list;
     }
 
-    public static function getCustomers($columns = ['*'])
+    public static function getDeliveryman($withPickUpInStore = true)
     {
-        $roleCustomer = self::ROLE_CUSTOMER;
-        return static::query()
+        $roleCustomer = self::ROLE_DELIVERYMAN;
+        $list = [];
+        if ($withPickUpInStore) {
+            $list[0] = __(self::DELIVERY_PICK_UP_IN_STORE);
+        }
+        $collection = static::query()
             ->where('roles', 'like', "%{$roleCustomer}%")
-            ->get($columns);
+            ->get(['id', 'name']);
+        foreach ($collection as $item) {
+            $list[$item->id] = $item->name;
+        }
+        return $list;
     }
 
     public function isAdmin()

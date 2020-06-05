@@ -45,15 +45,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var actionUrl = '{{ route('orders.index') }}';
-            var msgTimeout;
-            function showMsg(message) {
-                var $msg = $('#msg');
-                $msg.removeClass('d-none').html(message);
-                clearTimeout(msgTimeout);
-                msgTimeout = setTimeout(function () {
-                    $msg.addClass('d-none');
-                }, 5000);
-            }
             var table = $('.data-table').DataTable({
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json'
@@ -97,7 +88,7 @@
                         _token: token,
                     },
                     success: function (data) {
-                        showMsg(data);
+                        myAlert(data.message);
                         table.ajax.reload();
                     },
                     error: function (xhr) {

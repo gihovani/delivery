@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    protected $fillable = [
+        'customer_id', 'deliveryman_id', 'address_id', 'payment_method',
+        'cash_amount', 'total', 'back_change', 'subtotal', 'discount', 'shipping_amount'
+    ];
+    protected $dates = ['created_at', 'updated_at'];
+
     const STATUS_PENDING = 'pending';
     const STATUS_PROCESSING = 'processing';
     const STATUS_CANCELED = 'canceled';
@@ -27,26 +33,6 @@ class Order extends Model
         self::METHOD_CREDIT_CARD => self::METHOD_CREDIT_CARD,
         self::METHOD_IN_CASH => self::METHOD_IN_CASH
     ];
-
-    public static function create($data = [])
-    {
-        if (isset($data['user_id'])) {
-            $user = User::find($data['user_id'], ['name', 'telephone'])->first();
-            $data['user_name'] = $user->name;
-            $data['user_telephone'] = $user->telephone;
-        }
-        if (isset($data['address_id'])) {
-            $address = Address::find($data['address_id'])->first();
-            $data['address_zipcode'] = $address->zipcode;
-            $data['address_street'] = $address->street;
-            $data['address_number'] = $address->number;
-            $data['address_city'] = $address->city;
-            $data['address_state'] = $address->state;
-            $data['address_neighborhood'] = $address->neighborhood;
-            $data['address_complement'] = $address->complement;
-        }
-        return parent::create($data);
-    }
 
     public function setStatusAttribute($value)
     {
@@ -89,12 +75,50 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public static function getPaymentMethodToOptionList()
+    public static function getPaymentMethodToOptionList($withEmpty = true)
     {
         $list = [];
+        if ($withEmpty) {
+            $list[] = '';
+        }
         foreach (array_reverse(self::PAYMENT_METHODS) as $key => $value) {
             $list[$key] = __($value);
         }
         return $list;
+    }
+
+    private function formatMoney($value)
+    {
+        return 'R$' . number_format($value, 2, ',', '.');
+    }
+
+    public function getCashAmountFormatedAttribute()
+    {
+        return $this->formatMoney($this->cash_amount);
+    }
+
+    public function getTotalFormatedAttribute()
+    {
+        return $this->formatMoney($this->total);
+    }
+
+    public function getSubtotalFormatedAttribute()
+    {
+        return $this->formatMoney($this->subtotal);
+    }
+
+    public function getBackChangeFormatedAttribute()
+    {
+        return $this->formatMoney($this->back_change);
+    }
+
+    public function getDiscountFormatedAttribute()
+    {
+        return $this->formatMoney($this->discount);
+    }
+
+    public function getShippingAmountFormatedAttribute()
+    {
+        return $this->formatMoney($this->shipping_amount);
     }
 }

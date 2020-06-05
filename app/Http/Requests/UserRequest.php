@@ -35,7 +35,6 @@ class UserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$entityId],
             'telephone' => ['required', 'string', 'celular_com_ddd', 'unique:users,telephone,'.$entityId],
-            'roles' => ['required']
         ];
         if (empty($entityId)) {
             $rules['zipcode'] = ['required', 'string', 'size:9'];

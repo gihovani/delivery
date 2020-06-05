@@ -38,7 +38,8 @@ class ProductController extends Controller
         $product = Product::create($this->getData($request));
         $this->saveImageAndVariations($request, $product);
         return request()->ajax() ?
-            new Response(__('Entity saved successfully.'), 201) :
+            response()
+                ->json(['data' => $product, 'message' => __('Entity saved successfully.')]) :
             redirect()->route('products.index');
     }
 
@@ -56,14 +57,16 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         return request()->ajax() ?
-            $product :
+            response()
+                ->json(['data' => $product, 'message' => __('Show Data')]) :
             view('products.show', compact('product'));
     }
 
     public function edit(Product $product)
     {
         return request()->ajax() ?
-            $product :
+            response()
+                ->json(['data' => $product, 'message' => __('Edit Data')]) :
             view('products.edit', compact('product'));
     }
 
@@ -72,7 +75,8 @@ class ProductController extends Controller
         $product->update($this->getData($request));
         $this->saveImageAndVariations($request, $product);
         return request()->ajax() ?
-            new Response(__('Entity updated successfully.')) :
+            response()
+                ->json(['data' => $product, 'message' => __('Entity updated successfully.')]) :
             redirect()->route('products.index');
     }
 
@@ -80,7 +84,8 @@ class ProductController extends Controller
     {
         $product->delete();
         return request()->ajax() ?
-            new Response(__('Entity successfully deleted.'), 209) :
+            response()
+                ->json(['data' => $product, 'message' => __('Entity successfully deleted.')]) :
             redirect()->route('products.index');
     }
 }

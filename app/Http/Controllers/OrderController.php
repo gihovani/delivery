@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\VariationResource;
 use App\Order;
@@ -12,14 +13,16 @@ use App\Product;
 use App\Variation;
 use DataTables;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
+    private $items = [];
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return Datatables::eloquent(Order::latest())
+            $model = Order::all();
+            return Datatables::of(OrderResource::collection($model))
                 ->make(true);
         }
         return view('orders.index');
@@ -53,39 +56,59 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request)
     {
-        Order::create($request->all());
+        /** @var Order $order */
+        $order = Order::create($this->getData($request));
+        foreach ($this->items as $item) {
+            $order->items()->create($item);
+        }
+
         return request()->ajax() ?
-            new Response(__('Entity saved successfully.'), 201) :
+            response()
+                ->json(['data' => $order, 'message' => __('Entity saved successfully.')]) :
             redirect()->route('orders.index');
     }
 
-    public function show(Order $order)
+    private function getData(Request $request)
     {
-        return request()->ajax() ?
-            $order :
-            view('orders.show', compact('order'));
+        $data = $request->all();
+        $formatMoney = [
+            'discount', 'shipping_amount', 'subtotal',
+            'total', 'cash_amount', 'back_change'
+        ];
+        $subtotal = $this->getTotalItems($request);
+        foreach ($formatMoney as $inputKey) {
+            $data[$inputKey] = $this->removeMaskMoney($data[$inputKey]);
+        }
+        if ($subtotal > $data['subtotal']) {
+            abort(409);
+        }
+        return $data;
     }
 
-    public function edit(Order $order)
+    private function getTotalItems(Request $request)
     {
-        return request()->ajax() ?
-            $order :
-            view('orders.edit', compact('order'));
+        $this->items = [];
+        $total = 0;
+        if ($request->has('items')) {
+            $items = $request->post('items');
+            foreach ($items as $item) {
+                $product = Product::where('id', $item['product_id'])->first();
+                if (!$product) {
+                    continue;
+                }
+
+                $quantity = intval($item['quantity']);
+                $item['quantity'] = $quantity;
+                $item['price'] = $product->price;
+                $this->items[] = $item;
+                $total += ($product->price * $quantity);
+            }
+        }
+        return $total;
     }
 
-    public function update(OrderRequest $request, Order $order)
+    private function removeMaskMoney($value = '0,0')
     {
-        $order->update($request->all());
-        return request()->ajax() ?
-            new Response(__('Entity updated successfully.')) :
-            redirect()->route('orders.index');
-    }
-
-    public function destroy(Order $order)
-    {
-        $order->delete();
-        return request()->ajax() ?
-            new Response(__('Entity successfully deleted.'), 209) :
-            redirect()->route('orders.index');
+        return floatval(str_replace(['.', ','], ['', '.'], $value));
     }
 }

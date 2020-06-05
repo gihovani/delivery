@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\CategoryRequest;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use DataTables;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -27,23 +26,26 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        Category::create($request->all());
+        $category = Category::create($request->all());
         return request()->ajax() ?
-            new Response(__('Entity saved successfully.'), 201) :
+            response()
+                ->json(['data' => $category, 'message' => __('Entity saved successfully.')]) :
             redirect()->route('categories.index');
     }
 
     public function show(Category $category)
     {
         return request()->ajax() ?
-            $category :
+            response()
+                ->json(['data' => $category, 'message' => __('Show Data')]) :
             view('categories.show', compact('category'));
     }
 
     public function edit(Category $category)
     {
         return request()->ajax() ?
-            $category :
+            response()
+                ->json(['data' => $category, 'message' => __('Edit Data')]) :
             view('categories.edit', compact('category'));
     }
 
@@ -51,7 +53,8 @@ class CategoryController extends Controller
     {
         $category->update($request->all());
         return request()->ajax() ?
-            new Response(__('Entity updated successfully.')) :
+            response()
+                ->json(['data' => $category, 'message' => __('Entity updated successfully.')]) :
             redirect()->route('categories.index');
     }
 
@@ -59,7 +62,8 @@ class CategoryController extends Controller
     {
         $category->delete();
         return request()->ajax() ?
-            new Response(__('Entity successfully deleted.'), 209) :
+            response()
+                ->json(['data' => $category, 'message' => __('Entity successfully deleted.')]) :
             redirect()->route('categories.index');
     }
 }

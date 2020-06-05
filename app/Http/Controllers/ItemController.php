@@ -27,23 +27,26 @@ class ItemController extends Controller
 
     public function store(ItemRequest $request)
     {
-        Item::create($this->getData($request));
+        $item = Item::create($this->getData($request));
         return request()->ajax() ?
-            new Response(__('Entity saved successfully.'), 201) :
+            response()
+                ->json(['data' => $item, 'message' => __('Entity saved successfully.')]) :
             redirect()->route('items.index');
     }
 
     public function show(Item $item)
     {
         return request()->ajax() ?
-            $item :
+            response()
+                ->json(['data' => $item, 'message' => __('Show Data')]) :
             view('items.show', compact('item'));
     }
 
     public function edit(Item $item)
     {
         return request()->ajax() ?
-            $item :
+            response()
+                ->json(['data' => $item, 'message' => __('Edit Data')]) :
             view('items.edit', compact('item'));
     }
 
@@ -51,15 +54,17 @@ class ItemController extends Controller
     {
         $item->update($this->getData($request));
         return request()->ajax() ?
-            new Response(__('Entity updated successfully.')) :
-            redirect()->route('items.index');
+            response()
+                ->json(['data' => $item, 'message' => __('Entity updated successfully.')]) :
+            redirect()->route('items.index');;
     }
 
     public function destroy(Item $item)
     {
         $item->delete();
         return request()->ajax() ?
-            new Response(__('Entity successfully deleted.'), 209) :
+            response()
+                ->json(['data' => $item, 'message' => __('Entity successfully deleted.')]) :
             redirect()->route('items.index');
     }
 
