@@ -86,7 +86,7 @@ class AddressController extends Controller
             $data['neighborhood'] = Address::DEFAULT_NEIGHBORHOOD;
             $data['number'] = Address::DEFAULT_NUMBER;
             $data['state'] = Address::DEFAULT_STATE;
-            $data['street'] = Address::DEFAULT_STREET;
+            $data['street'] = __(Address::DEFAULT_STREET);
             $data['complement'] = '';
         }
         return $data;

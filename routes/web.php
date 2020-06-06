@@ -39,7 +39,7 @@ Route::get('orders','OrderController@index')->name('orders.index')->middleware('
 Route::get('orders/create','OrderController@create')->name('orders.create')->middleware('auth');
 Route::post('orders','OrderController@store')->name('orders.store')->middleware('auth');
 Route::get('orders/{order}/print','OrderController@print')->name('orders.print')->middleware('auth');
-Route::get('orders/{order}/processing','OrderController@processing')->name('orders.processing')->middleware('auth');
-Route::get('orders/{order}/delivery','OrderController@delivery')->name('orders.delivery')->middleware('auth');
-Route::get('orders/{order}/complete','OrderController@complete')->name('orders.complete')->middleware('auth');
-Route::get('orders/{order}/canceled','OrderController@canceled')->name('orders.canceled')->middleware('auth');
+Route::post('orders/{order}/processing','OrderController@processing')->name('orders.processing')->middleware('auth');
+Route::post('orders/{order}/delivery','OrderController@delivery')->name('orders.delivery')->middleware('auth');
+Route::post('orders/{order}/complete','OrderController@complete')->name('orders.complete')->middleware('auth');
+Route::post('orders/{order}/canceled','OrderController@canceled')->name('orders.canceled')->middleware('auth');

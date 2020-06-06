@@ -110,7 +110,7 @@
             var number = '';
             if ($(this).prop('checked')) {
                 zipcode = '{{App\Address::DEFAULT_ZIPCODE}}';
-                street = '{{App\Address::DEFAULT_STREET}}';
+                street = '{{__(App\Address::DEFAULT_STREET)}}';
                 neighborhood = '{{App\Address::DEFAULT_NEIGHBORHOOD}}';
                 city = '{{App\Address::DEFAULT_CITY}}';
                 state = '{{App\Address::DEFAULT_STATE}}';

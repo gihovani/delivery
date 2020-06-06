@@ -124,14 +124,12 @@ class OrderController extends Controller
         $order->status = $status;
         $order->save();
         $message = __($message);
-//        if ($order->status === Order::STATUS_DELIVERY) {
         $telephone = $this->onlyNumbers($order->getAttribute('customer_telephone'));
 
         if (strlen($telephone) === 11) {
             $whatsappUrl = Config::WHATSAPP_API . $telephone . '&text=' . urlencode($message);
             $message = '<a href="' . $whatsappUrl . '" target="_blank"><i class="fab fa-whatsapp"></i> ' . $message . '</a>';
         }
-//        }
         return request()->ajax() ?
             response()
                 ->json(['data' => $order, 'message' => $message]) :

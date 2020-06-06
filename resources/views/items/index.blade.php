@@ -10,7 +10,7 @@
 @section('breadcrumb')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('Home')}}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ __('Product Items') }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ __('Items') }}</li>
     </ol>
 @endsection
 @section('content')
@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex">
-                            <div class="mt-2">{{ __('Product Items') }}</div>
+                            <div class="mt-2">{{ __('Items') }}</div>
                             <div class="ml-auto">
                                 <a class="btn btn-success" id="new-entity" href="{{route('items.create')}}">{{__('Add New')}}</a>
                             </div>

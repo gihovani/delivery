@@ -62,12 +62,12 @@
                                    href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link{{ Route::is('config*') ? ' active' : '' }}"
-                                   href="{{ route('configs.update', 1) }}">{{ __('Config') }}</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link{{ Route::is('reports*') ? ' active' : '' }}"
                                    href="{{ route('reports.index', 1) }}">{{ __('Reports') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link{{ Route::is('config*') ? ' active' : '' }}"
+                                   href="{{ route('configs.update', 1) }}">{{ __('Config') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link{{ Route::is('categories*') ? ' active' : '' }}"
@@ -145,6 +145,123 @@
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
+    /** Classes */
+    function Address() {
+        var args = arguments[0];
+        if (!args.hasOwnProperty('id') &&
+            !args.hasOwnProperty('zipcode') &&
+            !args.hasOwnProperty('street') &&
+            !args.hasOwnProperty('number') &&
+            !args.hasOwnProperty('city') &&
+            !args.hasOwnProperty('state') &&
+            !args.hasOwnProperty('neighborhood')) {
+            this.valid = false;
+            return;
+        }
+        this.id = parseInt(args.id);
+        this.zipcode = args.zipcode;
+        this.street = args.street;
+        this.number = args.number;
+        this.city = args.city;
+        this.state = args.state;
+        this.neighborhood = args.neighborhood;
+        this.complement = (args.complement != undefined) ? args.complement : '';
+        this.valid = true;
+        var self = this;
+        this.toString = function() {
+            var uri = [];
+            if (self.street.length >= 3) {
+                uri.push(self.street);
+            }
+            if (self.number.length >= 1) {
+                uri.push(self.number);
+            }
+            if (self.zipcode.length === 9) {
+                uri.push(self.zipcode);
+            }
+            return uri.join(', ');
+        };
+    }
+
+    function Customer() {
+        var args = arguments[0];
+        if (!args.hasOwnProperty('id') &&
+            !args.hasOwnProperty('name') &&
+            !args.hasOwnProperty('telephone')) {
+            this.valid = false;
+            return;
+        }
+        var _self = this;
+        this.id = parseInt(args.id);
+        this.name = args.name;
+        this.telephone = args.telephone;
+        this.addresses = [];
+        if (args.hasOwnProperty('addresses') && jQuery.isArray(args.addresses)) {
+            args.addresses.forEach(function (addr) {
+                _self.addresses.push(new Address(addr))
+            });
+        }
+        this.valid = true;
+        var self = this;
+        this.toString = function() {
+            return self.name + ' - ' + self.telephone;
+        };
+    }
+
+    function CartItem() {
+        var args = arguments[0];
+        if (!args.hasOwnProperty('id') &&
+            !args.hasOwnProperty('name') &&
+            !args.hasOwnProperty('price') &&
+            !args.hasOwnProperty('quantity') &&
+            !args.hasOwnProperty('image_url')) {
+            this.valid = false;
+            return;
+        }
+        this.id = parseInt(args.id);
+        this.name = args.name;
+        this.price = parseFloat(args.price);
+        this.quantity = parseInt(args.quantity);
+        this.image_url = args.image_url;
+        this.description = (args.description != undefined) ? args.description : '';
+        this.observation = (args.observation != undefined) ? args.observation : '';
+        this.valid = true;
+        var self = this;
+        this.getTotal = function () {
+            return self.quantity * self.price;
+        };
+        this.toString = function() {
+            return '<a name="item' + self.id + '"></a>\n' +
+                '<div class="card mt-3">\n' +
+                '  <div class="card-body p-2">\n' +
+                '    <div class="row">\n' +
+                // '      <div class="col-md-4">\n' +
+                // '        <img src="' + self.image_url + '" class="card-img" alt="' + self.name + '">\n' +
+                // '      </div>\n' +
+                '      <div class="col-md-12">\n' +
+                '        <h5 class="card-title mb-1">' + self.name + '</h5>\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '    <div class="row">\n' +
+                '      <div class="col-md-12">\n' +
+                '        <p class="card-text mb-0"><small class="text-muted">' + self.description + '</small></p>\n' +
+                '        <p class="card-text mb-1"><small class="text-muted">' + self.observation + '</small></p>\n' +
+                '        <p class="card-text">' + self.quantity + 'x' + formatCurrency(self.price) + '</p>\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '  </div>\n' +
+                '</div>\n';
+        }
+    }
+
+    /** helpers */
+    function formatCurrency(value) {
+        value = parseFloat(value).toFixed(2)
+        return $('<input>').val(value)
+            .mask('#.##0,00', {reverse: true})
+            .val();
+    };
+
     function myAlert(content, title) {
         if (typeof(title) === 'undefined') {
             title = '{{__('Attention')}}';
@@ -158,9 +275,9 @@
         var whatsAppApi = '{{App\Config::WHATSAPP_API}}';
         return whatsAppApi + '+55' + telephone.replace(/[^\d]/g, '');
     }
-    function mapsUrl(zipcode) {
+    function mapsUrl(uri) {
         var mapsApi = '{{App\Config::MAPS_API}}{{App\Config::getValue('zipcode')}}/'
-        return mapsApi + zipcode;
+        return mapsApi + uri;
     }
     function whatsAppLink(telephone) {
 
@@ -192,6 +309,16 @@
             .find('.modal-title')
             .html(title);
         $modal.modal('show');
+    }
+    function findInArrayById(arr, id) {
+        id = parseInt(id);
+        for (var key in arr) {
+            var currentObject = arr[key];
+            if (currentObject.id === id) {
+                return currentObject;
+            }
+        }
+        return null;
     }
 
     function formFieldsToObject($form) {

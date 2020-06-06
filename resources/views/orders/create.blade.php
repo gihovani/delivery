@@ -40,8 +40,14 @@
                                 {!! Form::hidden('name', $product->name) !!}
                                 {!! Form::hidden('price', $product->price) !!}
                                 {!! Form::hidden('image_url', $product->image_url) !!}
-                                <div data-remote="{{route('products.details', $product)}}" data-toggle="modal" data-target="#product-modal">
-                                    <img src="{{$product->image_url}}" class="card-img-top" alt="{{$product->name}}">
+                                <div data-remote="{{route('products.details', $product)}}" data-toggle="modal"
+                                     data-target="#product-modal">
+                                    <div class="product-img-area"
+                                         style="background-image: url('{{$product->image_url}}')">
+                                        @for ($i=0;$i<$product->pieces;$i++)
+                                            <div class="bg-{{$i}} variation_{{$product->id}}_{{$i}}"></div>
+                                        @endfor
+                                    </div>
                                     <div class="card-body">
                                         <h5 class="card-title">{{$product->name}}</h5>
                                         <p class="card-text">{{$product->description}}</p>
@@ -53,7 +59,7 @@
                                             <div class="input-group-prepend">
                                                 {!! Form::label('variation_'.$product->id, __('Variation').' '.($i+1), ['class' => 'input-group-text']) !!}
                                             </div>
-                                            {!! Form::select('variation[]',$product->getVariationToOptionList(),'',['required' => true, 'id' => 'variation_'.$product->id.'_'.$i, 'class' => 'variation-select custom-select']) !!}
+                                            {!! Form::select('variation[]', $product->getVariationToOptionList(true),'',['required' => true, 'data-position' => $i, 'data-pieces' => $product->pieces, 'data-id' => 'variation_'.$product->id.'_'.$i, 'class' => 'variation-select custom-select']) !!}
                                         </div>
                                     @endfor
                                     {!! Form::textarea('observation','',['placeholder' => __('Observation'), 'class' => 'form-control', 'rows' => 2]) !!}
@@ -88,6 +94,13 @@
 
                     <div class="input-group has-customer d-none">
                         <div class="input-group-prepend">
+                            {!! Form::label('deliveryman-id', __('Deliveryman'), ['class' => 'input-group-text']) !!}
+                        </div>
+                        {!! Form::select('deliveryman_id', \App\User::getDeliveryman(), '', ['required' => true, 'class' => 'form-control', 'id' => 'deliveryman-id']) !!}
+                    </div>
+
+                    <div class="input-group has-customer d-none">
+                        <div class="input-group-prepend">
                             {!! Form::label('customer-name', __('Customer'), ['class' => 'input-group-text']) !!}
                         </div>
                         {!! Form::text('customer_name', '', ['readonly' => true, 'class' => 'form-control', 'id' => 'customer-name']) !!}
@@ -100,13 +113,6 @@
                         {!! Form::select('address_id', [], '', ['required' => true, 'class' => 'form-control', 'id' => 'customer-address']) !!}
                     </div>
 
-                    <div class="input-group has-customer d-none">
-                        <div class="input-group-prepend">
-                            {!! Form::label('deliveryman-id', __('Deliveryman'), ['class' => 'input-group-text']) !!}
-                        </div>
-                        {!! Form::select('deliveryman_id', \App\User::getDeliveryman(), '', ['required' => true, 'class' => 'form-control', 'id' => 'deliveryman-id']) !!}
-                    </div>
-
                     <div class="input-group">
                         <div class="input-group-prepend">
                             {!! Form::label('subtotal', __('SubTotal'), ['class' => 'input-group-text']) !!}
@@ -117,19 +123,19 @@
                         <div class="input-group-prepend">
                             {!! Form::label('discount', __('Discount'), ['class' => 'input-group-text']) !!}
                         </div>
-                        {!! Form::text('discount', '', ['required' => true, 'class' => 'form-control', 'id' => 'discount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
+                        {!! Form::text('discount', '', ['required' => true, 'class' => 'form-control cart-totalize', 'id' => 'discount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
                     </div>
                     <div class="input-group has-customer d-none">
                         <div class="input-group-prepend">
                             {!! Form::label('shipping-amount', __('Shipping Amount'), ['class' => 'input-group-text']) !!}
                         </div>
-                        {!! Form::text('shipping_amount', '', ['required' => true, 'class' => 'form-control', 'id' => 'shipping-amount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
+                        {!! Form::text('shipping_amount', '', ['required' => true, 'readonly' => !old('deliveryman_id'), 'class' => 'form-control cart-totalize', 'id' => 'shipping-amount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
                     </div>
                     <div class="input-group has-customer d-none">
                         <div class="input-group-prepend">
                             {!! Form::label('additional-amount', __('Additional Amount'), ['class' => 'input-group-text']) !!}
                         </div>
-                        {!! Form::text('additional_amount', '', ['required' => true, 'class' => 'form-control', 'id' => 'additional-amount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
+                        {!! Form::text('additional_amount', '', ['required' => true, 'class' => 'form-control cart-totalize', 'id' => 'additional-amount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -148,7 +154,7 @@
                         <div class="input-group-prepend">
                             {!! Form::label('cash-amount', __('Cash Amount'), ['class' => 'input-group-text']) !!}
                         </div>
-                        {!! Form::text('cash_amount', '', ['required' => true, 'class' => 'form-control', 'id' => 'cash-amount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
+                        {!! Form::text('cash_amount', '', ['required' => true, 'class' => 'form-control cart-totalize', 'id' => 'cash-amount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
                     </div>
                     <div class="input-group has-payment-in-cash d-none">
                         <div class="input-group-prepend">
@@ -175,70 +181,6 @@
             var methodInCash = '{{\App\Order::METHOD_IN_CASH}}';
             var defaultAction = '{{route('users.store')}}';
 
-            function Address() {
-                var args = arguments[0];
-                if (!args.hasOwnProperty('id') &&
-                    !args.hasOwnProperty('zipcode') &&
-                    !args.hasOwnProperty('street') &&
-                    !args.hasOwnProperty('number') &&
-                    !args.hasOwnProperty('city') &&
-                    !args.hasOwnProperty('state') &&
-                    !args.hasOwnProperty('neighborhood')) {
-                    this.valid = false;
-                    return;
-                }
-                this.id = parseInt(args.id);
-                this.zipcode = args.zipcode;
-                this.street = args.street;
-                this.number = args.number;
-                this.city = args.city;
-                this.state = args.state;
-                this.neighborhood = args.neighborhood;
-                this.complement = (args.complement != undefined) ? args.complement : '';
-                this.valid = true;
-            }
-
-            function Customer() {
-                var args = arguments[0];
-                if (!args.hasOwnProperty('id') &&
-                    !args.hasOwnProperty('name') &&
-                    !args.hasOwnProperty('telephone')) {
-                    this.valid = false;
-                    return;
-                }
-                var _self = this;
-                this.id = parseInt(args.id);
-                this.name = args.name;
-                this.telephone = args.telephone;
-                this.addresses = [];
-                if (args.hasOwnProperty('addresses') && jQuery.isArray(args.addresses)) {
-                    args.addresses.forEach(function (address) {
-                        _self.addresses.push(new Address(address))
-                    });
-                }
-                this.valid = true;
-            }
-
-            function CartItem() {
-                var args = arguments[0];
-                if (!args.hasOwnProperty('id') &&
-                    !args.hasOwnProperty('name') &&
-                    !args.hasOwnProperty('price') &&
-                    !args.hasOwnProperty('quantity') &&
-                    !args.hasOwnProperty('image_url')) {
-                    this.valid = false;
-                    return;
-                }
-                this.id = parseInt(args.id);
-                this.name = args.name;
-                this.price = parseFloat(args.price);
-                this.quantity = parseInt(args.quantity);
-                this.image_url = args.image_url;
-                this.description = (args.description != undefined) ? args.description : '';
-                this.observation = (args.observation != undefined) ? args.observation : '';
-                this.valid = true;
-            }
-
             var cart = function () {
                 var items = @json(old('items', []));
                 var discount = 0;
@@ -249,20 +191,15 @@
                 var cashAmount = 0;
                 var backChange = 0;
                 var customer = new Customer({});
-                var _formatCurrency = function (value) {
-                    value = parseFloat(value).toFixed(2)
-                    return $('<input>').val(value)
-                        .mask('#.##0,00', {reverse: true})
-                        .val();
-                };
+                var address = new Address({});
 
                 var _hasItems = function () {
                     return (items.length > 0);
                 };
 
-                var _calculateValues = function () {
+                var _totalize = function () {
                     subTotal = items.reduce(function (value, item) {
-                        return value + (item.price * item.quantity);
+                        return value + item.getTotal();
                     }, 0);
                     amount = (subTotal + shippingAmount + additionalAmount);
                     if (amount < discount) {
@@ -295,53 +232,61 @@
                         return '<div class="alert alert-danger" role="alert">{{__('cart empty')}}</div>';
                     }
                     return items.reduce(function (html, item, i) {
-                        return html + '<a name="cart-item' + item.id + '"></a>\n' +
-                            '<input type="hidden" name="items[' + i + '][product_id]" value="' + item.id + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][name]" value="' + item.name + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][image_url]" value="' + item.image_url + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][quantity]" value="' + item.quantity + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][price]" value="' + item.price + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][description]" value="' + item.description + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][observation]" value="' + item.observation + '">\n' +
-                            '<div class="card mt-3">\n' +
-                            '  <div class="card-body position-relative p-2">\n' +
-                            '    <div class="row">\n' +
-                            // '      <div class="col-md-4">\n' +
-                            // '        <img src="' + item.image_url + '" class="card-img" alt="' + item.name + '">\n' +
-                            // '      </div>\n' +
-                            '      <div class="col-md-12">\n' +
-                            '        <h5 class="card-title mb-1">' + item.name + '</h5>\n' +
-                            '      </div>\n' +
-                            '    </div>\n' +
-                            '    <div class="row">\n' +
-                            '      <div class="col-md-12">\n' +
-                            '        <p class="card-text mb-0"><small class="text-muted">' + item.description + '</small></p>\n' +
-                            '        <p class="card-text mb-1"><small class="text-muted">' + item.observation + '</small></p>\n' +
-                            '        <p class="card-text">' + item.quantity + 'x' + _formatCurrency(item.price) + '</p>\n' +
-                            '      </div>\n' +
-                            '    </div>\n' +
-                            '    <button class="btn btn-outline-danger btn-remove-cart" data-id="' + i + '"><i class="far fa-trash-alt"></i></button>\n' +
-                            '  </div>\n' +
-                            '</div>\n';
+                        return html + '<div class="position-relative">' +
+                            item +
+                            '<input type="hidden" name="items[' + i + '][product_id]" value="' + self.id + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][name]" value="' + self.name + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][image_url]" value="' + self.image_url + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][quantity]" value="' + self.quantity + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][price]" value="' + self.price + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][description]" value="' + self.description + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][observation]" value="' + self.observation + '">\n' +
+                            '<button class="btn btn-outline-danger btn-remove-cart" data-id="' + i + '"><i class="far fa-trash-alt"></i></button>\n' +
+                            '</div>';
                     }, '');
                 };
-                var _toHtml = function () {
+                var _setFormValues = function () {
                     var paymentMethod = $('#payment-method').val();
-                    _calculateValues();
-                    // $('#cart-actions').toggleClass('d-none', !_hasItems());
-                    $('#subtotal').val(_formatCurrency(subTotal));
-                    $('#discount').val(_formatCurrency(discount));
-                    $('#shipping-amount').val(_formatCurrency(shippingAmount));
-                    $('#additional-amount').val(_formatCurrency(additionalAmount));
-                    $('#cash-amount').val(_formatCurrency(cashAmount));
-                    $('#back-change').val(_formatCurrency(backChange));
-                    $('#amount').val(_formatCurrency(amount));
+                    _totalize();
+                    $('#subtotal').val(formatCurrency(subTotal));
+                    $('#discount').val(formatCurrency(discount));
+                    $('#shipping-amount').val(formatCurrency(shippingAmount));
+                    $('#additional-amount').val(formatCurrency(additionalAmount));
+                    $('#cash-amount').val(formatCurrency(cashAmount));
+                    $('#back-change').val(formatCurrency(backChange));
+                    $('#amount').val(formatCurrency(amount));
                     $('#cart-items').html(_htmlItems());
                     $('.has-payment-in-cash')
                         .toggleClass('d-none', paymentMethod !== methodInCash);
                     $('#save-order').prop('disabled', (paymentMethod === '0' || !_hasItems()));
                 };
-                _toHtml();
+
+                var _htmlCustomer = function () {
+                    $('.has-customer').toggleClass('d-none', !customer.valid);
+                    if (!customer.valid) {
+                        return '';
+                    }
+
+                    var $customerId = $('#customer-id');
+                    var $customerName = $('#customer-name');
+                    var $customerAddress = $('#customer-address');
+
+                    $customerId.val(customer.id);
+                    $customerName.val(customer.name);
+                    $customerAddress.html('');
+                    customer.addresses.forEach(function (currentAddr) {
+                        $('<option>')
+                            .val(currentAddr.id)
+                            .prop('selected', (currentAddr.id === address.id))
+                            .text(currentAddr + (!currentAddr.complement.length ? '' : ' (' + currentAddr.complement + ')'))
+                            .appendTo($customerAddress);
+                    });
+                    $('<option>')
+                        .val(0)
+                        .text('{{__('Add New')}}')
+                        .appendTo($customerAddress);
+                };
+                _setFormValues();
                 return {
                     add: function (item) {
                         var cartItem = new CartItem(item);
@@ -352,7 +297,7 @@
                         items.push(cartItem);
                         myAlert(cartItem.name + ' {{__('has been added to the cart.')}}');
                         setTimeout(function () {
-                            location.hash = "#cart-item" + cartItem.id;
+                            location.hash = "#item" + cartItem.id;
                         }, 50);
                     },
                     remove: function (position) {
@@ -367,6 +312,7 @@
                         tmpDiscount = (parseFloat(tmpDiscount) / 100);
                         tmpShippingValue = (parseFloat(tmpShippingValue) / 100);
                         tmpCashValue = (parseFloat(tmpCashValue) / 100);
+                        tmpAdditionalAmount = (parseFloat(tmpAdditionalAmount) / 100);
                         if (tmpDiscount !== discount) {
                             tmpCashValue = 0;
                         }
@@ -374,7 +320,7 @@
                         shippingAmount = tmpShippingValue;
                         additionalAmount = tmpAdditionalAmount;
                         cashAmount = tmpCashValue;
-                        this.toHtml();
+                        _setFormValues();
                         if (tmpCashValue > cashAmount) {
                             myAlert('{{__('It was not possible to calculate change.')}}')
                         }
@@ -384,64 +330,39 @@
                     },
                     setCashAmount: function (value) {
                         cashAmount = parseFloat(value);
-                        this.toHtml();
+                        _setFormValues();
                     },
-                    setCustomer: function (tmpCustomer, addressId) {
-                        customer = tmpCustomer;
-                        $('.has-customer').toggleClass('d-none', !customer.valid);
-                        if (!customer.valid) {
-                            return '';
+                    setShippingAddress: function (addr) {
+                        if (!(addr && addr.valid)) {
+                            addr = new Address({});
                         }
-
-                        var $customerId = $('#customer-id');
-                        var $customerName = $('#customer-name');
-                        var $customerAddress = $('#customer-address');
-
-                        $customerId.val((customer.id) ? customer.id : '');
-                        $customerName.val((customer.id) ? customer.name : '');
-                        $customerAddress.html('');
-                        customer.addresses.forEach(function (address) {
-                            var text = address.street +
-                                ' ' + address.number +
-                                ' ' + address.complement;
-                            $('<option data-zipcode="' + address.zipcode + '">')
-                                .val(address.id)
-                                .prop('selected', (address.id === addressId))
-                                .text(text)
-                                .appendTo($customerAddress);
-                        });
-
-                        $('<option>')
-                            .val(0)
-                            .prop('selected', false)
-                            .text('{{__('Add New')}}')
-                            .appendTo($customerAddress);
+                        address = addr;
+                        _htmlCustomer();
+                    },
+                    setCustomer: function (tmpCustomer) {
+                        if (!(tmpCustomer && tmpCustomer.valid)) {
+                            tmpCustomer = new Customer({});
+                        }
+                        customer = tmpCustomer;
+                        _htmlCustomer();
                     },
                     getCustomer: function () {
-                        return customer
+                        return customer;
                     },
-                    toHtml: _toHtml
+                    getShippingAddress: function () {
+                        return address;
+                    }
                 }
             }();
 
-            var getVariation = function (variationId) {
-                variationId = parseInt(variationId);
-                for (var key in variations) {
-                    var variation = variations[key];
-                    if (variation.id === variationId) {
-                        return variation;
-                    }
-                }
-                return null;
-            };
             $('body').on('submit', '.add-to-cart', function (e) {
                 e.preventDefault();
                 var item = formFieldsToObject($(this));
                 var description = [];
                 if (item.hasOwnProperty('variation')) {
                     for (var key in item.variation) {
-                        var variation = getVariation(item.variation[key]);
-                        if (variation) {
+                        var variation = findInArrayById(variations, item.variation[key]);
+                        if (variation !== null) {
                             description.push(variation.name);
                         }
                     }
@@ -457,7 +378,7 @@
             }).on('change', '#payment-method', function (e) {
                 e.preventDefault();
                 cart.setCashAmount(0);
-            }).on('blur', '#discount, #shipping-amount, #cash-amount', function (e) {
+            }).on('blur', '.cart-totalize', function (e) {
                 e.preventDefault();
                 var discount = $('#discount').cleanVal();
                 var shippingAmount = $('#shipping-amount').cleanVal();
@@ -474,16 +395,36 @@
                 var action = defaultAction + '/' + cart.getCustomer().id + '/addresses';
                 $customerAutoComplete.autocomplete('hide');
                 $addressModal.find('form').attr('action', action)
-                if (this.value < 1) {
-                    showModal($addressModal, '{{ __('Add New') }}');
+                if (this.value > 0) {
+                    var addr = findInArrayById(cart.getCustomer().addresses, this.value);
+                    return cart.setShippingAddress(addr);
                 }
+                showModal($addressModal, '{{ __('Add New') }}');
+
             }).on('click', '#label-customer-address', function (e) {
-                var zipcode = $('#customer-address option:selected').data('zipcode');
-                if (zipcode && zipcode !== '{{App\Address::DEFAULT_ZIPCODE}}') {
-                    window.open(mapsUrl(zipcode), 'new');
-                } else {
+                var addr = cart.getShippingAddress();
+                if (!addr.valid || addr.zipcode === '{{App\Address::DEFAULT_ZIPCODE}}') {
                     myAlert('{{__('Select an address.')}}');
+                    return;
                 }
+                window.open(mapsUrl(addr.getMapsUri()), 'new');
+            }).on('change', '#deliveryman-id', function () {
+                var $shippingAmount = $('#shipping-amount');
+                $shippingAmount.prop('readonly', (this.value < 1));
+                if (this.value > 0) {
+                    $shippingAmount.val('0')
+                        .trigger('blur');
+                }
+            }).on('change', '.variation-select', function () {
+                var variation = findInArrayById(variations, this.value);
+                if (!variation) {
+                    return '';
+                }
+
+                var $this = $(this);
+                var $form = $this.closest('form');
+                var classBackground = ($this.data('pieces') !== 1) ? '.bg-' + $this.data('position') : '.product-img-area';
+                $form.find(classBackground).css('background-image', 'url("' + variation.image_url + '")');
             });
 
 
@@ -504,20 +445,26 @@
             }).on('saveErrorEvent', function (e, response) {
                 showModalErrors(response);
             });
+            var clearAddrOnClose = true;
             $addressModal.on('saveSuccessEvent', function (e, response) {
-                var address = new Address(response.data);
-                if (address.valid) {
-                    cart.getCustomer().addresses.push(address);
-                    cart.setCustomer(cart.getCustomer(), address.id);
+                var addr = new Address(response.data);
+                if (addr.valid) {
+                    cart.getCustomer().addresses.push(addr);
+                    cart.setShippingAddress(addr);
                     myAlert(response.message);
                 } else {
                     myAlert('bad!');
                 }
+                clearAddrOnClose = false;
                 $addressModal.modal('hide');
             }).on('saveErrorEvent', function (e, response) {
                 showModalErrors(response);
-            }).on('hide.bs.modal', function (e) {
-                cart.setCustomer(cart.getCustomer());
+            }).on('show.bs.modal', function () {
+                clearAddrOnClose = true;
+            }).on('hide.bs.modal', function () {
+                if (clearAddrOnClose) {
+                    cart.setShippingAddress(null);
+                }
             });
             $customerAutoComplete.autocomplete({
                 paramName: 'q',
@@ -547,7 +494,7 @@
                 },
                 onSearchComplete: function (query, suggestions) {
                     if (suggestions.length < 1) {
-                        cart.setCustomer(new Customer({}));
+                        cart.setCustomer(null);
                     }
                 },
                 onSelect: function (suggestion) {

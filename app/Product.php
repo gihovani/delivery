@@ -56,9 +56,12 @@ class Product extends Model
         return Storage::disk('public')->url($imageUrl);
     }
 
-    public function getVariationToOptionList()
+    public function getVariationToOptionList($withEmpty = false)
     {
         $list = [];
+        if ($withEmpty) {
+            $list[''] = '';
+        }
         $items = $this->getVariationAttribute();
         foreach ($items as $item) {
             $list[$item->variation_id] = $item->name;
@@ -71,6 +74,7 @@ class Product extends Model
         $list = [];
         $items = $this->belongsToMany(Variation::class)
             ->select('variation_id', 'name', 'description')
+            ->orderBy('name')
             ->getResults();
         foreach ($items as $item) {
             $list[$item->variation_id] = $item;

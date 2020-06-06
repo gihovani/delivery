@@ -17022,6 +17022,37 @@ footer {
   text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
 }
 
+.cart-page .product-img-area {
+  width: 240px;
+  height: 180px;
+  margin: 15px 9px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 100%;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.cart-page .product-img-area .bg-0,
+.cart-page .product-img-area .bg-1 {
+  float: left;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.cart-page .product-img-area .bg-0 {
+  background-position-x: 30px;
+}
+
+.cart-page .product-img-area .bg-1 {
+  background-position-x: -85px;
+}
+
 .cart-page .input-group-text {
   width: 83px;
 }

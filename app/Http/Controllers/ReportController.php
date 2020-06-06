@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class ReportController extends Controller
 {
+    const DELIMITER = ';';
+
     /**
      * Create a new controller instance.
      *
@@ -33,8 +34,8 @@ class ReportController extends Controller
     {
         $request->validate(['date' => 'required|size:10']);
         $date = $this->removeMaskDate($request->get('date'));
-        $transactions = Transaction::where('created_at', '>=', $date. ' 00:00:00')
-            ->where('created_at', '<=', $date. ' 23:59:59')->get();
+        $transactions = Transaction::where('created_at', '>=', $date . ' 00:00:00')
+            ->where('created_at', '<=', $date . ' 23:59:59')->get();
         $columns = [
             __('id'),
             __('type'),
@@ -42,22 +43,23 @@ class ReportController extends Controller
             __('value'),
             __('description'),
         ];
-        return response()->streamDownload(function() use ($transactions, $columns) {
+        return response()->streamDownload(function () use ($transactions, $columns) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-            foreach($transactions as $transaction) {
+            fputcsv($file, $columns, self::DELIMITER);
+            foreach ($transactions as $transaction) {
                 fputcsv($file, [
                     $transaction->id,
                     __($transaction->type),
                     __($transaction->payment_method),
                     $transaction->value,
                     $transaction->description
-                ], ';');
+                ], self::DELIMITER);
             }
             fclose($file);
-        }, 'transactions-'.$date.'.csv')
+        }, 'transactions-' . $date . '.csv')
             ->setCharset('iso-8859-1');
     }
+
     public function orders(Request $request)
     {
         $request->validate([
@@ -66,8 +68,8 @@ class ReportController extends Controller
         ]);
         $start = $this->removeMaskDate($request->get('start'));
         $end = $this->removeMaskDate($request->get('end'));
-        $orders = Order::where('created_at', '>=', $start. ' 00:00:00')
-            ->where('created_at', '<=', $end. ' 23:59:59')->get();
+        $orders = Order::where('created_at', '>=', $start . ' 00:00:00')
+            ->where('created_at', '<=', $end . ' 23:59:59')->get();
         $columns = [
             __('id'),
             __('status'),
@@ -91,10 +93,10 @@ class ReportController extends Controller
             __('address_neighborhood'),
             __('address_complement')
         ];
-        return response()->streamDownload(function() use ($orders, $columns) {
+        return response()->streamDownload(function () use ($orders, $columns) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-            foreach($orders as $order) {
+            fputcsv($file, $columns, self::DELIMITER);
+            foreach ($orders as $order) {
                 fputcsv($file, [
                     $order->id,
                     $order->status,
@@ -117,10 +119,10 @@ class ReportController extends Controller
                     $order->address_state,
                     $order->address_neighborhood,
                     $order->address_complement,
-                ],';');
+                ], self::DELIMITER);
             }
             fclose($file);
-        }, 'orders-'.$start.'-'.$end.'.csv')
+        }, 'orders-' . $start . '-' . $end . '.csv')
             ->setCharset('iso-8859-1');
     }
 }

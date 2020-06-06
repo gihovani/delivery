@@ -2,7 +2,7 @@
 @section('breadcrumb')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{route('home')}}">{{__('Home')}}</a></li>
-        <li class="breadcrumb-item"><a href="{{route('items.index')}}">{{ __('Product Items') }}</a></li>
+        <li class="breadcrumb-item"><a href="{{route('items.index')}}">{{ __('Items') }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{__('Edit Data')}}</li>
     </ol>
 @endsection
