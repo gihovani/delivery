@@ -6,7 +6,8 @@
 {{__('Subtotal')}}: {{$order->subtotal_formated}}
 {{__('Shipping Amount')}}: {{$order->shipping_amount_formated}}
 {{__('Discount')}}: {{$order->discount_formated}}
-{{__('Total')}}: {{$order->total_formated}}
+{{__('Additional Amount')}}: {{$order->additional_amount_formated}}
+{{__('Amount')}}: {{$order->amount_formated}}
 {{__($order->payment_method)}}@if($order->cash_amount > 0): {{$order->cash_amount_formated}}@endif
 @if($order->back_change > 0)Troco: {{$order->back_change_formated}}@endif
 

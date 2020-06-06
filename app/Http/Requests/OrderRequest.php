@@ -33,7 +33,8 @@ class OrderRequest extends FormRequest
             'subtotal' => ['required', 'string'],
             'discount' => ['required', 'string'],
             'shipping_amount' => ['required', 'string'],
-            'total' => ['required', 'string'],
+            'additional_amount' => ['required', 'string'],
+            'amount' => ['required', 'string'],
             'cash_amount' => ['nullable', 'string'],
             'back_change' => ['nullable', 'string'],
         ];

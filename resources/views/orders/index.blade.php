@@ -35,7 +35,7 @@
                                 <th width="5%">{{__('Id')}}</th>
                                 <th width="12%">{{__('Created At')}}</th>
                                 <th width="13%">{{__('Expected At')}}</th>
-                                <th width="10%">{{__('Total')}}</th>
+                                <th width="10%">{{__('Amount')}}</th>
                                 <th width="30%">{{__('Customer')}}</th>
                                 <th width="10%">{{__('Status')}}</th>
                                 <th width="20%">{{__('Action')}}</th>
@@ -47,9 +47,11 @@
             </div>
         </div>
     </div>
+    @include('orders.modals.status-modal', ['modalId' => 'status-modal'])
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var actionUrl = '{{ route('orders.index') }}';
+            var $statusModal = $('#status-modal');
             var table = $('.data-table').DataTable({
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json'
@@ -67,7 +69,7 @@
                     },
                     {data: 'created_at'},
                     {data: 'expected_at'},
-                    {data: 'total_formated', name: 'total'},
+                    {data: 'amount_formated', name: 'amount'},
                     {
                         data: 'customer_name', render: function (data, type, row) {
                             if (type === 'display') {
@@ -105,19 +107,19 @@
 
                             return (type === 'display') ? (
                                 ((statusNotPermited.concat('{{__('processing')}}').indexOf(row.status) >= 0) ? '' :
-                                    '<a class="btn btn-status btn-outline-info" title="{{ __('processing') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/processing">' +
+                                    '<a class="btn btn-status btn-outline-info" title="{{ __('processing') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/processing">' +
                                     '<i class="fas fa-tasks"></i>' +
                                     '</a>\n') +
                                 ((statusNotPermited.concat('{{__('delivery')}}').indexOf(row.status) >= 0) ? '' :
-                                    '<a class="btn btn-status btn-outline-success" title="{{ __('delivery') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/delivery">' +
+                                    '<a class="btn btn-status btn-outline-success" title="{{ __('delivery') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/delivery">' +
                                     '   <i class="fas fa-motorcycle"></i>' +
                                     '</a>\n') +
                                 ((statusNotPermited.indexOf(row.status) >= 0) ? '' :
-                                    '<a class="btn btn-status btn-outline-success" title="{{ __('complete') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/complete">' +
+                                    '<a class="btn btn-status btn-outline-success" title="{{ __('complete') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/complete">' +
                                     '   <i class="fas fa-check"></i>' +
                                     '</a>\n') +
                                 ((statusNotPermited.indexOf(row.status) >= 0) ? '' :
-                                    '<a class="btn btn-status btn-outline-danger" title="{{ __('canceled') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/canceled">' +
+                                    '<a class="btn btn-status btn-outline-danger" title="{{ __('canceled') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/canceled">' +
                                     '<i class="far fa-trash-alt"></i>' +
                                     '</a>\n')
                             ) : data;
@@ -125,51 +127,14 @@
                     },
                 ]
             });
-            $('body').on('click', '.btn-status', function (e) {
-                e.preventDefault();
-                var $this = $(this);
-                if (!confirm('{{ __('Are you sure you want to change the status to') }} (' + $this.attr('title') + ')?')) {
-                    return '';
-                }
-                $.ajax({
-                    type: 'GET',
-                    url: $this.attr('href'),
-                    success: function (data) {
-                        myAlert(data.message);
-                        table.ajax.reload();
-                    },
-                    error: function (xhr) {
-                        var err = eval("(" + xhr.responseText + ")");
-                        alert(err.message);
-                    }
-                });
-            }).on('click', '.btn-show', function () {
-                var $this = $(this);
-                var tr = $this.closest('tr');
-                var row = table.row(tr);
 
-                if (row.child.isShown()) {
-                    // This row is already open - close it
-                    row.child.hide();
-                    $this.find('i').addClass('fa-plus-square').removeClass('fa-minus-square');
-                } else {
-                    // Open this row
-                    if (row.child() && row.child().length) {
-                        row.child.show();
-                    } else {
-                        row.child(formatOrder(row.data()), 'p-0').show();
-                    }
-                    $this.find('i').removeClass('fa-plus-square').addClass('fa-minus-square');
-                }
-            });
-
-            function formatItem(html, item) {
+            var formatItem = function (html, item) {
                 return html + '<li>' + parseInt(item.quantity) + 'x ' + item.name +
                     (item.description ? '(' + item.description + ')' : '') +
                     (item.observation ? '[' + item.observation + ']' : '') + '</li>\n';
-            }
+            };
 
-            function formatOrder(data) {
+            var formatOrder = function (data) {
                 if (!data) {
                     return '';
                 }
@@ -194,7 +159,8 @@
                     '       <label>{{__('Subtotal')}}</label>: ' + data.subtotal_formated + '<br/>' +
                     '       <label>{{__('Shipping Amount')}}</label>: ' + data.shipping_amount_formated + '<br/>' +
                     '       <label>{{__('Discount')}}</label>: ' + data.discount_formated + '<br/>' +
-                    '       <label>{{__('Total')}}</label>: ' + data.total_formated + '<br/>' +
+                    '       <label>{{__('Additional Amount')}}</label>: ' + data.additional_amount_formated + '<br/>' +
+                    '       <label>{{__('Amount')}}</label>: ' + data.amount_formated + '<br/>' +
                     '       <label>{{__('Payment Method')}}</label>: ' + data.payment_method +
                     (data.cash_amount ? ' ' + data.cash_amount_formated : '') +
                     (data.back_change ? ' - {{__('Back Change')}}: ' + data.back_change_formated : '') +
@@ -223,7 +189,43 @@
                     '      <td><ul>' + items + '</ul></td>\n' +
                     '   </tr>\n' +
                     '</table>\n';
-            }
+            };
+
+            $('body').on('click', '.btn-show', function () {
+                var $this = $(this);
+                var tr = $this.closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    $this.find('i').addClass('fa-plus-square').removeClass('fa-minus-square');
+                } else {
+                    // Open this row
+                    if (row.child() && row.child().length) {
+                        row.child.show();
+                    } else {
+                        row.child(formatOrder(row.data()), 'p-0').show();
+                    }
+                    $this.find('i').removeClass('fa-plus-square').addClass('fa-minus-square');
+                }
+            }).on('click', '.btn-status', function (e) {
+                e.preventDefault();
+                var $this = $(this);
+                var $form = $statusModal.find('form');
+                var action = $this.attr('href');
+                var deliveryman_id = $this.data('deliveryman_id');
+                $form.attr('action', action);
+                $form.find('select[name=deliveryman_id]').val(deliveryman_id ?? 0)
+                showModal($statusModal, '{{ __('Are you sure you want to change the status to') }} (' + $this.attr('title') + ')?');
+            });
+            $statusModal.on('saveSuccessEvent', function (e, response) {
+                myAlert(response.message);
+                $statusModal.modal('hide');
+                table.ajax.reload();
+            }).on('saveErrorEvent', function (e, response) {
+                showModalErrors(response);
+            });
         });
     </script>
 @endsection

@@ -50,6 +50,9 @@ class UserController extends Controller
     private function getData(Request $request, $forcePassword = false)
     {
         $data = $request->all();
+        if (isset($data['no-email']) && isset($data['telephone'])) {
+            $data['email'] = $this->onlyNumbers($data['telephone']).User::DEFAULT_EMAIL;
+        }
         if ($forcePassword) {
             $data['password'] = '12345678';
         }

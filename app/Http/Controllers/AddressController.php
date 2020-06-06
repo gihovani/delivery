@@ -29,11 +29,11 @@ class AddressController extends Controller
 
     public function store(AddressRequest $request, User $user)
     {
-        $address = $user->addresses()->create($request->all());
+        $address = $user->addresses()->create($this->getData($request->all()));
         return request()->ajax() ?
             response()
                 ->json(['data' => $address, 'message' => __('Entity saved successfully.')]) :
-            redirect()->route('users.index');
+            redirect()->route('addresses.index', $user);
     }
 
     public function show(User $user, Address $address)
@@ -60,11 +60,11 @@ class AddressController extends Controller
     {
         $this->assertAddressUser($address, $user);
 
-        $address->update($request->all());
+        $address->update($this->getData($request->all()));
         return request()->ajax() ?
             response()
                 ->json(['data' => $address, 'message' => __('Entity updated successfully.')]) :
-            redirect()->route('addresses.index');
+            redirect()->route('addresses.index', $user);
     }
 
     public function destroy(User $user, Address $address)
@@ -75,7 +75,21 @@ class AddressController extends Controller
         return request()->ajax() ?
             response()
                 ->json(['data' => $address, 'message' => __('Entity successfully deleted.')]) :
-            redirect()->route('addresses.index');
+            redirect()->route('addresses.index', $user);
+    }
+
+    private function getData($data)
+    {
+        if (isset($data['no-address'])) {
+            $data['zipcode'] = Address::DEFAULT_ZIPCODE;
+            $data['city'] = Address::DEFAULT_CITY;
+            $data['neighborhood'] = Address::DEFAULT_NEIGHBORHOOD;
+            $data['number'] = Address::DEFAULT_NUMBER;
+            $data['state'] = Address::DEFAULT_STATE;
+            $data['street'] = Address::DEFAULT_STREET;
+            $data['complement'] = '';
+        }
+        return $data;
     }
 
     /**

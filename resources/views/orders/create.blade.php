@@ -83,7 +83,7 @@
                             {!! Form::label('customer-autocomplete', __('Telephone'), ['class' => 'input-group-text']) !!}
                         </div>
                         {!! Form::hidden('customer_id', '', ['id' => 'customer-id']) !!}
-                        {!! Form::text('customer-autocomplete', '', ['required' => true, 'class' => 'form-control input-telephone', 'id' => 'customer-autocomplete']) !!}
+                        {!! Form::text('customer-autocomplete', '(48) ', ['required' => true, 'class' => 'form-control input-telephone', 'id' => 'customer-autocomplete']) !!}
                     </div>
 
                     <div class="input-group has-customer d-none">
@@ -125,11 +125,17 @@
                         </div>
                         {!! Form::text('shipping_amount', '', ['required' => true, 'class' => 'form-control', 'id' => 'shipping-amount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
                     </div>
+                    <div class="input-group has-customer d-none">
+                        <div class="input-group-prepend">
+                            {!! Form::label('additional-amount', __('Additional Amount'), ['class' => 'input-group-text']) !!}
+                        </div>
+                        {!! Form::text('additional_amount', '', ['required' => true, 'class' => 'form-control', 'id' => 'additional-amount', 'data-mask' => '#.##0,00', 'data-mask-reverse' => 'true']) !!}
+                    </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            {!! Form::label('total', __('Total'), ['class' => 'input-group-text']) !!}
+                            {!! Form::label('amount', __('Amount'), ['class' => 'input-group-text']) !!}
                         </div>
-                        {!! Form::text('total', '', ['readonly' => true, 'class' => 'form-control', 'id' => 'total']) !!}
+                        {!! Form::text('amount', '', ['readonly' => true, 'class' => 'form-control', 'id' => 'amount']) !!}
                     </div>
                     <div class="input-group has-customer d-none">
                         <div class="input-group-prepend">
@@ -157,9 +163,9 @@
         </div>
     </div>
 
-    @include('orders.modals.user-modal', ['modal-id' => 'customer-modal'])
-    @include('orders.modals.address-modal', ['modal-id' => 'address-modal'])
-    @include('orders.modals.products-modal', ['modal-id' => 'product-modal'])
+    @include('orders.modals.user-modal', ['modalId' => 'customer-modal'])
+    @include('orders.modals.address-modal', ['modalId' => 'address-modal'])
+    @include('orders.modals.products-modal', ['modalId' => 'product-modal'])
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var variations = @json($variations);
@@ -168,52 +174,6 @@
             var $customerAutoComplete = $('#customer-autocomplete');
             var methodInCash = '{{\App\Order::METHOD_IN_CASH}}';
             var defaultAction = '{{route('users.store')}}';
-
-            var showModalErrors = function (responseError) {
-                var errors = JSON.parse(responseError.responseText);
-                if (!errors || !errors.hasOwnProperty('errors')) {
-                    return '';
-                }
-                for (var error in errors.errors) {
-                    $('.input-' + error).addClass('is-invalid');
-                    $('.invalid-' + error).find('strong')
-                        .html(errors.errors[error]);
-                }
-            };
-
-            var showModal = function ($modal, title) {
-                $('.is-invalid')
-                    .removeClass('is-invalid');
-                $('.invalid-feedback')
-                    .find('strong')
-                    .html('');
-                $modal
-                    .find('.modal-title')
-                    .html(title);
-                $modal.modal('show');
-            };
-
-            var formFieldsToObject = function ($form) {
-                if (!$form.is('form')) {
-                    return {};
-                }
-                var item = {};
-                var formValues = $form.serializeArray();
-                for (var key in formValues) {
-                    var name = formValues[key].name;
-                    var value = formValues[key].value
-                    if (name.indexOf('[]') < 0) {
-                        item[name] = value;
-                    } else {
-                        name = name.replace('[]', '');
-                        if (typeof item[name] === 'undefined') {
-                            item[name] = [];
-                        }
-                        item[name].push(value);
-                    }
-                }
-                return item;
-            };
 
             function Address() {
                 var args = arguments[0];
@@ -283,7 +243,8 @@
                 var items = @json(old('items', []));
                 var discount = 0;
                 var subTotal = 0;
-                var total = 0;
+                var amount = 0;
+                var additionalAmount = 0;
                 var shippingAmount = 0;
                 var cashAmount = 0;
                 var backChange = 0;
@@ -299,20 +260,21 @@
                     return (items.length > 0);
                 };
 
-                var _totalItems = function () {
+                var _calculateValues = function () {
                     subTotal = items.reduce(function (value, item) {
                         return value + (item.price * item.quantity);
                     }, 0);
-                    if ((subTotal + shippingAmount) < discount) {
+                    amount = (subTotal + shippingAmount + additionalAmount);
+                    if (amount < discount) {
                         discount = 0.0;
                     }
-                    total = (subTotal + shippingAmount) - discount;
+                    amount = amount - discount;
 
-                    if ((cashAmount - total) > 0) {
-                        backChange = (cashAmount - total);
+                    if ((cashAmount - amount) > 0) {
+                        backChange = (cashAmount - amount);
                     } else {
                         backChange = 0;
-                        cashAmount = total;
+                        cashAmount = amount;
                     }
 
                 };
@@ -344,18 +306,18 @@
                             '<div class="card mt-3">\n' +
                             '  <div class="card-body position-relative p-2">\n' +
                             '    <div class="row">\n' +
-                            '      <div class="col-md-4">\n' +
-                            '        <img src="' + item.image_url + '" class="card-img" alt="' + item.name + '">\n' +
-                            '      </div>\n' +
-                            '      <div class="col-md-8">\n' +
-                            '        <h5 class="card-title">' + item.name + '</h5>\n' +
+                            // '      <div class="col-md-4">\n' +
+                            // '        <img src="' + item.image_url + '" class="card-img" alt="' + item.name + '">\n' +
+                            // '      </div>\n' +
+                            '      <div class="col-md-12">\n' +
+                            '        <h5 class="card-title mb-1">' + item.name + '</h5>\n' +
                             '      </div>\n' +
                             '    </div>\n' +
                             '    <div class="row">\n' +
                             '      <div class="col-md-12">\n' +
-                            '        <p class="card-text text-center mb-0">' + item.quantity + 'x' + _formatCurrency(item.price) + '</p>\n' +
                             '        <p class="card-text mb-0"><small class="text-muted">' + item.description + '</small></p>\n' +
-                            '        <p class="card-text"><small class="text-muted">' + item.observation + '</small></p>\n' +
+                            '        <p class="card-text mb-1"><small class="text-muted">' + item.observation + '</small></p>\n' +
+                            '        <p class="card-text">' + item.quantity + 'x' + _formatCurrency(item.price) + '</p>\n' +
                             '      </div>\n' +
                             '    </div>\n' +
                             '    <button class="btn btn-outline-danger btn-remove-cart" data-id="' + i + '"><i class="far fa-trash-alt"></i></button>\n' +
@@ -364,17 +326,20 @@
                     }, '');
                 };
                 var _toHtml = function () {
-                    _totalItems();
+                    var paymentMethod = $('#payment-method').val();
+                    _calculateValues();
                     // $('#cart-actions').toggleClass('d-none', !_hasItems());
                     $('#subtotal').val(_formatCurrency(subTotal));
                     $('#discount').val(_formatCurrency(discount));
                     $('#shipping-amount').val(_formatCurrency(shippingAmount));
+                    $('#additional-amount').val(_formatCurrency(additionalAmount));
                     $('#cash-amount').val(_formatCurrency(cashAmount));
                     $('#back-change').val(_formatCurrency(backChange));
-                    $('#total').val(_formatCurrency(total));
+                    $('#amount').val(_formatCurrency(amount));
                     $('#cart-items').html(_htmlItems());
                     $('.has-payment-in-cash')
-                        .toggleClass('d-none', $('#payment-method').val() !== methodInCash);
+                        .toggleClass('d-none', paymentMethod !== methodInCash);
+                    $('#save-order').prop('disabled', (paymentMethod === '0' || !_hasItems()));
                 };
                 _toHtml();
                 return {
@@ -398,7 +363,7 @@
                         }
                         myAlert(item[0].name + ' {{__('has been removed from the cart.')}}');
                     },
-                    setDiscountShippingAmountCashAmount: function (tmpDiscount, tmpShippingValue, tmpCashValue) {
+                    setDiscountShippingAmountCashAmount: function (tmpDiscount, tmpShippingValue, tmpAdditionalAmount, tmpCashValue) {
                         tmpDiscount = (parseFloat(tmpDiscount) / 100);
                         tmpShippingValue = (parseFloat(tmpShippingValue) / 100);
                         tmpCashValue = (parseFloat(tmpCashValue) / 100);
@@ -407,6 +372,7 @@
                         }
                         discount = tmpDiscount;
                         shippingAmount = tmpShippingValue;
+                        additionalAmount = tmpAdditionalAmount;
                         cashAmount = tmpCashValue;
                         this.toHtml();
                         if (tmpCashValue > cashAmount) {
@@ -490,19 +456,19 @@
                 cart.setCashAmount(0);
             }).on('change', '#payment-method', function (e) {
                 e.preventDefault();
-                $('#save-order').prop('disabled', !this.value);
                 cart.setCashAmount(0);
             }).on('blur', '#discount, #shipping-amount, #cash-amount', function (e) {
                 e.preventDefault();
                 var discount = $('#discount').cleanVal();
                 var shippingAmount = $('#shipping-amount').cleanVal();
+                var additionalAmount = $('#additional-amount').cleanVal();
                 var cashAmount = $('#cash-amount').cleanVal();
-                cart.setDiscountShippingAmountCashAmount(discount, shippingAmount, cashAmount);
+                cart.setDiscountShippingAmountCashAmount(discount, shippingAmount, additionalAmount, cashAmount);
             }).on('click', '.btn-new-customer', function (e) {
                 e.preventDefault();
                 $customerAutoComplete.autocomplete('hide');
-                $addressModal.find('form').attr('action', defaultAction);
-                $addressModal.find('input[name=telephone]').val($customerAutoComplete.val());
+                $customerModal.find('form').attr('action', defaultAction);
+                $customerModal.find('input[name=telephone]').val($customerAutoComplete.val());
                 showModal($customerModal, '{{ __('Add New') }}');
             }).on('change', '#customer-address', function (e) {
                 var action = defaultAction + '/' + cart.getCustomer().id + '/addresses';
@@ -513,7 +479,7 @@
                 }
             }).on('click', '#label-customer-address', function (e) {
                 var zipcode = $('#customer-address option:selected').data('zipcode');
-                if (zipcode) {
+                if (zipcode && zipcode !== '{{App\Address::DEFAULT_ZIPCODE}}') {
                     window.open(mapsUrl(zipcode), 'new');
                 } else {
                     myAlert('{{__('Select an address.')}}');
@@ -550,15 +516,19 @@
                 $addressModal.modal('hide');
             }).on('saveErrorEvent', function (e, response) {
                 showModalErrors(response);
+            }).on('hide.bs.modal', function (e) {
+                cart.setCustomer(cart.getCustomer());
             });
             $customerAutoComplete.autocomplete({
                 paramName: 'q',
                 ajaxSettings: {
                     contentType: 'application/json',
                 },
+                zIndex: 1,
+                noCache: true,
                 serviceUrl: '{{route('users.autocomplete')}}',
-                deferRequestBy: 1000,
-                minChars: 3,
+                deferRequestBy: 500,
+                minChars: 10,
                 autoSelectFirst: false,
                 showNoSuggestionNotice: true,
                 noSuggestionNotice: '<a class="btn btn-block btn-outline-secondary btn-new-customer">{{__('Add New')}}</a>',
@@ -569,7 +539,7 @@
                     return {
                         suggestions: $.map(response.data, function (dataItem) {
                             return {
-                                value: dataItem.telephone + ' - ' + dataItem.name,
+                                value: dataItem.telephone,
                                 data: dataItem
                             };
                         })

@@ -73,8 +73,8 @@ class OrderController extends Controller
     {
         $data = $request->all();
         $formatMoney = [
-            'discount', 'shipping_amount', 'subtotal',
-            'total', 'cash_amount', 'back_change'
+            'discount', 'shipping_amount', 'additional_amount',
+            'subtotal', 'amount', 'cash_amount', 'back_change'
         ];
         $subtotal = $this->getTotalItems($request);
         foreach ($formatMoney as $inputKey) {
@@ -89,7 +89,7 @@ class OrderController extends Controller
     private function getTotalItems(Request $request)
     {
         $this->items = [];
-        $total = 0;
+        $amount = 0;
         if ($request->has('items')) {
             $items = $request->post('items');
             foreach ($items as $item) {
@@ -102,21 +102,24 @@ class OrderController extends Controller
                 $item['quantity'] = $quantity;
                 $item['price'] = $product->price;
                 $this->items[] = $item;
-                $total += ($product->price * $quantity);
+                $amount += ($product->price * $quantity);
             }
         }
-        return $total;
+        return $amount;
     }
 
-    public function processing(Order $order)
+    public function processing(Request $request, Order $order)
     {
-        return $this->updateStatus($order, Order::STATUS_PROCESSING, 'The order being produced.');
+        return $this->updateStatus($request, $order, Order::STATUS_PROCESSING, 'The order being produced.');
     }
 
-    private function updateStatus(Order $order, $status, $message)
+    private function updateStatus(Request $request, Order $order, $status, $message)
     {
         if (in_array($order->status, [Order::STATUS_CANCELED, Order::STATUS_COMPLETE])) {
             abort(404, __('Not permited'));
+        }
+        if ($request->has('deliveryman_id')) {
+            $order->deliveryman_id = $request->post('deliveryman_id');
         }
         $order->status = $status;
         $order->save();
@@ -135,19 +138,19 @@ class OrderController extends Controller
             redirect()->route('orders.index');
     }
 
-    public function delivery(Order $order)
+    public function delivery(Request $request, Order $order)
     {
-        return $this->updateStatus($order, Order::STATUS_DELIVERY, 'The order is pending delivery.');
+        return $this->updateStatus($request, $order, Order::STATUS_DELIVERY, 'The order is pending delivery.');
     }
 
-    public function complete(Order $order)
+    public function complete(Request $request, Order $order)
     {
-        return $this->updateStatus($order, Order::STATUS_COMPLETE, 'The order has been completed.');
+        return $this->updateStatus($request, $order, Order::STATUS_COMPLETE, 'The order has been completed.');
     }
 
-    public function canceled(Order $order)
+    public function canceled(Request $request, Order $order)
     {
-        return $this->updateStatus($order, Order::STATUS_CANCELED, 'The order has been canceled.');
+        return $this->updateStatus($request, $order, Order::STATUS_CANCELED, 'The order has been canceled.');
     }
 
     public function print(Order $order)

@@ -97,7 +97,7 @@ class ProductSeeder extends Seeder
         $product = factory(App\Product::class)
             ->create([
                 'category_id' => 2,
-                'name' => 'Cervejas 350ml (lata)',
+                'name' => 'Cerveja 350ml (lata)',
                 'pieces' => 1,
                 'price' => 5,
                 'description' => ''
@@ -112,7 +112,7 @@ class ProductSeeder extends Seeder
         $product = factory(App\Product::class)
             ->create([
                 'category_id' => 2,
-                'name' => 'Cervejas Long Neck',
+                'name' => 'Cerveja Long Neck',
                 'pieces' => 1,
                 'price' => 7,
                 'description' => ''

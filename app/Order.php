@@ -9,8 +9,8 @@ class Order extends Model
 {
     protected $fillable = [
         'customer_id', 'deliveryman_id', 'address_id', 'payment_method',
-        'cash_amount', 'total', 'back_change', 'subtotal', 'discount',
-        'shipping_amount'
+        'cash_amount', 'amount', 'back_change', 'subtotal', 'discount',
+        'shipping_amount', 'additional_amount'
     ];
     protected $dates = ['created_at', 'updated_at', 'expected_at'];
 
@@ -104,9 +104,9 @@ class Order extends Model
         return $this->formatMoney($this->cash_amount);
     }
 
-    public function getTotalFormatedAttribute()
+    public function getAmountFormatedAttribute()
     {
-        return $this->formatMoney($this->total);
+        return $this->formatMoney($this->amount);
     }
 
     public function getSubtotalFormatedAttribute()
@@ -127,5 +127,9 @@ class Order extends Model
     public function getShippingAmountFormatedAttribute()
     {
         return $this->formatMoney($this->shipping_amount);
+    }
+    public function getAdditionalAmountFormatedAttribute()
+    {
+        return $this->formatMoney($this->additional_amount);
     }
 }

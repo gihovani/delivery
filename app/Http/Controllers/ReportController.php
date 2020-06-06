@@ -52,10 +52,11 @@ class ReportController extends Controller
                     __($transaction->payment_method),
                     $transaction->value,
                     $transaction->description
-                ]);
+                ], ';');
             }
             fclose($file);
-        }, 'transactions-'.$date.'.csv');
+        }, 'transactions-'.$date.'.csv')
+            ->setCharset('iso-8859-1');
     }
     public function orders(Request $request)
     {
@@ -71,10 +72,11 @@ class ReportController extends Controller
             __('id'),
             __('status'),
             __('payment_method'),
-            __('subtotal'),
-            __('total'),
             __('discount'),
             __('shipping_amount'),
+            __('additional_amount_amount'),
+            __('subtotal'),
+            __('amount'),
             __('cash_amount'),
             __('back_change'),
             __('customer_name'),
@@ -94,17 +96,31 @@ class ReportController extends Controller
             fputcsv($file, $columns);
             foreach($orders as $order) {
                 fputcsv($file, [
-                    $order->id,__($order->status),__($order->payment_method),
-                    $order->subtotal_formated,$order->total_formated,$order->discount_formated,
-                    $order->shipping_amount_formated,$order->cash_amount_formated,
-                    $order->back_change_formated,$order->customer_name,$order->customer_telephone,
-                    $order->deliveryman_name,$order->deliveryman_telephone,$order->address_zipcode,
-                    $order->address_street,$order->address_number,$order->address_city,
-                    $order->address_state,$order->address_neighborhood,
-                    $order->address_complement
-                ]);
+                    $order->id,
+                    $order->status,
+                    $order->payment_method,
+                    $order->discount,
+                    $order->shipping_amount,
+                    $order->additional_amount_amount,
+                    $order->subtotal,
+                    $order->amount,
+                    $order->cash_amount,
+                    $order->back_change,
+                    $order->customer_name,
+                    $order->customer_telephone,
+                    $order->deliveryman_name,
+                    $order->deliveryman_telephone,
+                    $order->address_zipcode,
+                    $order->address_street,
+                    $order->address_number,
+                    $order->address_city,
+                    $order->address_state,
+                    $order->address_neighborhood,
+                    $order->address_complement,
+                ],';');
             }
             fclose($file);
-        }, 'orders-'.$start.'-'.$end.'.csv');
+        }, 'orders-'.$start.'-'.$end.'.csv')
+            ->setCharset('iso-8859-1');
     }
 }

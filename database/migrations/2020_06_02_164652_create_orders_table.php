@@ -21,7 +21,8 @@ class CreateOrdersTable extends Migration
             $table->string('payment_method')
                 ->default(\App\Order::METHOD_SUBSIDIZED);
             $table->decimal('subtotal');
-            $table->decimal('total');
+            $table->decimal('amount');
+            $table->decimal('additional_amount')->default(0);
             $table->decimal('discount')->default(0);
             $table->decimal('shipping_amount')->default(0);
             $table->decimal('cash_amount')->default(0);

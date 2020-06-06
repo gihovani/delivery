@@ -169,6 +169,52 @@
         }
         return '<a href="' + whatsAppUrl(telephone) + '" target="_blank"><i class="fab fa-whatsapp"></i> ' + telephone + '</a>';
     }
+
+    function showModalErrors(responseError) {
+        var errors = JSON.parse(responseError.responseText);
+        if (!errors || !errors.hasOwnProperty('errors')) {
+            return '';
+        }
+        for (var error in errors.errors) {
+            $('.input-' + error).addClass('is-invalid');
+            $('.invalid-' + error).find('strong')
+                .html(errors.errors[error]);
+        }
+    }
+
+    function showModal($modal, title) {
+        $('.is-invalid')
+            .removeClass('is-invalid');
+        $('.invalid-feedback')
+            .find('strong')
+            .html('');
+        $modal
+            .find('.modal-title')
+            .html(title);
+        $modal.modal('show');
+    }
+
+    function formFieldsToObject($form) {
+        if (!$form.is('form')) {
+            return {};
+        }
+        var item = {};
+        var formValues = $form.serializeArray();
+        for (var key in formValues) {
+            var name = formValues[key].name;
+            var value = formValues[key].value
+            if (name.indexOf('[]') < 0) {
+                item[name] = value;
+            } else {
+                name = name.replace('[]', '');
+                if (typeof item[name] === 'undefined') {
+                    item[name] = [];
+                }
+                item[name].push(value);
+            }
+        }
+        return item;
+    }
 </script>
 @yield('scripts')
 </body>

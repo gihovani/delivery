@@ -1,5 +1,4 @@
-<?php $prependId = $modalId ?? ''; ?>
-<?php $modalId = $modalId ?? 'address-modal'; ?>
+<?php $modalId = $modalId ?? 'status-modal'; ?>
 <!-- Add and Edit customer modal -->
 <div class="modal fade" id="{{$modalId}}" aria-hidden="true">
     <div class="modal-dialog">
@@ -10,7 +9,15 @@
             <div class="modal-body">
                 <form action="" method="POST">
                     @csrf
-                    @include('addresses._form', compact('prependId'))
+                    <div class="form-group row">
+                        {!! Form::label('deliveryman-id', __('Deliveryman'), ['class' => 'col-md-4 col-form-label text-md-right']) !!}
+                        <div class="col-md-8">
+                            {!! Form::select('deliveryman_id',\App\User::getDeliveryman(),'0',['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control'.($errors->has('deliveryman_id') ? ' is-invalid' : ''), 'id'=> 'deliveryman-id']) !!}
+                            <span class="invalid-feedback invalid-deliveryman_id" role="alert">
+                                <strong>@error('deliveryman_id') {{ $message }} @enderror</strong>
+                            </span>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                             <button type="button" class="btn btn-secondary"

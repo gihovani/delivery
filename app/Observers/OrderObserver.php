@@ -10,27 +10,12 @@ use App\User;
 
 class OrderObserver
 {
-    /**
-     * Handle the order "creating" event.
-     *
-     * @param \App\Order $order
-     * @return void
-     */
     public function creating(Order $order)
     {
+        $order = $this->setDeliveryman($order);
         if ($user = $this->getUser($order->customer_id)) {
             $order->customer_name = $user->name;
             $order->customer_telephone = $user->telephone;
-        }
-
-        if ($user = $this->getUser($order->deliveryman_id)) {
-            $order->deliveryman_name = $user->name;
-            $order->deliveryman_telephone = $user->telephone;
-        } else {
-            $order->deliveryman_id = null;
-            $order->deliveryman_name = __(User::DELIVERY_PICK_UP_IN_STORE);
-            $order->deliveryman_telephone = '';
-            $order->address_id = null;
         }
 
         $order->expected_at = time() + (intval(Config::getValue('waiting_time')) * 60);
@@ -45,19 +30,18 @@ class OrderObserver
         }
     }
 
-    public function updated(Order $order)
+    private function setDeliveryman(Order $order)
     {
-        if ($order->status !== $order->getOriginal('status')
-            && $order->status === Order::STATUS_COMPLETE
-            && $order->payment_method !== Order::METHOD_SUBSIDIZED
-        ) {
-            Transaction::create([
-                'type' => Transaction::TYPE_SALE,
-                'value' => $order->total,
-                'payment_method' => $order->payment_method,
-                'description' => __('Order'). ': #'.$order->id
-            ]);
+        if ($user = $this->getUser($order->deliveryman_id)) {
+            $order->deliveryman_name = $user->name;
+            $order->deliveryman_telephone = $user->telephone;
+        } else {
+            $order->deliveryman_id = null;
+            $order->deliveryman_name = __(User::DELIVERY_PICK_UP_IN_STORE);
+            $order->deliveryman_telephone = '';
+            $order->address_id = null;
         }
+        return $order;
     }
 
     private function getUser($userId)
@@ -74,5 +58,25 @@ class OrderObserver
             return null;
         }
         return Address::where('id', $addressId)->first();
+    }
+
+    public function updating(Order $order)
+    {
+        $order = $this->setDeliveryman($order);
+    }
+
+    public function updated(Order $order)
+    {
+        if ($order->status !== $order->getOriginal('status')
+            && $order->status === Order::STATUS_COMPLETE
+            && $order->payment_method !== Order::METHOD_SUBSIDIZED
+        ) {
+            Transaction::create([
+                'type' => Transaction::TYPE_SALE,
+                'value' => $order->amount,
+                'payment_method' => $order->payment_method,
+                'description' => __('Order') . ': #' . $order->id
+            ]);
+        }
     }
 }

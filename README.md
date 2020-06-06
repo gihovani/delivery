@@ -18,6 +18,7 @@ artisan migrate
 artisan db:seed
 artisan storage:link
 artisan serve
+chmod 755 -R public/storage/
 open http://127.0.0.1:8000
 login with credentials: teste@teste.com / abcd1234
 that's all

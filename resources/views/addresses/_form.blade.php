@@ -1,17 +1,22 @@
+<?php $prependId = $prependId ?? ''; ?>
 <div class="form-group row">
-    {!! Form::label('zipcode', __('Zip Code'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
+    {!! Form::label($prependId.'zipcode', __('Zip Code'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('zipcode',$address->zipcode ?? '',['required' => true, 'autofocus' => 'true', 'disabled' => (isset($disabled)), 'autocomplete' => 'zipcode', 'data-mask' => '00000-000', 'class'=>'form-control input-zipcode'.($errors->has('zipcode') ? ' is-invalid' : '') ]) !!}
-
+        {!! Form::text('zipcode',$address->zipcode ?? '',['required' => true, 'autofocus' => 'true', 'disabled' => (isset($disabled)), 'autocomplete' => 'zipcode', 'data-mask' => '00000-000', 'class'=>'form-control input-zipcode'.($errors->has('zipcode') ? ' is-invalid' : ''), 'id' => $prependId.'zipcode' ]) !!}
         <span class="invalid-feedback invalid-zipcode" role="alert">
             <strong>@error('zipcode') {{ $message }} @enderror</strong>
         </span>
+        <small class="form-text text-muted"><a href="{{App\Config::MAPS_API}}" target="_blank">{{__('Search Address on Google Maps')}}</a></small>
+        <div class="form-check">
+            {!! Form::checkbox('no-address', 1, '', ['class'=>'form-check-input no-address', 'id' => $prependId.'no-address']) !!}
+            {!! Form::label($prependId.'no-address', __('No Address'),['class'=>'form-check-label']) !!}
+        </div>
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('street', __('Street'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('street',$address->street ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'street', 'class'=>'form-control input-street'.($errors->has('street') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('street',$address->street ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'street', 'class'=>'form-control input-street'.($errors->has('street') ? ' is-invalid' : ''), 'id' => $prependId.'street' ]) !!}
 
         <span class="invalid-feedback invalid-street" role="alert">
             <strong>@error('street') {{ $message }} @enderror</strong>
@@ -21,7 +26,7 @@
 <div class="form-group row">
     {!! Form::label('number', __('Number'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('number',$address->number ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'number', 'class'=>'form-control input-number'.($errors->has('number') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('number',$address->number ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'number', 'class'=>'form-control input-number'.($errors->has('number') ? ' is-invalid' : ''), 'id' => $prependId.'number' ]) !!}
 
         <span class="invalid-feedback invalid-number" role="alert">
             <strong>@error('number') {{ $message }} @enderror</strong>
@@ -31,7 +36,7 @@
 <div class="form-group row">
     {!! Form::label('complement', __('Complement'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('complement',$address->complement ?? '',['disabled' => (isset($disabled)), 'autocomplete' => 'complement', 'class'=>'form-control input-complement'.($errors->has('complement') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('complement',$address->complement ?? '',['disabled' => (isset($disabled)), 'autocomplete' => 'complement', 'class'=>'form-control input-complement'.($errors->has('complement') ? ' is-invalid' : ''), 'id' => $prependId.'complement' ]) !!}
 
         <span class="invalid-feedback invalid-complement" role="alert">
             <strong>@error('complement') {{ $message }} @enderror</strong>
@@ -41,7 +46,7 @@
 <div class="form-group row">
     {!! Form::label('neighborhood', __('Neighborhood'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('neighborhood',$address->neighborhood ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'neighborhood input-neighborhood', 'class'=>'form-control'.($errors->has('neighborhood') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('neighborhood',$address->neighborhood ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'neighborhood', 'class'=>'form-control input-neighborhood'.($errors->has('neighborhood') ? ' is-invalid' : ''), 'id' => $prependId.'neighborhood' ]) !!}
 
         <span class="invalid-feedback invalid-neighborhood" role="alert">
             <strong>@error('neighborhood') {{ $message }} @enderror</strong>
@@ -51,7 +56,7 @@
 <div class="form-group row">
     {!! Form::label('city', __('City'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('city',$address->zipcode ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'city', 'class'=>'form-control input-city'.($errors->has('city') ? ' is-invalid' : '') ]) !!}
+        {!! Form::text('city',$address->zipcode ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'city', 'class'=>'form-control input-city'.($errors->has('city') ? ' is-invalid' : ''), 'id' => $prependId.'city' ]) !!}
 
         <span class="invalid-feedback invalid-city" role="alert">
             <strong>@error('city') {{ $message }} @enderror</strong>
@@ -61,7 +66,7 @@
 <div class="form-group row">
     {!! Form::label('state', __('State'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::select('state',\App\Address::ufs(),$address->state ?? '',['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control input-state'.($errors->has('state') ? ' is-invalid' : '') ]) !!}
+        {!! Form::select('state',\App\Address::ufs(),$address->state ?? '',['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control input-state'.($errors->has('state') ? ' is-invalid' : ''), 'id' => $prependId.'state' ]) !!}
 
         <span class="invalid-feedback invalid-state" role="alert">
             <strong>@error('state') {{ $message }} @enderror</strong>
@@ -70,13 +75,14 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        var $zipcode = $('.input-zipcode');
         var $street = $('.input-street');
         var $neighborhood = $('.input-neighborhood');
         var $city = $('.input-city');
         var $state = $('.input-state');
         var $number = $('.input-number');
         var $complement = $('.input-complement');
-        var oldCep = '';
+        var oldCep = '{{$address->zipcode ?? ''}}';
 
         function clearFields() {
             $street.val('');
@@ -95,29 +101,52 @@
             $complement.prop('readonly', property);
         }
 
+        $('.no-address').on('change', function () {
+            var zipcode = '';
+            var street = '';
+            var neighborhood = '';
+            var city = '';
+            var state = '';
+            var number = '';
+            if ($(this).prop('checked')) {
+                zipcode = '{{App\Address::DEFAULT_ZIPCODE}}';
+                street = '{{App\Address::DEFAULT_STREET}}';
+                neighborhood = '{{App\Address::DEFAULT_NEIGHBORHOOD}}';
+                city = '{{App\Address::DEFAULT_CITY}}';
+                state = '{{App\Address::DEFAULT_STATE}}';
+                number = '{{App\Address::DEFAULT_NUMBER}}';
+            }
+            $zipcode.val(zipcode);
+            $street.val(street);
+            $neighborhood.val(neighborhood);
+            $city.val(city);
+            $state.val(state);
+            $number.val(number);
+            $complement.val('');
+        });
         //Quando o campo cep perde o foco.
-        $('.input-zipcode').blur(function() {
+        $zipcode.blur(function() {
             //Nova variável 'cep' somente com dígitos.
-            var cep = $(this).val().replace(/\D/g, '');
+            var cep = $(this).val();
             if (cep === oldCep) {
                 return '';
             }
 
-            oldCep = cep;
+            oldCep = cep.replace(/\D/g, '');
             //Verifica se campo cep possui valor informado.
-            if (cep.length !== 8) {
+            if (oldCep.length !== 8) {
                 clearFields();
-                alert('Formato de CEP inválido.');
+                myAlert('{{__('Invalid Zip Code.')}}');
             }
 
             //Expressão regular para validar o CEP.
             var validacep = /^[0-9]{8}$/;
 
             //Valida o formato do CEP.
-            if(validacep.test(cep)) {
+            if(validacep.test(oldCep)) {
                 readOnlyFields(true);
                 //Consulta o webservice viacep.com.br/
-                $.getJSON('https://viacep.com.br/ws/'+ cep +'/json/?callback=?', function(dados) {
+                $.getJSON('https://viacep.com.br/ws/'+ oldCep +'/json/?callback=?', function(dados) {
                     readOnlyFields(false);
                     if (!('erro' in dados)) {
                         //Atualiza os campos com os valores da consulta.
@@ -129,7 +158,7 @@
                     else {
                         //CEP pesquisado não foi encontrado.
                         clearFields();
-                        myAlert('CEP não encontrado.');
+                        myAlert('{{__('Zip Code not found.')}}');
                     }
                 });
             } //end if

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
-
+    const DEFAULT_EMAIL = '@noemail.com';
     const ROLE_CUSTOMER = 'customer';
     const ROLE_ADMIN = 'admin';
     const ROLE_DELIVERYMAN = 'deliveryman';
