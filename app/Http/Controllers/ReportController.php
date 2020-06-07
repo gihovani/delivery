@@ -43,21 +43,30 @@ class ReportController extends Controller
             __('value'),
             __('description'),
         ];
-        return response()->streamDownload(function () use ($transactions, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns, self::DELIMITER);
-            foreach ($transactions as $transaction) {
-                fputcsv($file, [
-                    $transaction->id,
-                    __($transaction->type),
-                    __($transaction->payment_method),
-                    $transaction->value,
-                    $transaction->description
-                ], self::DELIMITER);
-            }
-            fclose($file);
-        }, 'transactions-' . $date . '.csv')
-            ->setCharset('iso-8859-1');
+        return response()
+            ->streamDownload(function () use ($transactions, $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $this->convertToISOCharset($columns), self::DELIMITER);
+                foreach ($transactions as $transaction) {
+                    fputcsv($file, $this->convertToISOCharset([
+                        $transaction->id,
+                        __($transaction->type),
+                        __($transaction->payment_method),
+                        $transaction->value,
+                        $transaction->description
+                    ]), self::DELIMITER);
+                }
+                fclose($file);
+            }, 'transactions-' . $date . '.csv')
+            ->setCharset('windows-1252');
+    }
+
+    private function convertToISOCharset($array)
+    {
+        foreach ($array as $key => $value) {
+            $array[$key] = is_array($value) ? $this->convertToISOCharset($value) : mb_convert_encoding($value, 'UTF-16LE', 'UTF-8');;
+        }
+        return $array;
     }
 
     public function orders(Request $request)
@@ -76,7 +85,7 @@ class ReportController extends Controller
             __('payment_method'),
             __('discount'),
             __('shipping_amount'),
-            __('additional_amount_amount'),
+            __('additional_amount'),
             __('subtotal'),
             __('amount'),
             __('cash_amount'),
@@ -93,36 +102,37 @@ class ReportController extends Controller
             __('address_neighborhood'),
             __('address_complement')
         ];
-        return response()->streamDownload(function () use ($orders, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns, self::DELIMITER);
-            foreach ($orders as $order) {
-                fputcsv($file, [
-                    $order->id,
-                    $order->status,
-                    $order->payment_method,
-                    $order->discount,
-                    $order->shipping_amount,
-                    $order->additional_amount_amount,
-                    $order->subtotal,
-                    $order->amount,
-                    $order->cash_amount,
-                    $order->back_change,
-                    $order->customer_name,
-                    $order->customer_telephone,
-                    $order->deliveryman_name,
-                    $order->deliveryman_telephone,
-                    $order->address_zipcode,
-                    $order->address_street,
-                    $order->address_number,
-                    $order->address_city,
-                    $order->address_state,
-                    $order->address_neighborhood,
-                    $order->address_complement,
-                ], self::DELIMITER);
-            }
-            fclose($file);
-        }, 'orders-' . $start . '-' . $end . '.csv')
-            ->setCharset('iso-8859-1');
+        return response()
+            ->streamDownload(function () use ($orders, $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $this->convertToISOCharset($columns), self::DELIMITER);
+                foreach ($orders as $order) {
+                    fputcsv($file, $this->convertToISOCharset([
+                        $order->id,
+                        $order->status,
+                        $order->payment_method,
+                        $order->discount,
+                        $order->shipping_amount,
+                        $order->additional_amount,
+                        $order->subtotal,
+                        $order->amount,
+                        $order->cash_amount,
+                        $order->back_change,
+                        $order->customer_name,
+                        $order->customer_telephone,
+                        $order->deliveryman_name,
+                        $order->deliveryman_telephone,
+                        $order->address_zipcode,
+                        $order->address_street,
+                        $order->address_number,
+                        $order->address_city,
+                        $order->address_state,
+                        $order->address_neighborhood,
+                        $order->address_complement,
+                    ]), self::DELIMITER);
+                }
+                fclose($file);
+            }, 'orders-' . $start . '-' . $end . '.csv')
+            ->setCharset('windows-1252');
     }
 }

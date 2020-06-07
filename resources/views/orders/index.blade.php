@@ -63,9 +63,12 @@
                 ajax: actionUrl,
                 columns: [
                     {
-                        orderable: false,
-                        data: null,
-                        defaultContent: '<button class="btn btn-show"><i class="far fa-plus-square"></i></button>'
+                        data: 'id', render: function (data, type, row) {
+                            if (type === 'display') {
+                                return '<button class="btn btn-show">' + data + ' <i class="far fa-plus-square"></i></button>'
+                            }
+                            return data;
+                        }
                     },
                     {data: 'created_at'},
                     {data: 'expected_at'},
@@ -90,7 +93,7 @@
                             if (type === 'display') {
                                 return data + (
                                     !row.is_late ? '' :
-                                    '<br/><span class="badge badge-warning">'+row.is_late+'</span>'
+                                        '<br/><span class="badge badge-warning">' + row.is_late + '</span>'
                                 )
                             }
 
@@ -216,7 +219,9 @@
                 var action = $this.attr('href');
                 var deliveryman_id = $this.data('deliveryman_id');
                 $form.attr('action', action);
-                $form.find('select[name=deliveryman_id]').val(deliveryman_id ?? 0)
+                $form.find('select[name=deliveryman_id]')
+                    .val(deliveryman_id ?? 0)
+                    .prop('disabled', deliveryman_id < 1);
                 showModal($statusModal, '{{ __('Are you sure you want to change the status to') }} (' + $this.attr('title') + ')?');
             });
             $statusModal.on('saveSuccessEvent', function (e, response) {
