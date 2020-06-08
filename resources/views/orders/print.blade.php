@@ -27,13 +27,13 @@ Troco: {{$order->back_change_formated}}
 {{$order->address_neighborhood}} {{$order->address_city}}/{{$order->address_state}}
 {{$order->address_zipcode}}
 @endif
+
 {{__('Products')}}:
-1x Pizza Broto Tradicional
-(Baiana)
+@foreach ($order->items as $item)
+{{$item->name}}
+@if($item->description)({{$item->description}})
+@endif
+@if($item->observation){{$item->observation}}
+@endif
 
-1x Pizza Grande Tradicional
-(Atum, Atum)
-[teste]
-
-1x Coca-cola 2L
-(Coca-cola 2L)
+@endforeach

@@ -59,7 +59,7 @@
                                             <div class="input-group-prepend">
                                                 {!! Form::label('variation_'.$product->id, __('Variation').' '.($i+1), ['class' => 'input-group-text']) !!}
                                             </div>
-                                            {!! Form::select('variation[]', $product->getVariationToOptionList(true),'',['required' => true, 'data-position' => $i, 'data-pieces' => $product->pieces, 'data-id' => 'variation_'.$product->id.'_'.$i, 'class' => 'variation-select custom-select']) !!}
+                                            {!! Form::select('variation[]', $product->getVariationToOptionList(true),'',['required' => true, 'data-image_url' => $product->image_url, 'data-position' => $i, 'data-pieces' => $product->pieces, 'data-id' => 'variation_'.$product->id.'_'.$i, 'class' => 'variation-select custom-select']) !!}
                                         </div>
                                     @endfor
                                     {!! Form::textarea('observation','',['placeholder' => __('Observation'), 'class' => 'form-control', 'rows' => 2]) !!}
@@ -234,13 +234,13 @@
                     return items.reduce(function (html, item, i) {
                         return html + '<div class="position-relative">' +
                             item +
-                            '<input type="hidden" name="items[' + i + '][product_id]" value="' + self.id + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][name]" value="' + self.name + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][image_url]" value="' + self.image_url + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][quantity]" value="' + self.quantity + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][price]" value="' + self.price + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][description]" value="' + self.description + '">\n' +
-                            '<input type="hidden" name="items[' + i + '][observation]" value="' + self.observation + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][product_id]" value="' + item.id + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][name]" value="' + item.name + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][image_url]" value="' + item.image_url + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][quantity]" value="' + item.quantity + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][price]" value="' + item.price + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][description]" value="' + item.description + '">\n' +
+                            '<input type="hidden" name="items[' + i + '][observation]" value="' + item.observation + '">\n' +
                             '<button class="btn btn-outline-danger btn-remove-cart" data-id="' + i + '"><i class="far fa-trash-alt"></i></button>\n' +
                             '</div>';
                     }, '');
@@ -416,15 +416,13 @@
                         .trigger('blur');
                 }
             }).on('change', '.variation-select', function () {
-                var variation = findInArrayById(variations, this.value);
-                if (!variation) {
-                    return '';
-                }
-
                 var $this = $(this);
+                var variation = findInArrayById(variations, this.value);
+                var imageUrl = (variation) ? variation.image_url : $this.data('image_url');
+
                 var $form = $this.closest('form');
                 var classBackground = ($this.data('pieces') !== 1) ? '.bg-' + $this.data('position') : '.product-img-area';
-                $form.find(classBackground).css('background-image', 'url("' + variation.image_url + '")');
+                $form.find(classBackground).css('background-image', 'url("' + imageUrl + '")');
             });
 
 
