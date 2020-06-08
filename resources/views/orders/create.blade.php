@@ -344,6 +344,9 @@
                             tmpCustomer = new Customer({});
                         }
                         customer = tmpCustomer;
+                        if (customer.addresses && customer.addresses.length > 0) {
+                            this.setShippingAddress(customer.addresses[0]);
+                        }
                         _htmlCustomer();
                     },
                     getCustomer: function () {
@@ -407,7 +410,7 @@
                     myAlert('{{__('Select an address.')}}');
                     return;
                 }
-                window.open(mapsUrl(addr.getMapsUri()), 'new');
+                window.open(mapsUrl(addr), 'new');
             }).on('change', '#deliveryman-id', function () {
                 var $shippingAmount = $('#shipping-amount');
                 $shippingAmount.prop('readonly', (this.value < 1));
