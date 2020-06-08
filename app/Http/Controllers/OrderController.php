@@ -46,13 +46,13 @@ class OrderController extends Controller
 
     private function getAllProducts()
     {
-        $model = Product::orderBy('category_id')->orderBy('name')->get();
+        $model = Product::orderBy('category_id')->orderBy('name', 'desc')->get();
         return ProductResource::collection($model);
     }
 
     private function getAllVariations()
     {
-        return VariationResource::collection(Variation::all());
+        return VariationResource::collection(Variation::orderBy('name')->get());
     }
 
     public function store(OrderRequest $request)
