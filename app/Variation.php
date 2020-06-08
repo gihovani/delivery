@@ -14,7 +14,7 @@ class Variation extends Model
     public static function toOptionList()
     {
         $list = [];
-        $items = parent::all();
+        $items = parent::all()->sortBy('name');
         foreach ($items as $item) {
             $list[$item->id] = $item->name;
         }

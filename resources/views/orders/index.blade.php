@@ -120,10 +120,10 @@
                             var statusNotPermited = ['{{__('canceled')}}', '{{__('complete')}}'];
 
                             return (type === 'display') ? (
-                                ((statusNotPermited.concat('{{__('processing')}}').indexOf(row.status) >= 0) ? '' :
-                                    '<a class="btn btn-status btn-outline-info" title="{{ __('processing') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/processing">' +
-                                    '<i class="fas fa-tasks"></i>' +
-                                    '</a>\n') +
+                                //((statusNotPermited.concat('{{__('processing')}}').indexOf(row.status) >= 0) ? '' :
+                                //    '<a class="btn btn-status btn-outline-info" title="{{ __('processing') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/processing">' +
+                                //    '<i class="fas fa-tasks"></i>' +
+                                //    '</a>\n') +
                                 ((statusNotPermited.concat('{{__('delivery')}}').indexOf(row.status) >= 0) ? '' :
                                     '<a class="btn btn-status btn-outline-success" title="{{ __('delivery') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/delivery">' +
                                     '   <i class="fas fa-motorcycle"></i>' +

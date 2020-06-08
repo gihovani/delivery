@@ -153,6 +153,11 @@ class OrderController extends Controller
 
     public function print(Order $order)
     {
+        if ($order->status === Order::STATUS_PENDING) {
+            $order->status = Order::STATUS_PROCESSING;
+            $order->save();
+        }
+
         $view = view('orders.print', compact('order'));
         return response($view)
             ->header('Content-Type', 'text/plain');
