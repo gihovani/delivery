@@ -13,6 +13,7 @@ class UserSeeder extends Seeder
     {
         factory(App\User::class)->create([
             'email' => 'teste@teste.com',
+            'telephone' => '48996666667',
             'password' => 'abcd1234',
             'roles' => implode(',', App\User::ROLES)
         ]);

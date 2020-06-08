@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        \Illuminate\Support\Facades\DB::unprepared('SET auto_increment_increment=1;');
         $this->call(ConfigSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(AddressSeeder::class);
