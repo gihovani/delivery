@@ -1,10 +1,11 @@
 /node_modules
-/public/hot
+/public/hot/*
 /public/storage
-/public/images
-/public/css
-/public/js
-/public/fonts
+/public/images/*
+/public/css/*
+/public/js/*
+/public/fonts/*
+/v8-compile-cache-0/
 /storage/*.key
 /vendor
 .env
