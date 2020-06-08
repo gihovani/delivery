@@ -28,7 +28,7 @@ class Product extends Model
 
     public function variations()
     {
-        return $this->belongsToMany(Variation::class);
+        return $this->belongsToMany(Variation::class)->orderBy('name');
     }
     public function getPriceFormatedAttribute()
     {
