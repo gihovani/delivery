@@ -1,2 +1,2 @@
-php artisan storage:link
-php artisan migrate
+php artisan storage:link -q
+php artisan migrate -q
