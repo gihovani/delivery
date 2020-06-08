@@ -291,7 +291,7 @@
     }
     function whatsAppUrl(telephone) {
         var whatsAppApi = '{{App\Config::WHATSAPP_API}}';
-        return whatsAppApi + '+55' + telephone.replace(/[^\d]/g, '');
+        return whatsAppApi + telephone.replace(/[^\d]/g, '');
     }
     function mapsUrl(uri) {
         var mapsApi = '{{App\Config::MAPS_API}}{{App\Config::getValue('zipcode')}}/'
