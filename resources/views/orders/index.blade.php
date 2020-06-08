@@ -76,12 +76,23 @@
                     {
                         data: 'customer_name', render: function (data, type, row) {
                             if (type === 'display') {
+                                var addr = new Address({
+                                    id: row.address_id,
+                                    zipcode: row.address_zipcode,
+                                    street: row.address_street,
+                                    number: row.address_number,
+                                    city: row.address_city,
+                                    state: row.address_state,
+                                    neighborhood: row.address_neighborhood,
+                                    complement: row.address_complement
+                                });
                                 return data + (
-                                    !row.customer_telephone ? '' : '<br/>' + whatsAppLink(row.customer_telephone)
+                                    !row.customer_telephone ? '' : ' ' + whatsAppLink(row.customer_telephone)
                                 ) + '<br/>' + (!row.address_id ? row.deliveryman_name : (
-                                        row.address_street + ' ' + row.address_number + ' ' + row.address_complement + '<br/>' +
-                                        row.address_neighborhood + ' ' + row.address_city + '/' + row.address_state + '<br/>' +
-                                        row.address_zipcode
+                                        '<i class="fas fa-motorcycle"></i> ' + row.deliveryman_name + ' ' +
+                                            //'#{{__('Order')}} '+row.id + '\n' + row.customer_name + ' - ' + row.customer_telephone + '\n' + addr + '\n' + addr.complement + '\n' +
+                                        // whatsAppLink(row.customer_telephone, mapsUrl(addr).replace(/ /g, '%2B')) +
+                                        '<br/>' + addr + '<br/>' + addr.complement
                                     )
                                 );
                             }

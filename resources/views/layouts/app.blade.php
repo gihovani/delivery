@@ -17,7 +17,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -41,9 +41,11 @@
             <div class="container">
                 <div class="position-relative">
                     <a href="{{ url('/') }}">
-                        <img src="{{ \App\Config::getValue('image_url') }}" alt="{{ config('app.name', 'Laravel') }}" height="30">
+                        <img src="{{ \App\Config::getValue('image_url') }}" alt="{{ config('app.name', 'Laravel') }}"
+                             height="30">
                         @if(\App\Config::getValue('is_open'))
-                            <span class="badge badge-success position-absolute" style="top: -8px; left: 0">{{\App\Config::getValue('waiting_time')}}</span>
+                            <span class="badge badge-success position-absolute"
+                                  style="top: -8px; left: 0">{{\App\Config::getValue('waiting_time')}}</span>
                         @else
                             <span class="badge badge-danger position-absolute" style="top: -8px; left: 0">-</span>
                         @endif
@@ -186,18 +188,10 @@
         this.complement = (args.complement != undefined) ? args.complement : '';
         this.valid = true;
         var self = this;
-        this.toString = function() {
-            var uri = [];
-            if (self.street.length >= 3) {
-                uri.push(self.street);
-            }
-            if (self.number.length >= 1) {
-                uri.push(self.number);
-            }
-            if (self.zipcode.length === 9) {
-                uri.push(self.zipcode);
-            }
-            return uri.join(', ');
+        this.toString = function () {
+            return self.street + ',' + self.number.length +  ' - ' +
+                self.neighborhood + ', '+ self.city + ' - ' + self.state +
+                ', ' + self.zipcode;
         };
     }
 
@@ -221,7 +215,7 @@
         }
         this.valid = true;
         var self = this;
-        this.toString = function() {
+        this.toString = function () {
             return self.name + ' - ' + self.telephone;
         };
     }
@@ -248,7 +242,7 @@
         this.getTotal = function () {
             return self.quantity * self.price;
         };
-        this.toString = function() {
+        this.toString = function () {
             return '<a name="item' + self.id + '"></a>\n' +
                 '<div class="card mt-3">\n' +
                 '  <div class="card-body p-2">\n' +
@@ -281,7 +275,7 @@
     };
 
     function myAlert(content, title) {
-        if (typeof(title) === 'undefined') {
+        if (typeof (title) === 'undefined') {
             title = '{{__('Attention')}}';
         }
 
@@ -289,20 +283,26 @@
         $('#toast-content').html(content);
         $('#my-alert').toast('show');
     }
+
     function whatsAppUrl(telephone) {
         var whatsAppApi = '{{App\Config::WHATSAPP_API}}';
         return whatsAppApi + telephone.replace(/[^\d]/g, '');
     }
+
     function mapsUrl(uri) {
         var mapsApi = '{{App\Config::MAPS_API}}{{App\Config::getValue('zipcode')}}/'
         return mapsApi + uri;
     }
-    function whatsAppLink(telephone) {
+
+    function whatsAppLink(telephone, message) {
 
         if (telephone.replace(/[^\d]/g, '').length !== 11) {
             return telephone;
         }
-        return '<a href="' + whatsAppUrl(telephone) + '" target="_blank"><i class="fab fa-whatsapp"></i> ' + telephone + '</a>';
+        if (typeof (message) === 'undefined') {
+            message = '';
+        }
+        return '<a href="' + whatsAppUrl(telephone) + '&text=' + encodeURIComponent(message) + '" target="_blank"><i class="fab fa-whatsapp"></i> ' + telephone + '</a>';
     }
 
     function showModalErrors(responseError) {
@@ -328,6 +328,7 @@
             .html(title);
         $modal.modal('show');
     }
+
     function findInArrayById(arr, id) {
         id = parseInt(id);
         for (var key in arr) {

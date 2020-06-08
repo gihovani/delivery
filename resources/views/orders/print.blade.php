@@ -1,3 +1,12 @@
+{{__('Products')}}:
+@foreach ($order->items as $item)
+{{$item->name}}
+@if($item->description)({{$item->description}})
+@endif
+@if($item->observation){{$item->observation}}
+@endif
+@endforeach
+
 {{__('Customer')}}
 {{$order->customer_name}}
 {{__('Telephone')}}: {{$order->customer_telephone}}
@@ -27,13 +36,3 @@ Troco: {{$order->back_change_formated}}
 {{$order->address_neighborhood}} {{$order->address_city}}/{{$order->address_state}}
 {{$order->address_zipcode}}
 @endif
-
-{{__('Products')}}:
-@foreach ($order->items as $item)
-{{$item->name}}
-@if($item->description)({{$item->description}})
-@endif
-@if($item->observation){{$item->observation}}
-@endif
-
-@endforeach
