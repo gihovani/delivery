@@ -31,7 +31,7 @@
                                                 {{__('Last :countDays Days', ['countDays' => $countDays])}}
                                             </h6>
                                             <!-- Heading -->
-                                            <span class="h3 mb-0">{{$amountLast7Days}}</span>
+                                            <span class="h4 mb-0">{{$amountLast7Days}}</span>
                                             <!-- Badge -->
                                             {{--                                <span class="badge badge-soft-success mt-n1">+3.5%</span>--}}
                                         </div>
@@ -56,7 +56,7 @@
                                                 {{__('Orders Placed')}}
                                             </h6>
                                             <!-- Heading -->
-                                            <span class="h3 mb-0">{{$totalOrders}}</span>
+                                            <span class="h4 mb-0">{{$totalOrders}}</span>
                                         </div>
                                         <div class="col-auto">
                                             <!-- Icon -->
@@ -83,7 +83,7 @@
                                             <div class="row align-items-center no-gutters">
                                                 <div class="col-auto">
                                                     <!-- Heading -->
-                                                    <span class="h2 mr-2 mb-0">{{$conversionRate}}%</span>
+                                                    <span class="h4 mr-2 mb-0">{{$conversionRate}}%</span>
                                                 </div>
                                                 <div class="col">
                                                     <!-- Progress -->
@@ -116,7 +116,7 @@
                                                 {{__('Avg Value')}}
                                             </h6>
                                             <!-- Heading -->
-                                            <span class="h3 mb-0">{{$avgLast7Days}}</span>
+                                            <span class="h4 mb-0">{{$avgLast7Days}}</span>
                                         </div>
                                         <div class="col-auto">
                                             <!-- Chart -->
