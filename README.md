@@ -25,6 +25,7 @@ login with credentials: teste@teste.com / abcd1234
 that's all
 ```
 
+
 ## Laravel License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
