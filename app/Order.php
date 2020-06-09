@@ -94,42 +94,42 @@ class Order extends Model
         return $list;
     }
 
-    private function formatMoney($value)
+    public static function formatMoney($value, $currency = 'R$')
     {
-        return 'R$' . number_format($value, 2, ',', '.');
+        return $currency . number_format($value, 2, ',', '.');
     }
 
     public function getCashAmountFormatedAttribute()
     {
-        return $this->formatMoney($this->cash_amount);
+        return self::formatMoney($this->cash_amount);
     }
 
     public function getAmountFormatedAttribute()
     {
-        return $this->formatMoney($this->amount);
+        return self::formatMoney($this->amount);
     }
 
     public function getSubtotalFormatedAttribute()
     {
-        return $this->formatMoney($this->subtotal);
+        return self::formatMoney($this->subtotal);
     }
 
     public function getBackChangeFormatedAttribute()
     {
-        return $this->formatMoney($this->back_change);
+        return self::formatMoney($this->back_change);
     }
 
     public function getDiscountFormatedAttribute()
     {
-        return $this->formatMoney($this->discount);
+        return self::formatMoney($this->discount);
     }
 
     public function getShippingAmountFormatedAttribute()
     {
-        return $this->formatMoney($this->shipping_amount);
+        return self::formatMoney($this->shipping_amount);
     }
     public function getAdditionalAmountFormatedAttribute()
     {
-        return $this->formatMoney($this->additional_amount);
+        return self::formatMoney($this->additional_amount);
     }
 }

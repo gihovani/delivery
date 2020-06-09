@@ -213,18 +213,6 @@
                         backChange = 0;
                         cashAmount = amount;
                     }
-
-                };
-
-                var _itemsQty = function () {
-                    return items.reduce(function (countObj, item) {
-                        if (typeof countObj[item.id] == 'undefined') {
-                            countObj[item.id] = 0;
-                        }
-                        countObj[item.id] += 1;
-
-                        return countObj;
-                    }, {});
                 };
 
                 var _htmlItems = function () {

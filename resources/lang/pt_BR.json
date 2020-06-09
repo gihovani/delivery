@@ -154,5 +154,9 @@
     "No Address": "Sem Endereço",
     "Search Address on Google Maps": "Pesquisar Endereço no Google Maps",
     "Zip Code not found.": "Cep não encontrado.",
-    "Invalid Zip Code.": "Cep inválido"
+    "Invalid Zip Code.": "Cep inválido",
+    "Last :countDays Days": "Últimos :countDays Dias",
+    "Orders Placed": "Pedidos",
+    "Avg Value": "Valor Médio",
+    "Conversion Rate": "Taxa de Conversão"
 }

@@ -12,7 +12,7 @@ class Config extends Model
 
     const DEFAULT_WAITING_TIME = 60;
     const IMAGE_PATH = 'images/';
-    const WHATSAPP_API = 'https://api.whatsapp.com/send?1=pt_BR&phone=+55';
+    const WHATSAPP_API = 'https://api.whatsapp.com/send?lang=pt_br&phone=+55';
     const MAPS_API = 'https://www.google.com.br/maps/dir/';
 
     public static function getValue($config)

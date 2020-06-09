@@ -40,7 +40,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <div class="position-relative">
-                    <a href="{{ url('/') }}">
+                    <a href="{{ url('/home') }}">
                         <img src="{{ \App\Config::getValue('image_url') }}" alt="{{ config('app.name', 'Laravel') }}"
                              height="30">
                         @if(\App\Config::getValue('is_open'))

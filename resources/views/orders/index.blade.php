@@ -90,8 +90,20 @@
                                     !row.customer_telephone ? '' : ' ' + whatsAppLink(row.customer_telephone)
                                 ) + '<br/>' + (!row.address_id ? row.deliveryman_name : (
                                         '<i class="fas fa-motorcycle"></i> ' + row.deliveryman_name + ' ' +
-                                            //'#{{__('Order')}} '+row.id + '\n' + row.customer_name + ' - ' + row.customer_telephone + '\n' + addr + '\n' + addr.complement + '\n' +
-                                        // whatsAppLink(row.customer_telephone, mapsUrl(addr).replace(/ /g, '%2B')) +
+//                                         whatsAppLink(
+//                                             row.customer_telephone, '#{{__('Order')}} '+row.id + '\n' +
+//                                             row.customer_name + ' - ' + row.customer_telephone + '\n' +
+//                                             '{{__('Payment Method')}}: ' + row.payment_method + '\n' +
+//                                             '{{__('Shipping Amount')}}: ' + row.shipping_amount_formated + '\n' +
+//                                             '{{__('Amount')}}: ' + row.amount_formated + '\n' +
+//                                             (!row.back_change ? '' : (
+//                                                 '{{__('Cash Amount')}}: ' + row.cash_amount_formated + '\n' +
+//                                                 '{{__('Back Change')}}: ' + row.back_change_formated + '\n')
+//                                             ) + '\n' +
+//                                             addr + ' - ' + addr.complement + '\n' +
+//                                             mapsUrl(encodeURIComponent(addr)) + '\n' +
+//                                             '---------------------------------------------'
+//                                         ) +
                                         '<br/>' + addr + '<br/>' + addr.complement
                                     )
                                 );
