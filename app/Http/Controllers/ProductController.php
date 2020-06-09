@@ -50,7 +50,7 @@ class ProductController extends Controller
         }
         if ($request->hasFile('image')) {
             $request->file('image')
-                ->storeAs(Product::IMAGE_PATH, $product->image);
+                ->storeAs(Product::getFilePath(), $product->image);
         }
     }
 

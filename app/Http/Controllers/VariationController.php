@@ -79,7 +79,7 @@ class VariationController extends Controller
         }
         if ($request->hasFile('image')) {
             $request->file('image')
-                ->storeAs(Variation::IMAGE_PATH, $variation->image);
+                ->storeAs(Variation::getFilePath(), $variation->image);
         }
     }
 }

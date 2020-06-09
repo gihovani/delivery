@@ -45,20 +45,24 @@ class Config extends Model
         return Str::slug($this->store, '-', 'pt_BR') . '.png';
     }
 
-    public function getImagePathAttribute()
-    {
-        $imagePath = self::IMAGE_PATH . '/';
-        $imageUrl = $imagePath . $this->image;
-        return Storage::path($imageUrl);
-    }
-
     public function getImageUrlAttribute()
     {
         $imagePath = self::IMAGE_PATH . '/';
-        $imageUrl = $imagePath . 'logo.png';
-        if (file_exists($this->image_path)) {
-            $imageUrl = $imagePath . $this->image;
+        $imageUrl = $imagePath . $this->image;
+        if (env('CHECK_IMAGE_PRODUCT_EXIST', 1) &&
+            !Storage::exists($this->image_path)) {
+            $imageUrl = $imagePath . 'logo.png';
         }
         return Storage::url($imageUrl);
+    }
+
+    public static function getFilePath()
+    {
+        return (env('IMAGES_PATH', '') ? env('IMAGES_PATH', '') . '/' : '') . self::IMAGE_PATH . '/';
+    }
+
+    public function getImagePathAttribute()
+    {
+        return self::getFilePath() . $this->image;
     }
 }

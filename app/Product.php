@@ -39,10 +39,14 @@ class Product extends Model
         return Str::slug($this->name, '-', 'pt_BR') . '.png';
     }
 
+    public static function getFilePath()
+    {
+        return (env('IMAGES_PATH', '') ? env('IMAGES_PATH', '') . '/' : '') . self::IMAGE_PATH . '/';
+    }
+
     public function getImagePathAttribute()
     {
-        $imagePath = (env('IMAGES_PATH', '') ? env('IMAGES_PATH', '') . '/' : '') . self::IMAGE_PATH . '/';
-        return $imagePath . $this->image;
+        return self::getFilePath() . $this->image;
     }
 
     public function getImageUrlAttribute()
