@@ -35,7 +35,7 @@ class Variation extends Model
 
     public function getImageUrlAttribute()
     {
-        $imagePath = self::IMAGE_PATH . '/';
+        $imagePath = (env('IMAGES_PATH', '') ? env('IMAGES_PATH', '') . '/' : '') . self::IMAGE_PATH . '/';
         $imageUrl = $imagePath . $this->image;
         if (env('CHECK_IMAGE_PRODUCT_EXIST', 1) &&
             !Storage::exists($this->image_path)) {
