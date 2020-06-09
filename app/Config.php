@@ -11,7 +11,7 @@ class Config extends Model
     protected $fillable = ['store', 'address', 'zipcode', 'telephone', 'is_open', 'waiting_time', 'google_maps'];
 
     const DEFAULT_WAITING_TIME = 60;
-    const IMAGE_PATH = 'images/';
+    const IMAGE_PATH = '';
     const WHATSAPP_API = 'https://api.whatsapp.com/send?lang=pt_br&phone=+55';
     const MAPS_API = 'https://www.google.com.br/maps/dir/';
 
@@ -49,7 +49,7 @@ class Config extends Model
     {
         $imagePath = self::IMAGE_PATH . '/';
         $imageUrl = $imagePath . $this->image;
-        return Storage::disk('public')->path($imageUrl);
+        return Storage::path($imageUrl);
     }
 
     public function getImageUrlAttribute()
@@ -59,6 +59,6 @@ class Config extends Model
         if (file_exists($this->image_path)) {
             $imageUrl = $imagePath . $this->image;
         }
-        return Storage::disk('public')->url($imageUrl);
+        return Storage::url($imageUrl);
     }
 }

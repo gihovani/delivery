@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Product;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProductObserver
 {
@@ -15,10 +16,10 @@ class ProductObserver
      */
     public function updated(Product $product)
     {
-        if (file_exists($product->image_path) && $product->name !== $product->getOriginal('name')) {
+        if (Storage::exists($product->image_path) && $product->name !== $product->getOriginal('name')) {
             $newName = Str::slug($product->name, '-', 'pt_BR') . '.png';
             $newPath = str_replace($product->image, $newName, $product->image_path);
-            rename($product->image_path, $newPath);
+            Storage::move($product->image_path, $newPath);
         }
     }
 
@@ -30,8 +31,8 @@ class ProductObserver
      */
     public function deleted(Product $product)
     {
-        if (file_exists($product->image_path)) {
-            unlink($product->image_path);
+        if (Storage::exists($product->image_path)) {
+            Storage::delete($product->image_path);
         }
     }
 }

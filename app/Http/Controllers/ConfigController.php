@@ -25,7 +25,7 @@ class ConfigController extends Controller
 
         if ($request->hasFile('image')) {
             $request->file('image')
-                ->storeAs(Config::IMAGE_PATH, $config->image, ['disk' => 'public']);
+                ->storeAs(Config::IMAGE_PATH, $config->image);
         }
 
         $config->update($data);

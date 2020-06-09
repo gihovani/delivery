@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    const IMAGE_PATH = 'images/products/';
+    const IMAGE_PATH = 'products';
     protected $fillable = ['category_id', 'name', 'description', 'price', 'pieces'];
 
     public static function toOptionList()
@@ -41,19 +41,19 @@ class Product extends Model
 
     public function getImagePathAttribute()
     {
-        $imagePath = self::IMAGE_PATH . '/';
-        $imageUrl = $imagePath . $this->image;
-        return Storage::disk('public')->path($imageUrl);
+        $imagePath = (env('IMAGES_PATH', '') ? env('IMAGES_PATH', '') . '/' : '') . self::IMAGE_PATH . '/';
+        return $imagePath . $this->image;
     }
 
     public function getImageUrlAttribute()
     {
         $imagePath = self::IMAGE_PATH . '/';
-        $imageUrl = $imagePath . 'noimage' . $this->category_id . '.png';
-        if (file_exists($this->image_path)) {
-            $imageUrl = $imagePath . $this->image;
+        $imageUrl = $imagePath . $this->image;
+        if (env('CHECK_IMAGE_PRODUCT_EXIST', 1) &&
+            !Storage::exists($this->image_path)) {
+            $imageUrl = $imagePath . 'noimage' . $this->category_id . '.png';
         }
-        return Storage::disk('public')->url($imageUrl);
+        return Storage::url($imageUrl);
     }
 
     public function getVariationToOptionList($withEmpty = false)
