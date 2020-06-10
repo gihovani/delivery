@@ -189,9 +189,8 @@
         this.valid = true;
         var self = this;
         this.toString = function () {
-            return self.street + ',' + self.number.length +  ' - ' +
-                self.neighborhood + ', '+ self.city + ' - ' + self.state +
-                ', ' + self.zipcode;
+            return self.street +  ' - ' + self.neighborhood + ', '
+                + self.city + ' - ' + self.state + ', ' + self.zipcode;
         };
     }
 
