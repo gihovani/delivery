@@ -88,7 +88,7 @@
                                 });
                                 return data + (
                                     !row.customer_telephone ? '' : ' ' + whatsAppLink(row.customer_telephone)
-                                ) + '<br/>' + (!row.address_id ? row.deliveryman_name : (
+                                ) + '<br/>' + (!row.address_zipcode ? row.deliveryman_name : (
                                         '<i class="fas fa-motorcycle"></i> ' + row.deliveryman_name + ' ' +
                                          whatsAppLink(
                                              row.customer_telephone, '#{{__('Order')}} '+row.id + '\n' +
