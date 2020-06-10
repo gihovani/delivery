@@ -29,6 +29,6 @@ class Controller extends BaseController
         if (strpos($value, ',')) {
             return floatval(str_replace(['.', ','], ['', '.'], $value));
         }
-        return $value;
+        return floatval($value);
     }
 }

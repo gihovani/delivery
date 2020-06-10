@@ -80,9 +80,11 @@ class OrderController extends Controller
         foreach ($formatMoney as $inputKey) {
             $data[$inputKey] = $this->removeMaskMoney($data[$inputKey]);
         }
-        if ($subtotal > $data['subtotal']) {
-            abort(409);
-        }
+//        $data['subtotal'] = $subtotal;
+//        $data['amount'] = ($subtotal + $data['additional_amount'] + $data['shipping_amount']) - $data['discount'];
+//        if ($subtotal > $data['subtotal']) {
+//            abort(409);
+//        }
         return $data;
     }
 
@@ -92,20 +94,34 @@ class OrderController extends Controller
         $amount = 0;
         if ($request->has('items')) {
             $items = $request->post('items');
+            $productPrices = $this->getProductPrices($items);
             foreach ($items as $item) {
-                $product = Product::where('id', $item['product_id'])->first();
-                if (!$product) {
+                if (!isset($productPrices[$item['product_id']])) {
                     continue;
                 }
-
+                $price = $productPrices[$item['product_id']];
                 $quantity = intval($item['quantity']);
                 $item['quantity'] = $quantity;
-                $item['price'] = $product->price;
+                $item['price'] = $price;
                 $this->items[] = $item;
-                $amount += ($product->price * $quantity);
+                $amount += ($price * $quantity);
             }
         }
         return $amount;
+    }
+
+    private function getProductPrices($items)
+    {
+        $ids = [];
+        foreach ($items as $item) {
+            $ids[] = $item['product_id'];
+        }
+        $ret = [];
+        $products = Product::whereIn('id', $ids)->get(['id', 'price']);
+        foreach ($products as $product) {
+            $ret[$product->id] = $product->price;
+        }
+        return $ret;
     }
 
     public function processing(Request $request, Order $order)
