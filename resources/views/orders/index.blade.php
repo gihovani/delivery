@@ -91,7 +91,7 @@
                                 ) + '<br/>' + (!row.address_zipcode ? row.deliveryman_name : (
                                         '<i class="fas fa-motorcycle"></i> ' + row.deliveryman_name + ' ' +
                                          whatsAppLink(
-                                             row.customer_telephone, '#{{__('Order')}} '+row.id + '\n' +
+                                             row.deliveryman_telephone, '#{{__('Order')}} '+row.id + '\n' +
                                              row.customer_name + ' - ' + row.customer_telephone + '\n' +
                                              '{{__('Payment Method')}}: ' + row.payment_method + '\n' +
                                              '{{__('Shipping Amount')}}: ' + row.shipping_amount_formated + '\n' +
