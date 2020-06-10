@@ -100,11 +100,11 @@
                                                  '{{__('Cash Amount')}}: ' + row.cash_amount_formated + '\n' +
                                                  '{{__('Back Change')}}: ' + row.back_change_formated + '\n')
                                              ) + '\n' +
-                                             addr + ' - N.' + addr.address_number + '\n' + addr.complement + '\n' +
+                                             addr + ' - N.' + addr.number + '\n' + addr.complement + '\n' +
                                              mapsUrl(encodeURIComponent(addr)) + '\n' +
                                              '---------------------------------------------'
                                          ) +
-                                        '<br/>' + addr + ' - N.' + addr.address_number + '\n' + '<br/>' + addr.complement
+                                        '<br/>' + addr + ' - N.' + addr.number + '\n' + '<br/>' + addr.complement
                                     )
                                 );
                             }
