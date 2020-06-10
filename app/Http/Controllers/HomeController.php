@@ -78,11 +78,11 @@ class HomeController extends Controller
     private function countItems(Order $order)
     {
         foreach ($order->items as $item) {
-            if (!isset($this->categories()[$item->product->category_id])) {
-                continue;
+            $category = '-';
+            if (isset($this->categories()[$item->product->category_id])) {
+                $category = $this->categories()[$item->product->category_id];
             }
 
-            $category = $this->categories()[$item->product->category_id];
             if (!isset($this->productsValues[$category])) {
                 $this->productsValues[$category] = 0;
             }
