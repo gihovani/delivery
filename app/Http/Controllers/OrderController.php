@@ -80,8 +80,9 @@ class OrderController extends Controller
         foreach ($formatMoney as $inputKey) {
             $data[$inputKey] = $this->removeMaskMoney($data[$inputKey]);
         }
-//        $data['subtotal'] = $subtotal;
-//        $data['amount'] = ($subtotal + $data['additional_amount'] + $data['shipping_amount']) - $data['discount'];
+        $data['subtotal'] = $subtotal;
+        $data['amount'] = ($subtotal + $data['additional_amount'] + $data['shipping_amount']) - $data['discount'];
+        $data['back_change'] = ($data['cash_amount'] && $data['cash_amount'] > $data['amount']) ? ($data['cash_amount'] - $data['amount']) : 0;
 //        if ($subtotal > $data['subtotal']) {
 //            abort(409);
 //        }
