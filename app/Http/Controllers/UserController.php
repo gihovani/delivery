@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Model;
 use App\User;
 use DataTables;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $customerRole = User::ROLE_CUSTOMER;
-            $query = $this->onlyNumbers($request->input('q'));
+            $query = Model::onlyNumbers($request->input('q'));
             $user = User::where('telephone', 'LIKE', "%{$query}%")
                 ->where('roles', 'LIKE', "%{$customerRole}%")
                 ->get();
@@ -51,7 +52,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         if (isset($data['no-email']) && isset($data['telephone'])) {
-            $data['email'] = $this->onlyNumbers($data['telephone']).User::DEFAULT_EMAIL;
+            $data['email'] = Model::onlyNumbers($data['telephone']).User::DEFAULT_EMAIL;
         }
         if ($forcePassword) {
             $data['password'] = '12345678';

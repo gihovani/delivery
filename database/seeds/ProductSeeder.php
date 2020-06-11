@@ -13,16 +13,13 @@ class ProductSeeder extends Seeder
     {
         $products = [
             'Pizza Grande Tradicional', 'Pizza Broto Tradicional',
-            'Pizza Grande Doce', 'Pizza Broto Doce',
             'Pizza Grande Nobre', 'Pizza Broto Nobre',
         ];
         $prices = [
             24.90, 14.90,
-            24.90, 14.90,
             44.90, 24.90
         ];
         $pieces = [
-            8, 4,
             8, 4,
             8, 4
         ];
@@ -48,7 +45,7 @@ class ProductSeeder extends Seeder
                     'description' => ''
                 ]);
         foreach ($refrigerantes as $variation) {
-            $product->variations()
+            $variationPureza = $product->variations()
                 ->create(['name' => $variation. ' 2L', 'description' => '']);
         }
 
@@ -96,7 +93,7 @@ class ProductSeeder extends Seeder
         $cervejas = ['Skol', 'Budyweiser', 'Amstel', 'Brahma', 'Antartica Subzero'];
         $product = factory(App\Product::class)
             ->create([
-                'category_id' => 2,
+                'category_id' => 3,
                 'name' => 'Cerveja 350ml (lata)',
                 'pieces' => 1,
                 'price' => 5,
@@ -111,7 +108,7 @@ class ProductSeeder extends Seeder
         $cervejas = ['Sol', 'Budyweiser', 'Heineken', 'Eisenbahn', 'Stella Artois'];
         $product = factory(App\Product::class)
             ->create([
-                'category_id' => 2,
+                'category_id' => 3,
                 'name' => 'Cerveja Long Neck',
                 'pieces' => 1,
                 'price' => 7,
@@ -131,7 +128,7 @@ class ProductSeeder extends Seeder
                 'price' => 4.1,
                 'description' => 'Refrigerante para promoção do combo pizza grande + broto doce'
             ])->variations()
-            ->create(['name' => 'Pureza 2L', 'description' => '']);
+            ->attatch([$variationPureza->id]);
 
         factory(App\Product::class)
             ->create([
@@ -141,6 +138,6 @@ class ProductSeeder extends Seeder
                 'price' => 5,
                 'description' => 'Refrigerante para promoção do combo pizza grande'
             ])->variations()
-            ->create(['name' => 'Pureza 2L', 'description' => '']);
+            ->attatch([$variationPureza->id]);
     }
 }

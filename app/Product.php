@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -32,7 +31,7 @@ class Product extends Model
     }
     public function getPriceFormatedAttribute()
     {
-        return 'R$'.number_format($this->price, 2, ',', '.');
+        return self::formatMoney($this->price);
     }
     public function getImageAttribute()
     {

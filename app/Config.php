@@ -2,25 +2,44 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Config extends Model
 {
-    protected $fillable = ['store', 'address', 'zipcode', 'telephone', 'is_open', 'waiting_time', 'google_maps'];
-
     const DEFAULT_WAITING_TIME = 60;
     const IMAGE_PATH = '';
     const WHATSAPP_API = 'https://api.whatsapp.com/send?lang=pt_br&phone=+55';
-    const MAPS_API = 'https://www.google.com.br/maps/dir/';
+    const MAPS_API = 'https://www.google.com.br/maps/dir/%s/';
+    const MAPS_DISTANCE_API = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations={0}&sensor=false';
+    public static $values;
+    protected $fillable = ['store', 'address', 'zipcode', 'latitude', 'longitude', 'telephone', 'is_open', 'shipping_tax', 'waiting_time', 'free_distance', 'google_maps'];
+
+    public static function getWhatsappApi()
+    {
+        return self::WHATSAPP_API;
+    }
+
+    public static function getMapsApi()
+    {
+        return sprintf(self::MAPS_API, self::getValue('zipcode'));
+    }
+
+    public static function getMapsDistanceApi()
+    {
+        return sprintf(self::MAPS_DISTANCE_API, self::getValue('zipcode'));
+    }
 
     public static function getValue($config)
     {
-        $order = self::where('id', 1)->first();
-        $order->image_url = $order->getImageUrlAttribute();
-        return $order->{$config};
+        if (!self::$values) {
+            $config = self::where('id', 1)->first();
+            $config->image_url = $config->getImageUrlAttribute();
+            self::$values = $config;
+        }
+        return self::$values->{$config};
     }
+
     public function getTelephoneAttribute($value)
     {
         $len = strlen($value);
@@ -37,7 +56,7 @@ class Config extends Model
 
     public function setTelephoneAttribute($value)
     {
-        $this->attributes['telephone'] = preg_replace('/\D/', '', $value);
+        $this->attributes['telephone'] = self::onlyNumbers($value);
     }
 
     public function getImageAttribute()
@@ -56,13 +75,13 @@ class Config extends Model
         return Storage::url($imageUrl);
     }
 
-    public static function getFilePath()
-    {
-        return (env('IMAGES_PATH', '') ? env('IMAGES_PATH', '') . '/' : '') . self::IMAGE_PATH . '/';
-    }
-
     public function getImagePathAttribute()
     {
         return self::getFilePath() . $this->image;
+    }
+
+    public static function getFilePath()
+    {
+        return (env('IMAGES_PATH', '') ? env('IMAGES_PATH', '') . '/' : '') . self::IMAGE_PATH . '/';
     }
 }

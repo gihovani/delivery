@@ -284,12 +284,12 @@
     }
 
     function whatsAppUrl(telephone) {
-        var whatsAppApi = '{{App\Config::WHATSAPP_API}}';
+        var whatsAppApi = '{{App\Config::getWhatsappApi()}}';
         return whatsAppApi + telephone.replace(/[^\d]/g, '');
     }
 
     function mapsUrl(uri) {
-        var mapsApi = '{{App\Config::MAPS_API}}{{App\Config::getValue('zipcode')}}/'
+        var mapsApi = '{{App\Config::getMapsApi()}}'
         return mapsApi + uri;
     }
 

@@ -6,7 +6,7 @@
         <span class="invalid-feedback invalid-zipcode" role="alert">
             <strong>@error('zipcode') {{ $message }} @enderror</strong>
         </span>
-        <small class="form-text text-muted"><a href="{{App\Config::MAPS_API}}" target="_blank">{{__('Search Address on Google Maps')}}</a></small>
+        <small class="form-text text-muted"><a href="{{App\Config::getMapsApi()}}" target="_blank">{{__('Search Address on Google Maps')}}</a></small>
         <div class="form-check">
             {!! Form::checkbox('no-address', 1, '', ['class'=>'form-check-input no-address', 'id' => $prependId.'no-address']) !!}
             {!! Form::label($prependId.'no-address', __('No Address'),['class'=>'form-check-label']) !!}

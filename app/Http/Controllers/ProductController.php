@@ -30,7 +30,7 @@ class ProductController extends Controller
     private function getData(Request $request)
     {
         $data = $request->all();
-        $data['price'] = $this->removeMaskMoney($data['price']);
+        $data['price'] = Product::removeMaskMoney($data['price']);
         return $data;
     }
     public function store(ProductRequest $request)

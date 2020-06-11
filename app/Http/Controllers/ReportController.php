@@ -33,7 +33,7 @@ class ReportController extends Controller
     public function transactions(Request $request)
     {
         $request->validate(['date' => 'required|size:10']);
-        $date = $this->removeMaskDate($request->get('date'));
+        $date = Transaction::removeMaskDate($request->get('date'));
         $transactions = Transaction::where('created_at', '>=', $date . ' 00:00:00')
             ->where('created_at', '<=', $date . ' 23:59:59')->get();
         $columns = [
@@ -75,8 +75,8 @@ class ReportController extends Controller
             'start' => 'required|size:10',
             'end' => 'required|size:10',
         ]);
-        $start = $this->removeMaskDate($request->get('start'));
-        $end = $this->removeMaskDate($request->get('end'));
+        $start = Order::removeMaskDate($request->get('start'));
+        $end = Order::removeMaskDate($request->get('end'));
         $orders = Order::where('created_at', '>=', $start . ' 00:00:00')
             ->where('created_at', '<=', $end . ' 23:59:59')->get();
         $columns = [

@@ -35,21 +35,21 @@ Mussarela;Queijo Mussarela, Tomate, Molho de Tomate e Orégano;1;2
 Coração;Coração de Frango, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano;1;2
 Strogonoff de Carne;Strogonoff de Carne, Queijo Mussarela, Batata Palha, Molho de Tomate e Orégano;1;2
 Strogonoff de Frango;Strogonoff de Frango, Queijo Mussarela, Batata Palha, Molho de Tomate e Orégano;1;2
-Brigadeiro;Creme de Leite, Chocolate ao Leite e Chocolate Granulado;3;4
-Chocolate Branco;Creme de Leite e Chocolate Branco;3;4
-Prestígio;Creme de Leite, Leite Condensado, Chocolate ao Leite e Coco Ralado;3;4
-Confete;Creme de Leite, Chocolate ao Leite e Confetes Coloridos;3;4
-Sensação;Creme de Leite, Leite Condensado, Chocolate ao Leite e Morango;3;4
-Sedução;Creme de Leite, Leite Condensado, Chocolate Branco e Morango;3;4
-Charge;Creme de Leite, Doce de Leite, Chocolate ao Leite e Amendoim;3;4
-Bombom;Creme de Leite, Bombom, Leite Condensado e Chocolate ao Leite;3;4
-Banana com Canela;Creme de Leite, Banana, Canela e Leite Condensado;3;4
-2 Amores;Creme de Leite, Chocolate ao Leite, Chocolate Branco e Leite Condensado;3;4
-Filé Josepan;Filé Mignon, Queijo Mussarela, Cheddar, Molho de Tomate e Orégano;5;6
-Costela;Costela Desfiada, Cebola Caramelizada, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano + Acompanhamento: Molho Barbicue;5;6
-Moda da Casa Josepan;Lingüiça Blumenau, Queijo Mussarela, Molho de Tomate, Tomate e Orégano;5;6
-Pepperoni;Pepperoni, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano;5;6
-Camarão;Camarão ao Molho, Queijo Mussarela, Queijo Parmesão, Molho de Tomate e Orégano;5;6');
+Brigadeiro;Creme de Leite, Chocolate ao Leite e Chocolate Granulado;1;2
+Chocolate Branco;Creme de Leite e Chocolate Branco;1;2
+Prestígio;Creme de Leite, Leite Condensado, Chocolate ao Leite e Coco Ralado;1;2
+Confete;Creme de Leite, Chocolate ao Leite e Confetes Coloridos;1;2
+Sensação;Creme de Leite, Leite Condensado, Chocolate ao Leite e Morango;1;2
+Sedução;Creme de Leite, Leite Condensado, Chocolate Branco e Morango;1;2
+Charge;Creme de Leite, Doce de Leite, Chocolate ao Leite e Amendoim;1;2
+Bombom;Creme de Leite, Bombom, Leite Condensado e Chocolate ao Leite;1;2
+Banana com Canela;Creme de Leite, Banana, Canela e Leite Condensado;1;2
+2 Amores;Creme de Leite, Chocolate ao Leite, Chocolate Branco e Leite Condensado;1;2
+Filé Josepan;Filé Mignon, Queijo Mussarela, Cheddar, Molho de Tomate e Orégano;3;4
+Costela;Costela Desfiada, Cebola Caramelizada, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano + Acompanhamento: Molho Barbicue;3;4
+Moda da Casa Josepan;Lingüiça Blumenau, Queijo Mussarela, Molho de Tomate, Tomate e Orégano;3;4
+Pepperoni;Pepperoni, Queijo Mussarela, Molho de Tomate, Azeitonas e Orégano;3;4
+Camarão;Camarão ao Molho, Queijo Mussarela, Queijo Parmesão, Molho de Tomate e Orégano;3;4');
         foreach ($variations as $variation) {
             $variation = explode(';', $variation);
             $var = factory(App\Variation::class)

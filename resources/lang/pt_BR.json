@@ -159,5 +159,7 @@
     "Sales": "Vendas",
     "Orders Placed": "Pedidos",
     "Avg Value": "Valor Médio",
-    "Conversion Rate": "Taxa de Conversão"
+    "Conversion Rate": "Taxa de Conversão",
+    "Shipping Tax": "Taxa do Frete",
+    "Free Distance": "Distância Grátis"
 }

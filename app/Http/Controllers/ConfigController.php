@@ -23,6 +23,7 @@ class ConfigController extends Controller
             $data['is_open'] = 0;
         }
 
+        $data['shipping_tax'] = Config::removeMaskMoney($data['shipping_tax']);
         if ($request->hasFile('image')) {
             $request->file('image')
                 ->storeAs(Config::getFilePath(), $config->image);

@@ -71,7 +71,7 @@ class ItemController extends Controller
     private function getData(Request $request)
     {
         $data = $request->all();
-        $data['price'] = $this->removeMaskMoney($data['price']);
+        $data['price'] = Item::removeMaskMoney($data['price']);
         return $data;
     }
 }

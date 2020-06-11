@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Address extends Model
 {
     const DEFAULT_ZIPCODE = '00000-000';
@@ -50,5 +48,10 @@ class Address extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getDistance()
+    {
+        return Config::getMapsDistanceApi();
     }
 }

@@ -3,7 +3,6 @@
 namespace App;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
@@ -92,11 +91,6 @@ class Order extends Model
             $list[$key] = __($value);
         }
         return $list;
-    }
-
-    public static function formatMoney($value, $currency = 'R$')
-    {
-        return $currency . number_format($value, 2, ',', '.');
     }
 
     public function getCashAmountFormatedAttribute()

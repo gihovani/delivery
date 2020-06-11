@@ -78,7 +78,7 @@ class OrderController extends Controller
         ];
         $subtotal = $this->getTotalItems($request);
         foreach ($formatMoney as $inputKey) {
-            $data[$inputKey] = $this->removeMaskMoney($data[$inputKey]);
+            $data[$inputKey] = Order::removeMaskMoney($data[$inputKey]);
         }
         $data['subtotal'] = $subtotal;
         $data['amount'] = ($subtotal + $data['additional_amount'] + $data['shipping_amount']) - $data['discount'];
@@ -141,10 +141,10 @@ class OrderController extends Controller
         $order->status = $status;
         $order->save();
         $message = __($message);
-        $telephone = $this->onlyNumbers($order->getAttribute('customer_telephone'));
+        $telephone = Order::onlyNumbers($order->getAttribute('customer_telephone'));
 
         if (strlen($telephone) === 11) {
-            $whatsappUrl = Config::WHATSAPP_API . $telephone . '&text=' . urlencode($message);
+            $whatsappUrl = Config::getWhatsappApi() . $telephone . '&text=' . urlencode($message);
             $message = '<a href="' . $whatsappUrl . '" target="_blank"><i class="fab fa-whatsapp"></i> ' . $message . '</a>';
         }
         return request()->ajax() ?

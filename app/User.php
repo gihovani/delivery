@@ -77,7 +77,7 @@ class User extends Authenticatable
 
     public function setTelephoneAttribute($value)
     {
-        $this->attributes['telephone'] = preg_replace('/\D/', '', $value);
+        $this->attributes['telephone'] = Model::onlyNumbers($value);
     }
 
     public function setPasswordAttribute($value)

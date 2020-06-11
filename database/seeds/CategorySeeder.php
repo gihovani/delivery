@@ -11,7 +11,7 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        $categories = ['Pizzas', 'Bebidas'];
+        $categories = ['Pizzas', 'Refrigerantes', 'Cervejas'];
         foreach ($categories as $category) {
             factory(App\Category::class)->create(['name' => $category]);
         }
