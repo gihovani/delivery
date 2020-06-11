@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Address;
+use App\Config;
 use App\Http\Requests\AddressRequest;
+use App\Libraries\DistanceMatrix;
+use App\Libraries\Geocoder;
 use App\User;
 use DataTables;
 use Illuminate\Http\Request;
@@ -11,6 +14,17 @@ use Illuminate\Http\Response;
 
 class AddressController extends Controller
 {
+    public function distance(Address $address)
+    {
+        if ($address->is_google_distance) {
+            return $address;
+        }
+        $address->longitude = 1;
+        $address->save();
+        $address->refresh();
+        return ['encontrou' => 1, compact('address')];
+    }
+
     public function index(Request $request, User $user)
     {
 

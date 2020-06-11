@@ -11,9 +11,9 @@ class Config extends Model
     const IMAGE_PATH = '';
     const WHATSAPP_API = 'https://api.whatsapp.com/send?lang=pt_br&phone=+55';
     const MAPS_API = 'https://www.google.com.br/maps/dir/%s/';
-    const MAPS_DISTANCE_API = 'http://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations={0}&sensor=false';
+    const MAPS_DISTANCE_API = 'http://maps.googleapis.com/maps/api/distancematrix/json?key=%s&origins=%s&destinations={0}&sensor=false';
     public static $values;
-    protected $fillable = ['store', 'address', 'zipcode', 'latitude', 'longitude', 'telephone', 'is_open', 'shipping_tax', 'waiting_time', 'free_distance', 'google_maps'];
+    protected $fillable = ['store', 'address', 'zipcode', 'latitude', 'longitude', 'telephone', 'is_open', 'shipping_tax', 'waiting_time', 'free_distance', 'google_maps', 'google_api_key'];
 
     public static function getWhatsappApi()
     {
@@ -27,17 +27,17 @@ class Config extends Model
 
     public static function getMapsDistanceApi()
     {
-        return sprintf(self::MAPS_DISTANCE_API, self::getValue('zipcode'));
+        return sprintf(self::MAPS_DISTANCE_API, self::getValue('google_api_key'), self::getValue('zipcode'));
     }
 
-    public static function getValue($config)
+    public static function getValue($key)
     {
         if (!self::$values) {
             $config = self::where('id', 1)->first();
-            $config->image_url = $config->getImageUrlAttribute();
+            $config->attributes['image_url'] = $config->getImageUrlAttribute();
             self::$values = $config;
         }
-        return self::$values->{$config};
+        return self::$values->attributes[$key];
     }
 
     public function getTelephoneAttribute($value)

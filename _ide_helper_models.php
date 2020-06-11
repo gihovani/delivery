@@ -100,7 +100,8 @@ namespace App{
  * @property string $status
  * @property string $payment_method
  * @property float $subtotal
- * @property float $total
+ * @property float $amount
+ * @property float $additional_amount
  * @property float $discount
  * @property float $shipping_amount
  * @property float $cash_amount
@@ -121,28 +122,34 @@ namespace App{
  * @property int|null $address_id
  * @property int|null $customer_id
  * @property int|null $deliveryman_id
+ * @property int|null $address_distance
  * @property-read \App\Address|null $address
+ * @property-read mixed $additional_amount_formated
+ * @property-read mixed $address_distance_formated
+ * @property-read mixed $amount_formated
  * @property-read mixed $back_change_formated
  * @property-read mixed $cash_amount_formated
  * @property-read mixed $discount_formated
- * @property-read mixed $is_delayed
+ * @property-read mixed $is_late
  * @property-read mixed $shipping_amount_formated
  * @property-read mixed $subtotal_formated
- * @property-read mixed $total_formated
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\OrderItem[] $items
  * @property-read int|null $items_count
  * @property-read \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAdditionalAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressCity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressComplement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressDistance($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressNeighborhood($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressState($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressStreet($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAddressZipcode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereBackChange($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCashAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereCreatedAt($value)
@@ -159,7 +166,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereShippingAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereSubtotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereUpdatedAt($value)
  */
 	class Order extends \Eloquent {}
@@ -180,6 +186,11 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $user_id
+ * @property int|null $distance
+ * @property int|null $duration
+ * @property string|null $latitude
+ * @property string|null $longitude
+ * @property int $is_google_distance
  * @property-read \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address newQuery()
@@ -187,7 +198,12 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereCity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereComplement($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereDistance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereIsGoogleDistance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereLongitude($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereNeighborhood($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Address whereState($value)
@@ -214,6 +230,7 @@ namespace App{
  * @property int|null $product_id
  * @property int $order_id
  * @property-read \App\Order $order
+ * @property-read \App\Product|null $product
  * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\OrderItem query()
@@ -271,6 +288,17 @@ namespace App{
 
 namespace App{
 /**
+ * App\Model
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model query()
+ */
+	class Model extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Config
  *
  * @property int $id
@@ -283,6 +311,11 @@ namespace App{
  * @property int $waiting_time
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property float $shipping_tax
+ * @property int $free_distance
+ * @property string|null $latitude
+ * @property string|null $longitude
+ * @property string|null $google_api_key
  * @property-read mixed $image
  * @property-read mixed $image_path
  * @property-read mixed $image_url
@@ -291,9 +324,14 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Config query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereFreeDistance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereGoogleApiKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereGoogleMaps($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereIsOpen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereShippingTax($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereStore($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereTelephone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Config whereUpdatedAt($value)

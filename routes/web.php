@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/distance/{address}', 'AddressController@distance')->name('address.distance');
 Route::get('/profile', 'Auth\ProfileController@show')->name('profile.show');
 Route::post('/profile', 'Auth\ProfileController@update');
 Route::get('/home', 'HomeController@index')->name('home');

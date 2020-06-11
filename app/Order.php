@@ -126,4 +126,8 @@ class Order extends Model
     {
         return self::formatMoney($this->additional_amount);
     }
+    public function getAddressDistanceFormatedAttribute()
+    {
+        return self::formatMoney($this->address_distance * 0.001, '') . 'km';
+    }
 }

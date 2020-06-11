@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Address;
+use App\Observers\AddressObserver;
 use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
 use App\Observers\VariationObserver;
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Order::observe(OrderObserver::class);
+        Address::observe(AddressObserver::class);
         Product::observe(ProductObserver::class);
         Variation::observe(VariationObserver::class);
     }

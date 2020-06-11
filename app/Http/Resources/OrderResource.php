@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
         $data['created_at'] = $this->created_at->format('d/m/y H:i:s');
         $data['updated_at'] = $this->updated_at->format('d/m/y H:i:s');
         $data['expected_at'] = $this->expected_at->format('d/m/y H:i:s');
+        $data['address_distance_formated'] = $this->address_distance_formated;
         $data['cash_amount_formated'] = $this->cash_amount_formated;
         $data['amount_formated'] = $this->amount_formated;
         $data['back_change_formated'] = $this->back_change_formated;

@@ -27,6 +27,7 @@ class OrderObserver
             $order->address_state = $address->state;
             $order->address_neighborhood = $address->neighborhood;
             $order->address_complement = $address->complement;
+            $order->address_distance = $address->distance;
         }
     }
 

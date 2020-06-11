@@ -54,4 +54,10 @@ class Address extends Model
     {
         return Config::getMapsDistanceApi();
     }
+
+    public function getMapsAddr()
+    {
+        return $this->number . ' ' . $this->street . ' - ' .
+            $this->neighborhood . ', ' . $this->city . ' - ' . $this->state;
+    }
 }

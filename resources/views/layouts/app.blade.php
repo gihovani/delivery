@@ -186,6 +186,8 @@
         this.state = args.state;
         this.neighborhood = args.neighborhood;
         this.complement = (args.complement != undefined) ? args.complement : '';
+        this.distance = (args.distance != undefined) ? parseInt(args.distance) : 0;
+        this.duration = (args.duration != undefined) ? parseInt(args.duration) : 0;
         this.valid = true;
         var self = this;
         this.toString = function () {

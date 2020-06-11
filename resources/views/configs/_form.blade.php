@@ -104,6 +104,16 @@
     </div>
 </div>
 <div class="form-group row">
+    {!! Form::label('google_api_key', __('Google Api Key'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
+    <div class="col-md-8">
+        {!! Form::text('google_api_key',$config->google_api_key ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'google_api_key', 'class'=>'form-control'.($errors->has('google_api_key') ? ' is-invalid' : '')]) !!}
+
+        <span class="invalid-feedback invalid-google_api_key" role="alert">
+            <strong>@error('google_api_key') {{ $message }} @enderror</strong>
+        </span>
+    </div>
+</div>
+<div class="form-group row">
     {!! Form::label('google_maps', __('Google Maps'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-8">
         {!! Form::url('google_maps',$config->google_maps ?? '',['disabled' => (isset($disabled)), 'autocomplete' => 'google_maps', 'class'=>'form-control'.($errors->has('google_maps') ? ' is-invalid' : '')]) !!}

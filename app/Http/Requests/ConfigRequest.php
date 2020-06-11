@@ -35,6 +35,7 @@ class ConfigRequest extends FormRequest
             'waiting_time' => ['required', 'integer'],
             'store' => ['required', 'string', 'max:255'],
             'google_maps' => ['nullable', 'url'],
+            'google_api_key' => ['nullable', 'string'],
             'address' => ['nullable', 'string']
         ];
     }

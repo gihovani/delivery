@@ -132,10 +132,10 @@
                             var statusNotPermited = ['{{__('canceled')}}', '{{__('complete')}}'];
 
                             return (type === 'display') ? (
-                                //((statusNotPermited.concat('{{__('processing')}}').indexOf(row.status) >= 0) ? '' :
-                                //    '<a class="btn btn-status btn-outline-info" title="{{ __('processing') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/processing">' +
-                                //    '<i class="fas fa-tasks"></i>' +
-                                //    '</a>\n') +
+                                ((statusNotPermited.concat('{{__('processing')}}').concat('{{__('delivery')}}').indexOf(row.status) >= 0) ? '' :
+                                    '<a class="btn btn-outline-info" title="{{ __('processing') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/print" target="_blank">' +
+                                    '<i class="fas fa-print"></i>' +
+                                    '</a>\n') +
                                 ((statusNotPermited.concat('{{__('delivery')}}').indexOf(row.status) >= 0) ? '' :
                                     '<a class="btn btn-status btn-outline-success" title="{{ __('delivery') }}" data-deliveryman_id="' + row.deliveryman_id + '" href="' + actionUrl + '/' + data + '/delivery">' +
                                     '   <i class="fas fa-motorcycle"></i>' +
@@ -206,7 +206,7 @@
                         '           <a target="_blank" href="' + mapsUrl(data.address_zipcode) + '"><i class="fas fa-map-marked-alt"></i> ' +
                         data.address_street + ' ' + data.address_number + ' ' + (data.address_complement ? data.address_complement : '') + '<br/>' +
                         data.address_neighborhood + ' ' + data.address_city + '/' + data.address_state + '<br/>' +
-                        data.address_zipcode +
+                        data.address_zipcode + '<br/> {{__('Distance')}}: ' + data.address_distance_formated +
                         '           </a>' +
                         '       </td>\n' +
                         '   </tr>\n') +
@@ -254,6 +254,11 @@
             }).on('saveErrorEvent', function (e, response) {
                 showModalErrors(response);
             });
+
+            setInterval(function () {
+                table.ajax.reload();
+                myAlert('{{__('Updated Order List')}}');
+            }, 60000);
         });
     </script>
 @endsection

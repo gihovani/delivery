@@ -175,6 +175,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var variations = @json($variations);
+            var freeShippingDistance = {{App\Config::getValue('free_distance')}};
+            var shippingTax = {{App\Config::getValue('shipping_tax')}};
             var $customerModal = $('#customer-modal');
             var $addressModal = $('#address-modal');
             var $customerAutoComplete = $('#customer-autocomplete');
@@ -322,7 +324,11 @@
                     },
                     setShippingAddress: function (addr) {
                         if (!(addr && addr.valid)) {
-                            addr = new Address({});
+                            if (customer.valid && customer.addresses.length) {
+                                addr = new Address(customer.addresses[0]);
+                            } else {
+                                addr = new Address({});
+                            }
                         }
                         address = addr;
                         _htmlCustomer();
@@ -388,7 +394,13 @@
                 $addressModal.find('form').attr('action', action)
                 if (this.value > 0) {
                     var addr = findInArrayById(cart.getCustomer().addresses, this.value);
-                    return cart.setShippingAddress(addr);
+                    var shippingAmount = 0;
+                    cart.setShippingAddress(addr);
+                    addr = cart.getShippingAddress();
+                    if (addr.valid && addr.distance > freeShippingDistance) {
+                        shippingAmount = shippingTax * 100;
+                    }
+                    return $('#shipping-amount').val(shippingAmount).trigger('blur');
                 }
                 showModal($addressModal, '{{ __('Add New') }}');
 
@@ -401,11 +413,17 @@
                 window.open(mapsUrl(addr), 'new');
             }).on('change', '#deliveryman-id', function () {
                 var $shippingAmount = $('#shipping-amount');
-                $shippingAmount.prop('readonly', (this.value < 1));
+                var shippingAmount = 0;
                 if (this.value > 0) {
-                    $shippingAmount.val('0')
-                        .trigger('blur');
+                    var addr = cart.getShippingAddress();
+                    if (addr.valid && addr.distance > freeShippingDistance) {
+                        shippingAmount = shippingTax * 100;
+                    }
                 }
+                $shippingAmount.prop('readonly', (this.value < 1))
+                    .val(shippingAmount)
+                    .trigger('blur');
+
             }).on('change', '.variation-select', function () {
                 var $this = $(this);
                 var variation = findInArrayById(variations, this.value);
