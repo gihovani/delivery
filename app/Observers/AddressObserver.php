@@ -36,6 +36,9 @@ class AddressObserver
 
     public function updating(Address $address)
     {
+        if ($address->zipcode !== $address->getOriginal('zipcode')) {
+            $address->is_google_distance = 0;
+        }
         $address = $this->setGoogleApiDistance($address);
     }
 }
