@@ -9,6 +9,7 @@ use App\Observers\ProductObserver;
 use App\Observers\VariationObserver;
 use App\Order;
 use App\Product;
+use App\User;
 use App\Variation;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -36,5 +37,9 @@ class AppServiceProvider extends ServiceProvider
         Address::observe(AddressObserver::class);
         Product::observe(ProductObserver::class);
         Variation::observe(VariationObserver::class);
+
+        \Blade::if('admin', function () {
+            return auth()->check() && auth()->user()->hasRole(User::ROLE_ADMIN);
+        });
     }
 }

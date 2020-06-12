@@ -136,25 +136,13 @@ class User extends Authenticatable
         return $list;
     }
 
-    public function isAdmin()
+    public function hasRole($roles)
     {
-        return $this->hasRole(self::ROLE_ADMIN);
-    }
-
-    public function isCustomer()
-    {
-        return $this->hasRole(self::ROLE_CUSTOMER);
-    }
-
-    public function isDeliveryMan()
-    {
-        return $this->hasRole(self::ROLE_DELIVERYMAN);
-    }
-
-    private function hasRole($roleName = '')
-    {
-        $roles = explode(',', $this->roles);
-        return (in_array($roleName, $roles));
+        if (!is_array($roles)) {
+            $roles = [$roles];
+        }
+        $userRoles = explode(',', $this->roles);
+        return (count(array_intersect($userRoles, $roles)) > 0);
     }
 
 }

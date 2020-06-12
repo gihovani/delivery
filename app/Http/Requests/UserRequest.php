@@ -6,13 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
 {
-    private $userId;
-    public function __construct(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
-    {
-        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
-        $this->userId = intval(auth()->user()->id);
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -20,7 +13,7 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        return ($this->userId > 0);
+        return true;
     }
 
     /**

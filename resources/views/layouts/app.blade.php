@@ -77,38 +77,40 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link{{ Route::is('orders*') ? ' active' : '' }}"
-                                   href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link{{ Route::is('reports*') ? ' active' : '' }}"
-                                   href="{{ route('reports.index', 1) }}">{{ __('Reports') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link{{ Route::is('config*') ? ' active' : '' }}"
-                                   href="{{ route('configs.update', 1) }}">{{ __('Config') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link{{ Route::is('categories*') ? ' active' : '' }}"
-                                   href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link{{ Route::is('variations*') ? ' active' : '' }}"
-                                   href="{{ route('variations.index') }}">{{ __('Variations') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link{{ Route::is('items*') ? ' active' : '' }}"
-                                   href="{{ route('items.index') }}">{{ __('Items') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link{{ Route::is('products*') ? ' active' : '' }}"
-                                   href="{{ route('products.index') }}">{{ __('Products') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link{{ Route::is('users*') ? ' active' : '' }}"
-                                   href="{{ route('users.index') }}">{{ __('Users') }}</a>
-                            </li>
+                            @admin
+                                <li class="nav-item">
+                                    <a class="nav-link{{ Route::is('orders*') ? ' active' : '' }}"
+                                       href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{ Route::is('reports*') ? ' active' : '' }}"
+                                       href="{{ route('reports.index', 1) }}">{{ __('Reports') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{ Route::is('config*') ? ' active' : '' }}"
+                                       href="{{ route('configs.update', 1) }}">{{ __('Config') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{ Route::is('categories*') ? ' active' : '' }}"
+                                       href="{{ route('categories.index') }}">{{ __('Categories') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{ Route::is('variations*') ? ' active' : '' }}"
+                                       href="{{ route('variations.index') }}">{{ __('Variations') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{ Route::is('items*') ? ' active' : '' }}"
+                                       href="{{ route('items.index') }}">{{ __('Items') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{ Route::is('products*') ? ' active' : '' }}"
+                                       href="{{ route('products.index') }}">{{ __('Products') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link{{ Route::is('users*') ? ' active' : '' }}"
+                                       href="{{ route('users.index') }}">{{ __('Users') }}</a>
+                                </li>
+                            @endadmin
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown"
                                    class="nav-link dropdown-toggle{{ Route::is('profile*') ? ' active' : '' }}" href="#"

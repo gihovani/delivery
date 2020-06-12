@@ -13,7 +13,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return (intval(auth()->user()->id) > 0);
+        return true;
     }
 
     /**

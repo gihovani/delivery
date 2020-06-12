@@ -19,28 +19,32 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
 Route::get('/distance/{address}', 'AddressController@distance')->name('address.distance');
 Route::get('/profile', 'Auth\ProfileController@show')->name('profile.show');
 Route::post('/profile', 'Auth\ProfileController@update');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/reports', 'ReportController@index')->name('reports.index');
-Route::post('/reports/orders', 'ReportController@orders')->name('reports.orders');
-Route::post('/reports/transactions', 'ReportController@transactions')->name('reports.transactions');
-Route::get('/users/autocomplete','UserController@autocomplete')->name('users.autocomplete');
-Route::resource('users','UserController')->middleware('auth');
-Route::resource('users/{user}/addresses','AddressController')->middleware('auth');
-Route::resource('categories','CategoryController')->middleware('auth');
-Route::resource('variations','VariationController')->middleware('auth');
-Route::resource('items','ItemController')->middleware('auth');
-Route::resource('products','ProductController')->middleware('auth');
-Route::get('products/{product}/details', 'ProductController@details')->name('products.details')->middleware('auth');
-Route::get('config/{config}', 'ConfigController@edit')->name('configs.edit')->middleware('auth');
-Route::put('config/{config}', 'ConfigController@update')->name('configs.update')->middleware('auth');
-Route::get('orders','OrderController@index')->name('orders.index')->middleware('auth');
-Route::get('orders/create','OrderController@create')->name('orders.create')->middleware('auth');
-Route::post('orders','OrderController@store')->name('orders.store')->middleware('auth');
-Route::get('orders/{order}/print','OrderController@print')->name('orders.print')->middleware('auth');
-Route::post('orders/{order}/processing','OrderController@processing')->name('orders.processing')->middleware('auth');
-Route::post('orders/{order}/delivery','OrderController@delivery')->name('orders.delivery')->middleware('auth');
-Route::post('orders/{order}/complete','OrderController@complete')->name('orders.complete')->middleware('auth');
-Route::post('orders/{order}/canceled','OrderController@canceled')->name('orders.canceled')->middleware('auth');
+
+Route::group(['middleware' => 'role:' . \App\User::ROLE_ADMIN], function () {
+    Route::get('/reports', 'ReportController@index')->name('reports.index');
+    Route::post('/reports/orders', 'ReportController@orders')->name('reports.orders');
+    Route::post('/reports/transactions', 'ReportController@transactions')->name('reports.transactions');
+    Route::get('/users/autocomplete', 'UserController@autocomplete')->name('users.autocomplete');
+    Route::resource('users', 'UserController');
+    Route::resource('users/{user}/addresses', 'AddressController');
+    Route::resource('categories', 'CategoryController');
+    Route::resource('variations', 'VariationController');
+    Route::resource('items', 'ItemController');
+    Route::resource('products', 'ProductController');
+    Route::get('products/{product}/details', 'ProductController@details')->name('products.details');
+    Route::get('config/{config}', 'ConfigController@edit')->name('configs.edit');
+    Route::put('config/{config}', 'ConfigController@update')->name('configs.update');
+    Route::get('orders', 'OrderController@index')->name('orders.index');
+    Route::get('orders/create', 'OrderController@create')->name('orders.create');
+    Route::post('orders', 'OrderController@store')->name('orders.store');
+    Route::get('orders/{order}/print', 'OrderController@print')->name('orders.print');
+    Route::post('orders/{order}/processing', 'OrderController@processing')->name('orders.processing');
+    Route::post('orders/{order}/delivery', 'OrderController@delivery')->name('orders.delivery');
+    Route::post('orders/{order}/complete', 'OrderController@complete')->name('orders.complete');
+    Route::post('orders/{order}/canceled', 'OrderController@canceled')->name('orders.canceled');
+});
