@@ -78,7 +78,7 @@ class HomeController extends Controller
             if (!isset($this->shippingTaxValues[$order->created_at->format('d/m/Y')])) {
                 $this->shippingTaxValues[$order->created_at->format('d/m/Y')] = 0;
             }
-            if (!isset($this->paymentMethodValues[$order->payment_method])) {
+            if (!isset($this->paymentMethodValues[__($order->payment_method)])) {
                 $this->paymentMethodValues[__($order->payment_method)] = 0;
             }
 
