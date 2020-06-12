@@ -94,6 +94,7 @@
     "Shipping Amount": "Frete",
     "Deliveryman": "Entregador",
     "Payment Method": "Forma Pagamento",
+    "Payment Methods": "Formas de Pagamento",
     "Payment": "Pagamento",
     "Client": "Cliente",
     "Reports": "Relatórios",
@@ -167,5 +168,6 @@
     "Duration": "Duração",
     "Shipping Tax Added (distance :distance km)": "Frete adicionado (distância :distance km)",
     "Distance in km.": "Distância em km.",
-    "Time in minutes.": "Tempo em minutos."
+    "Time in minutes.": "Tempo em minutos.",
+    "Period": "Período"
 }

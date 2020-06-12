@@ -29,19 +29,21 @@
                     </div>
                     <div class="card-body">
                         <div class="alert alert-success d-none" role="alert" id="msg"></div>
-                        <table class="table table-bordered data-table">
-                            <thead>
-                            <tr>
-                                <th width="5%">{{__('Id')}}</th>
-                                <th width="12%">{{__('Created At')}}</th>
-                                <th width="13%">{{__('Expected At')}}</th>
-                                <th width="10%">{{__('Amount')}}</th>
-                                <th width="30%">{{__('Customer')}}</th>
-                                <th width="10%">{{__('Status')}}</th>
-                                <th width="20%">{{__('Action')}}</th>
-                            </tr>
-                            </thead>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered data-table">
+                                <thead>
+                                <tr>
+                                    <th width="5%">{{__('Id')}}</th>
+                                    <th width="12%">{{__('Created At')}}</th>
+                                    <th width="13%">{{__('Expected At')}}</th>
+                                    <th width="10%">{{__('Amount')}}</th>
+                                    <th width="30%">{{__('Customer')}}</th>
+                                    <th width="10%">{{__('Status')}}</th>
+                                    <th width="20%">{{__('Action')}}</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,20 +92,20 @@
                                     !row.customer_telephone ? '' : ' ' + whatsAppLink(row.customer_telephone)
                                 ) + '<br/>' + (!row.address_zipcode ? row.deliveryman_name : (
                                         '<i class="fas fa-motorcycle"></i> ' + row.deliveryman_name + ' ' +
-                                         whatsAppLink(
-                                             row.deliveryman_telephone, '#{{__('Order')}} '+row.id + '\n' +
-                                             row.customer_name + ' - ' + row.customer_telephone + '\n' +
-                                             '{{__('Payment Method')}}: ' + row.payment_method + '\n' +
-                                             '{{__('Shipping Amount')}}: ' + row.shipping_amount_formated + '\n' +
-                                             '{{__('Amount')}}: ' + row.amount_formated + '\n' +
-                                             (!row.back_change ? '' : (
-                                                 '{{__('Cash Amount')}}: ' + row.cash_amount_formated + '\n' +
-                                                 '{{__('Back Change')}}: ' + row.back_change_formated + '\n')
-                                             ) + '\n' +
-                                             addr + ' - N.' + addr.number + '\n' + addr.complement + '\n' +
-                                             mapsUrl(encodeURIComponent(addr)) + '\n' +
-                                             '---------------------------------------------'
-                                         ) +
+                                        whatsAppLink(
+                                            row.deliveryman_telephone, '#{{__('Order')}} ' + row.id + '\n' +
+                                            row.customer_name + ' - ' + row.customer_telephone + '\n' +
+                                            '{{__('Payment Method')}}: ' + row.payment_method + '\n' +
+                                            '{{__('Shipping Amount')}}: ' + row.shipping_amount_formated + '\n' +
+                                            '{{__('Amount')}}: ' + row.amount_formated + '\n' +
+                                            (!row.back_change ? '' : (
+                                                    '{{__('Cash Amount')}}: ' + row.cash_amount_formated + '\n' +
+                                                    '{{__('Back Change')}}: ' + row.back_change_formated + '\n')
+                                            ) + '\n' +
+                                            addr + ' - N.' + addr.number + '\n' + addr.complement + '\n' +
+                                            mapsUrl(encodeURIComponent(addr)) + '\n' +
+                                            '---------------------------------------------'
+                                        ) +
                                         '<br/>' + addr + ' - N.' + addr.number + '\n' + '<br/>' + addr.complement
                                     )
                                 );

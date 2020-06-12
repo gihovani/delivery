@@ -50,10 +50,4 @@
         </div>
     </div>
 </div>
-@if (session('status'))
-    <script>
-        myAlert({{ session('status') }});
-    </script>
-@endif
-
 @endsection

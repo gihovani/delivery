@@ -22,23 +22,26 @@
                         <div class="d-flex">
                             <div class="mt-2">{{ __('Variations') }}</div>
                             <div class="ml-auto">
-                                <a class="btn btn-success" id="new-entity" href="{{route('variations.create')}}">{{__('Add New')}}</a>
+                                <a class="btn btn-success" id="new-entity"
+                                   href="{{route('variations.create')}}">{{__('Add New')}}</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="alert alert-success d-none" role="alert" id="msg"></div>
-                        <table class="table table-bordered data-table">
-                            <thead>
-                            <tr>
-                                <th width="5%">{{__('Id')}}</th>
-                                <th width="15%">{{__('Image')}}</th>
-                                <th width="20%">{{__('Name')}}</th>
-                                <th width="45%">{{__('Description')}}</th>
-                                <th width="15%">{{__('Action')}}</th>
-                            </tr>
-                            </thead>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered data-table">
+                                <thead>
+                                <tr>
+                                    <th width="5%">{{__('Id')}}</th>
+                                    <th width="15%">{{__('Image')}}</th>
+                                    <th width="20%">{{__('Name')}}</th>
+                                    <th width="45%">{{__('Description')}}</th>
+                                    <th width="15%">{{__('Action')}}</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -51,7 +54,7 @@
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.10.21/i18n/Portuguese-Brasil.json'
                 },
-                order: [[ 0, 'desc']],
+                order: [[0, 'desc']],
                 searchDelay: 1000,
                 processing: true,
                 serverSide: true,
@@ -71,13 +74,13 @@
                         data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
                             return (type === 'display') ? (
                                 '<a class="btn btn-outline-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
-                                    '<i class="far fa-eye"></i>' +
+                                '<i class="far fa-eye"></i>' +
                                 '</a> ' +
                                 '<a class="btn btn-outline-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
-                                    '<i class="far fa-edit"></i>' +
+                                '<i class="far fa-edit"></i>' +
                                 '</a> ' +
                                 '<a class="btn btn-outline-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
-                                    '<i class="far fa-trash-alt"></i>' +
+                                '<i class="far fa-trash-alt"></i>' +
                                 '</a>'
                             ) : data;
                         }

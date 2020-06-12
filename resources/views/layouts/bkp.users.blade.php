@@ -22,17 +22,19 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered data-table">
-                            <thead>
-                            <tr>
-                                <th width="5%">{{__('Id')}}</th>
-                                <th width="30%">{{__('Name')}}</th>
-                                <th width="20%">{{__('Telephone')}}</th>
-                                <th width="15%">{{__('Profile')}}</th>
-                                <th width="30%">{{__('Action')}}</th>
-                            </tr>
-                            </thead>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered data-table">
+                                <thead>
+                                <tr>
+                                    <th width="5%">{{__('Id')}}</th>
+                                    <th width="30%">{{__('Name')}}</th>
+                                    <th width="20%">{{__('Telephone')}}</th>
+                                    <th width="15%">{{__('Profile')}}</th>
+                                    <th width="30%">{{__('Action')}}</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,6 +71,7 @@
             var $modal = $('#crud-modal');
             var clearData = {id: '', name: '', email: '', telephone: '', roles: ''};
             var actionUrl = '{{ route('users.index') }}';
+
             function showModal(data, readOnly, title) {
                 $('.is-invalid').removeClass('is-invalid');
                 $('.invalid-feedback').find('strong').html('');
@@ -83,7 +86,7 @@
             }
 
             function showData(entityId, readOnly) {
-                $.get(actionUrl +'/' + entityId, function (data) {
+                $.get(actionUrl + '/' + entityId, function (data) {
                     showModal(data, readOnly, (readOnly) ? '{{ __('Show Data') }}' : '{{ __('Edit Data') }}');
                 });
             }
@@ -105,13 +108,13 @@
                         data: 'id', name: 'action', orderable: false, searchable: false, render: function (data, type) {
                             return (type === 'display') ? (
                                 '<a class="btn btn-outline-info show-entity" title="{{ __('Show') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '">' +
-                                    '<i class="far fa-eye"></i>' +
+                                '<i class="far fa-eye"></i>' +
                                 '</a> ' +
                                 '<a class="btn btn-outline-success edit-entity" title="{{ __('Edit') }}" data-id="' + data + '" href="' + actionUrl + '/' + data + '/edit">' +
-                                    '<i class="far fa-edit"></i>' +
+                                '<i class="far fa-edit"></i>' +
                                 '</a> ' +
                                 '<a class="btn btn-outline-danger delete-entity" title="{{ __('Delete') }}" data-id="' + data + '">' +
-                                    '<i class="far fa-trash-alt"></i>' +
+                                '<i class="far fa-trash-alt"></i>' +
                                 '</a>'
                             ) : data;
                         }
