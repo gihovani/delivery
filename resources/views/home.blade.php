@@ -388,6 +388,10 @@
                             });
                         }();
                     });
+                    var paymentMethodValues = @json($paymentMethodValues);
+                    var shippingTaxValues = @json($shippingTaxValues);
+                    var productsValues = @json($productsValues);
+                    var daysValues = @json($daysValues);
                 </script>
             </div>
         </div>
