@@ -357,7 +357,7 @@
                     cart.setShippingAddress(addr);
                     addr = cart.getShippingAddress();
                     if (addr.valid && addr.distance > freeShippingDistance) {
-                        myAlert('{{__('Shipping Tax Added (distance :distance km)', ['distance' => '{0}'])}}'.replace('{0}', formatCurrency(addr.distance * 0.001)));
+                        myAlert('{{__('Shipping Tax Added (distance :distance km)')}}'.replace(':distance', formatCurrency(addr.distance * 0.001)));
                         shippingAmount = shippingTax * 100;
                     }
                 }
