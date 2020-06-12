@@ -32,6 +32,7 @@ class Order extends Model
     const METHOD_DEBIT_CARD = 'debit card';
     const METHOD_FOOD_VOUCHER = 'food voucher';
     const METHOD_MEAL_TICKET = 'meal ticket';
+    const METHOD_PAID_AT_BAKERY = 'paid at the bakery';
     const METHOD_IN_CASH = 'in cash';
 
     const PAYMENT_METHODS = [
@@ -40,6 +41,7 @@ class Order extends Model
         self::METHOD_DEBIT_CARD => self::METHOD_DEBIT_CARD,
         self::METHOD_FOOD_VOUCHER => self::METHOD_FOOD_VOUCHER,
         self::METHOD_MEAL_TICKET => self::METHOD_MEAL_TICKET,
+        self::METHOD_PAID_AT_BAKERY => self::METHOD_PAID_AT_BAKERY,
         self::METHOD_IN_CASH => self::METHOD_IN_CASH
     ];
 

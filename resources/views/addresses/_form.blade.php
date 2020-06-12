@@ -1,4 +1,16 @@
 <?php $prependId = $prependId ?? ''; ?>
+<!--
+<div class="form-group row">
+    {!! Form::label('address', __('Address'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
+    <div class="col-md-7">
+        {!! Form::select('address',\App\Address::ufs(),$address->state ?? '',['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control input-state'.($errors->has('state') ? ' is-invalid' : ''), 'id' => $prependId.'state' ]) !!}
+
+        <span class="invalid-feedback invalid-state" role="alert">
+            <strong>@error('state') {{ $message }} @enderror</strong>
+        </span>
+    </div>
+</div>
+-->
 <div class="form-group row">
     {!! Form::label($prependId.'zipcode', __('Zip Code'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">

@@ -45,6 +45,49 @@ class Address extends Model
         ];
     }
 
+    public static function examples()
+    {
+        $ret = [
+            [
+                'zipcode' => '88122-400',
+                'street' => 'Rua Mathias Schell',
+                'number' => 313,
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => 'Cond. Bela Vista'
+            ],
+            [
+                'zipcode' => '88122-400',
+                'street' => 'Rua Mathias Schell',
+                'number' => 132,
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => 'Cond. Bem-te-vi'
+            ],
+            [
+                'zipcode' => '88122-400',
+                'street' => 'Rua Mathias Schell',
+                'number' => 22,
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => 'Cond. Beija Flor'
+            ],
+            [
+                'zipcode' => '88122-400',
+                'street' => 'Rua Vidal Vicente Andrade',
+                'number' => 1290,
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Forquilhas',
+                'complement' => 'Cond. Garden Ville'
+            ]
+        ];
+        return $ret;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -58,6 +101,7 @@ class Address extends Model
     public function getMapsAddr()
     {
         return $this->number . ' ' . $this->street . ' - ' .
-            $this->neighborhood . ', ' . $this->city . ' - ' . $this->state;
+            $this->neighborhood . ',
+            ' . $this->city . ' - ' . $this->state;
     }
 }
