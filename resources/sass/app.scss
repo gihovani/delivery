@@ -71,6 +71,9 @@
     top: 10px;
     right: 30px;
     z-index: 2;
+    &.hide {
+        z-index: 0;
+    }
 }
 
 .autocomplete-suggestions {

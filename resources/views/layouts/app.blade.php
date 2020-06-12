@@ -153,7 +153,7 @@
         </div>
     </footer>
 </div>
-<div class="toast" id="my-alert" data-delay="3000" role="alert" aria-live="polite" aria-atomic="true">
+<div class="toast hide" id="my-alert" data-delay="3000" role="alert" aria-live="polite" aria-atomic="true">
     <div class="toast-header">
         <strong class="mr-auto"><i class="far fa-comment"></i> <span id="toast-title"></span></strong>
         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">

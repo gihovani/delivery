@@ -17080,6 +17080,10 @@ footer {
   z-index: 2;
 }
 
+#my-alert.hide {
+  z-index: 0;
+}
+
 .autocomplete-suggestions {
   border: 1px solid #999;
   background: #FFF;
