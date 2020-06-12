@@ -260,7 +260,7 @@
             setInterval(function () {
                 table.ajax.reload();
                 myAlert('{{__('Updated Order List')}}');
-            }, 60000);
+            }, {{App\Config::getValue('time_refresh_orders')}});
         });
     </script>
 @endsection

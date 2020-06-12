@@ -13,7 +13,7 @@ class Config extends Model
     const MAPS_API = 'https://www.google.com.br/maps/dir/%s/';
     const MAPS_DISTANCE_API = 'http://maps.googleapis.com/maps/api/distancematrix/json?key=%s&origins=%s&destinations={0}&sensor=false';
     public static $values;
-    protected $fillable = ['store', 'address', 'zipcode', 'latitude', 'longitude', 'telephone', 'is_open', 'shipping_tax', 'waiting_time', 'free_distance', 'google_maps', 'google_api_key'];
+    protected $fillable = ['store', 'address', 'zipcode', 'latitude', 'longitude', 'telephone', 'is_open', 'shipping_tax', 'waiting_time', 'time_refresh_orders', 'free_distance', 'google_maps', 'google_api_key'];
 
     public static function getWhatsappApi()
     {

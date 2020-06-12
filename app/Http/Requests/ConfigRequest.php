@@ -32,6 +32,7 @@ class ConfigRequest extends FormRequest
             'latitude' => ['required', 'string'],
             'longitude' => ['required', 'string'],
             'free_distance' => ['required', 'integer'],
+            'time_refresh_orders' => ['required', 'integer'],
             'waiting_time' => ['required', 'integer'],
             'store' => ['required', 'string', 'max:255'],
             'google_maps' => ['nullable', 'url'],

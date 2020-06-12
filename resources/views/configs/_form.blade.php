@@ -30,6 +30,16 @@
     </div>
 </div>
 <div class="form-group row">
+    {!! Form::label('time_refresh_orders', __('Time Refresh Orders'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
+    <div class="col-md-8">
+        {!! Form::number('time_refresh_orders',$config->time_refresh_orders ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'time_refresh_orders', 'class'=>'form-control'.($errors->has('time_refresh_orders') ? ' is-invalid' : '')]) !!}
+
+        <span class="invalid-feedback invalid-time_refresh_orders" role="alert">
+            <strong>@error('time_refresh_orders') {{ $message }} @enderror</strong>
+        </span>
+    </div>
+</div>
+<div class="form-group row">
     <div class="col-md-8 offset-md-4">
         <div class="custom-control custom-checkbox">
             {!! Form::checkbox('is_open',1, $config->is_open ?? '',['disabled' => (isset($disabled)), 'class'=>'custom-control-input'.($errors->has('is_open') ? ' is-invalid' : ''), 'id' => 'is-open']) !!}
