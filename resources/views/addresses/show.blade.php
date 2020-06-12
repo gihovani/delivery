@@ -19,15 +19,16 @@
 
                     <div class="form-group row">
                         {!! Form::label('distance', __('Distance'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
-                        <div class="col-md-8">
-                            {!! Form::text('distance',$address->distance ?? '',['disabled' => true, 'class'=>'form-control']) !!}
-                            <small class="form-text text-muted">Distância em metros.</small>
+                        <div class="col-md-7">
+                            {!! Form::text('distance',((isset($address->distance) && !empty($address->distance)) ? App\Address::formatMoney($address->distance * 0.001, '') : ''),['disabled' => true, 'class'=>'form-control']) !!}
+                            <small class="form-text text-muted">{{__('Distance in km.')}}</small>
                         </div>
                     </div>
                     <div class="form-group row">
                         {!! Form::label('duration', __('Duration'), ['class'=>'col-md-4 col-form-label text-md-right']) !!}
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             {!! Form::text('duration',((isset($address->duration) && !empty($address->duration)) ? App\Address::formatMoney($address->duration/100, '') : ''), ['disabled' => true, 'class'=>'form-control']) !!}
+                            <small class="form-text text-muted">{{__('Time in minutes.')}}</small>
                         </div>
                     </div>
 

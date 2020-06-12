@@ -7,7 +7,7 @@ class Address extends Model
     const DEFAULT_ZIPCODE = '00000-000';
     const DEFAULT_STREET = 'Pick Up in Store';
     const DEFAULT_NEIGHBORHOOD = '-';
-    const DEFAULT_CITY = '-';
+    const DEFAULT_CITY = 'São José';
     const DEFAULT_STATE = 'SC';
     const DEFAULT_NUMBER = '0';
     protected $fillable = ['zipcode', 'street', 'number', 'city', 'state', 'neighborhood', 'complement'];

@@ -163,5 +163,9 @@
     "Shipping Tax": "Taxa do Frete",
     "Free Distance": "Distância Grátis",
     "Updated Order List": "Lista de Pedidos Atualizada",
-    "Distance": "Distância"
+    "Distance": "Distância",
+    "Duration": "Duração",
+    "Shipping Tax Added (distance :distance km)": "Shipping Tax Added (distance :distance km)",
+    "Distance in km.": "Distância em km.",
+    "Time in minutes.": "Tempo em minutos."
 }

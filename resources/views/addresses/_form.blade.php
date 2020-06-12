@@ -134,9 +134,12 @@
 
             oldCep = cep.replace(/\D/g, '');
             //Verifica se campo cep possui valor informado.
-            if (oldCep.length !== 8) {
+            if (oldCep.length !== 8 || oldCep === '11111111') {
                 clearFields();
+                $city.val('{{App\Address::DEFAULT_CITY}}');
+                $state.val('{{App\Address::DEFAULT_STATE}}');
                 myAlert('{{__('Invalid Zip Code.')}}');
+                return '';
             }
 
             //Expressão regular para validar o CEP.

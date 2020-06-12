@@ -351,7 +351,20 @@
                     }
                 }
             }();
-
+            function showDistanceAlert(addr, disabled) {
+                var shippingAmount = 0;
+                if (addr.valid) {
+                    cart.setShippingAddress(addr);
+                    addr = cart.getShippingAddress();
+                    if (addr.valid && addr.distance > freeShippingDistance) {
+                        myAlert('{{__('Shipping Tax Added (distance :distance km)', ['distance' => '{0}'])}}'.replace('{0}', formatCurrency(addr.distance * 0.001)));
+                        shippingAmount = shippingTax * 100;
+                    }
+                }
+                return $('#shipping-amount')
+                    .prop('disabled', disabled)
+                    .val(shippingAmount).trigger('blur');
+            }
             $('body').on('submit', '.add-to-cart', function (e) {
                 e.preventDefault();
                 var item = formFieldsToObject($(this));
@@ -394,13 +407,7 @@
                 $addressModal.find('form').attr('action', action)
                 if (this.value > 0) {
                     var addr = findInArrayById(cart.getCustomer().addresses, this.value);
-                    var shippingAmount = 0;
-                    cart.setShippingAddress(addr);
-                    addr = cart.getShippingAddress();
-                    if (addr.valid && addr.distance > freeShippingDistance) {
-                        shippingAmount = shippingTax * 100;
-                    }
-                    return $('#shipping-amount').val(shippingAmount).trigger('blur');
+                    return showDistanceAlert(addr, false);
                 }
                 showModal($addressModal, '{{ __('Add New') }}');
 
@@ -412,17 +419,11 @@
                 }
                 window.open(mapsUrl(addr), 'new');
             }).on('change', '#deliveryman-id', function () {
-                var $shippingAmount = $('#shipping-amount');
-                var shippingAmount = 0;
+                var addr;
                 if (this.value > 0) {
-                    var addr = cart.getShippingAddress();
-                    if (addr.valid && addr.distance > freeShippingDistance) {
-                        shippingAmount = shippingTax * 100;
-                    }
+                    addr = cart.getShippingAddress();
                 }
-                $shippingAmount.prop('readonly', (this.value < 1))
-                    .val(shippingAmount)
-                    .trigger('blur');
+                showDistanceAlert(addr, (this.value < 1));
 
             }).on('change', '.variation-select', function () {
                 var $this = $(this);
