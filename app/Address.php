@@ -162,7 +162,79 @@ class Address extends Model
                 'state' => 'SC',
                 'neighborhood' => 'Forquilhas',
                 'complement' => 'Cond. Garden Ville, Bloco:  Ap: '
-            ]
+            ],
+            'Rua Francisco Antônio da Silva' => [
+                'zipcode' => '88122-010',
+                'street' => 'Rua Francisco Antônio da Silva',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua Jorge José Zimmermann' => [
+                'zipcode' => '88122-030',
+                'street' => 'Rua Jorge José Zimmermann',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua Maria da Silva Bach' => [
+                'zipcode' => '88122-100',
+                'street' => 'Rua Maria da Silva Bach',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua Paulo Koester' => [
+                'zipcode' => '88122-140',
+                'street' => 'Rua Paulo Koester',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua Mathias Schell' => [
+                'zipcode' => '88122-400',
+                'street' => 'Rua Mathias Schell',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua José Mathias Zimmermann' => [
+                'zipcode' => '88122-200',
+                'street' => 'Rua José Mathias Zimmermann',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua José Teodoro Matos' => [
+                'zipcode' => '88122-410',
+                'street' => 'Rua José Teodoro Matos',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua Lino Pedro da Silva' => [
+                'zipcode' => '88122-130',
+                'street' => 'Rua Lino Pedro da Silva',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
         ];
         return $ret;
     }
