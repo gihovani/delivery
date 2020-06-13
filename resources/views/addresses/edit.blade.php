@@ -15,7 +15,7 @@
                 <div class="card-header">{{ __('Edit Data') }}</div>
 
                 <div class="card-body">
-                    <form action="{{ route('addresses.update', [$address->user, $address]) }}" method="POST">
+                    <form action="{{ route('addresses.update', [$address->user, $address]) }}" method="POST" autocomplete="off">
                         @csrf
                         @method('PUT')
                         @include('addresses._form')

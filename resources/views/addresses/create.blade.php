@@ -15,9 +15,8 @@
                 <div class="card-header">{{ __('Add New') }}</div>
 
                 <div class="card-body">
-                    <form action="{{ route('addresses.store', $user) }}" method="POST">
+                    <form action="{{ route('addresses.store', $user) }}" method="POST" autocomplete="off">
                         @csrf
-
                         @include('addresses._form')
 
                         <div class="form-group row mb-0">

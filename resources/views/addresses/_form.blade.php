@@ -1,16 +1,16 @@
 <?php $prependId = $prependId ?? ''; ?>
-<!--
+
 <div class="form-group row">
-    {!! Form::label('address', __('Address'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
+    {!! Form::label($prependId.'predefined', __('Predefined'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::select('address',\App\Address::ufs(),$address->state ?? '',['required' => true, 'disabled' => (isset($disabled)), 'class'=>'form-control input-state'.($errors->has('state') ? ' is-invalid' : ''), 'id' => $prependId.'state' ]) !!}
+        {!! Form::select('predefined', array_keys(\App\Address::predefined()), '', ['class'=>'form-control', 'id' => $prependId.'predefined' ]) !!}
 
         <span class="invalid-feedback invalid-state" role="alert">
-            <strong>@error('state') {{ $message }} @enderror</strong>
+            <strong>@error('predefined') {{ $message }} @enderror</strong>
         </span>
     </div>
 </div>
--->
+
 <div class="form-group row">
     {!! Form::label($prependId.'zipcode', __('Zip Code'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
@@ -18,7 +18,8 @@
         <span class="invalid-feedback invalid-zipcode" role="alert">
             <strong>@error('zipcode') {{ $message }} @enderror</strong>
         </span>
-        <small class="form-text text-muted"><a href="{{App\Config::getMapsApi()}}" target="_blank">{{__('Search Address on Google Maps')}}</a></small>
+        <small class="form-text text-muted"><a href="{{App\Config::getMapsApi()}}"
+                                               target="_blank">{{__('Search Address on Google Maps')}}</a></small>
         <div class="form-check">
             {!! Form::checkbox('no-address', 1, '', ['class'=>'form-check-input no-address', 'id' => $prependId.'no-address']) !!}
             {!! Form::label($prependId.'no-address', __('No Address'),['class'=>'form-check-label']) !!}
@@ -95,6 +96,7 @@
         var $number = $('.input-number');
         var $complement = $('.input-complement');
         var oldCep = '{{$address->zipcode ?? ''}}';
+        var predefined = @json(array_values(\App\Address::predefined()));
 
         function clearFields() {
             $street.val('');
@@ -104,6 +106,7 @@
             $number.val('');
             $complement.val('');
         }
+
         function readOnlyFields(property) {
             $street.prop('readonly', property);
             $neighborhood.prop('readonly', property);
@@ -113,6 +116,29 @@
             $complement.prop('readonly', property);
         }
 
+        $city.autocomplete({
+            lookup: @json(array_values(\App\Address::cities()))
+        });
+
+        $neighborhood.autocomplete({
+            lookup: @json(array_values(\App\Address::neighborhoods()))
+        });
+
+        $('#{{$prependId}}predefined').on('change', function () {
+            clearFields();
+            $zipcode.val('');
+            if ((this.value > 0) && (predefined.length > this.value)) {
+                var addr = predefined[this.value];
+                $zipcode.val(addr.zipcode);
+                $street.val(addr.street);
+                $neighborhood.val(addr.neighborhood);
+                $city.val(addr.city);
+                $state.val(addr.state);
+                $number.val(addr.number);
+                $complement.val(addr.complement);
+                $complement.focus();
+            }
+        });
         $('.no-address').on('change', function () {
             var zipcode = '';
             var street = '';
@@ -137,7 +163,7 @@
             $complement.val('');
         });
         //Quando o campo cep perde o foco.
-        $zipcode.blur(function() {
+        $zipcode.blur(function () {
             //Nova variável 'cep' somente com dígitos.
             var cep = $(this).val();
             if (cep === oldCep) {
@@ -158,10 +184,10 @@
             var validacep = /^[0-9]{8}$/;
 
             //Valida o formato do CEP.
-            if(validacep.test(oldCep)) {
+            if (validacep.test(oldCep)) {
                 readOnlyFields(true);
                 //Consulta o webservice viacep.com.br/
-                $.getJSON('https://viacep.com.br/ws/'+ oldCep +'/json/?callback=?', function(dados) {
+                $.getJSON('https://viacep.com.br/ws/' + oldCep + '/json/?callback=?', function (dados) {
                     readOnlyFields(false);
                     if (!('erro' in dados)) {
                         //Atualiza os campos com os valores da consulta.

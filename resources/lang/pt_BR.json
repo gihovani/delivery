@@ -170,5 +170,6 @@
     "Shipping Tax Added (distance :distance km)": "Frete adicionado (distância :distance km)",
     "Distance in km.": "Distância em km.",
     "Time in minutes.": "Tempo em minutos.",
-    "Period": "Período"
+    "Period": "Período",
+    "Predefined": "Predefinido"
 }
