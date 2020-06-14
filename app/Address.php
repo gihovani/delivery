@@ -235,6 +235,24 @@ class Address extends Model
                 'neighborhood' => 'Sertão do Maruim',
                 'complement' => ''
             ],
+            'Rua Cristina Maria Zimmermann' => [
+                'zipcode' => '88110-122',
+                'street' => 'Rua Cristina Maria Zimmermann',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua Domingos Barbosa' => [
+                'zipcode' => '88107-590',
+                'street' => 'Rua Domingos Barbosa',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Forquilhas',
+                'complement' => ''
+            ],
         ];
         return $ret;
     }
