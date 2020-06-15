@@ -141,7 +141,7 @@ class OrderController extends Controller
         $order->status = $status;
         $order->save();
         $message = __($message);
-        $telephone = Order::onlyNumbers($order->getAttribute('customer_telephone'));
+        $telephone = Order::onlyNumbers($order->customer_telephone);
 
         if (strlen($telephone) === 11) {
             $whatsappUrl = Config::getWhatsappApi() . $telephone . '&text=' . urlencode($message);
