@@ -37,10 +37,13 @@ class ProductController extends Controller
     {
         $product = Product::create($this->getData($request));
         $this->saveImageAndVariations($request, $product);
+        $message = __('Entity saved successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $product, 'message' => __('Entity saved successfully.')]) :
-            redirect()->route('products.index');
+                ->json(['data' => $product, 'message' => $message]) :
+            redirect()
+                ->route('products.index')
+                ->with('status', $message);
     }
 
     private function saveImageAndVariations(Request $request, Product $product)
@@ -74,19 +77,25 @@ class ProductController extends Controller
     {
         $product->update($this->getData($request));
         $this->saveImageAndVariations($request, $product);
+        $message = __('Entity updated successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $product, 'message' => __('Entity updated successfully.')]) :
-            redirect()->route('products.index');
+                ->json(['data' => $product, 'message' => $message]) :
+            redirect()
+                ->route('products.index')
+                ->with('status', $message);
     }
 
     public function destroy(Product $product)
     {
         $product->delete();
+        $message = __('Entity successfully deleted.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $product, 'message' => __('Entity successfully deleted.')]) :
-            redirect()->route('products.index');
+                ->json(['data' => $product, 'message' => $message]) :
+            redirect()
+                ->route('products.index')
+                ->with('status', $message);
     }
 
     public function details(Product $product)

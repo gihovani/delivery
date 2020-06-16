@@ -28,10 +28,13 @@ class ItemController extends Controller
     public function store(ItemRequest $request)
     {
         $item = Item::create($this->getData($request));
+        $message = __('Entity saved successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $item, 'message' => __('Entity saved successfully.')]) :
-            redirect()->route('items.index');
+                ->json(['data' => $item, 'message' => $message]) :
+            redirect()
+                ->route('items.index')
+                ->with('status', $message);
     }
 
     public function show(Item $item)
@@ -53,19 +56,25 @@ class ItemController extends Controller
     public function update(ItemRequest $request, Item $item)
     {
         $item->update($this->getData($request));
+        $message = __('Entity updated successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $item, 'message' => __('Entity updated successfully.')]) :
-            redirect()->route('items.index');;
+                ->json(['data' => $item, 'message' => $message]) :
+            redirect()
+                ->route('items.index')
+                ->with('status', $message);
     }
 
     public function destroy(Item $item)
     {
         $item->delete();
+        $message = __('Entity successfully deleted.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $item, 'message' => __('Entity successfully deleted.')]) :
-            redirect()->route('items.index');
+                ->json(['data' => $item, 'message' => $message]) :
+            redirect()
+                ->route('items.index')
+                ->with('status', $message);
     }
 
     private function getData(Request $request)

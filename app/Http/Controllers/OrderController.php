@@ -63,10 +63,13 @@ class OrderController extends Controller
             $order->items()->create($item);
         }
 
+        $message = __('Entity saved successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $order, 'message' => __('Entity saved successfully.')]) :
-            redirect()->route('orders.index');
+                ->json(['data' => $order, 'message' => $message]) :
+            redirect()
+                ->route('orders.index')
+                ->with('status', $message);
     }
 
     private function getData(Request $request)
@@ -150,7 +153,9 @@ class OrderController extends Controller
         return request()->ajax() ?
             response()
                 ->json(['data' => $order, 'message' => $message]) :
-            redirect()->route('orders.index');
+            redirect()
+                ->route('orders.index')
+                ->with('status', $message);
     }
 
     public function delivery(Request $request, Order $order)

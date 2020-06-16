@@ -27,10 +27,13 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all());
+        $message = __('Entity saved successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $category, 'message' => __('Entity saved successfully.')]) :
-            redirect()->route('categories.index');
+                ->json(['data' => $category, 'message' => $message]) :
+            redirect()
+                ->route('categories.index')
+                ->with('status', $message);
     }
 
     public function show(Category $category)
@@ -52,18 +55,24 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->update($request->all());
+        $message = __('Entity updated successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $category, 'message' => __('Entity updated successfully.')]) :
-            redirect()->route('categories.index');
+                ->json(['data' => $category, 'message' => $message]) :
+            redirect()
+                ->route('categories.index')
+                ->with('status', $message);
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
+        $message = __('Entity successfully deleted.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $category, 'message' => __('Entity successfully deleted.')]) :
-            redirect()->route('categories.index');
+                ->json(['data' => $category, 'message' => $message]) :
+            redirect()
+                ->route('categories.index')
+                ->with('status', $message);
     }
 }

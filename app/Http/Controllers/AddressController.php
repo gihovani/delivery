@@ -44,10 +44,13 @@ class AddressController extends Controller
     public function store(AddressRequest $request, User $user)
     {
         $address = $user->addresses()->create($this->getData($request->all()));
+        $message = __('Entity saved successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $address, 'message' => __('Entity saved successfully.')]) :
-            redirect()->route('addresses.index', $user);
+                ->json(['data' => $address, 'message' => $message]) :
+            redirect()
+                ->route('addresses.index', $user)
+                ->with('status', $message);
     }
 
     public function show(User $user, Address $address)
@@ -75,10 +78,13 @@ class AddressController extends Controller
         $this->assertAddressUser($address, $user);
 
         $address->update($this->getData($request->all()));
+        $message = __('Entity updated successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $address, 'message' => __('Entity updated successfully.')]) :
-            redirect()->route('addresses.index', $user);
+                ->json(['data' => $address, 'message' => $message]) :
+            redirect()
+                ->route('addresses.index', $user)
+                ->with('status', $message);
     }
 
     public function destroy(User $user, Address $address)
@@ -86,10 +92,13 @@ class AddressController extends Controller
         $this->assertAddressUser($address, $user);
 
         $address->delete();
+        $message = __('Entity successfully deleted.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $address, 'message' => __('Entity successfully deleted.')]) :
-            redirect()->route('addresses.index', $user);
+                ->json(['data' => $address, 'message' => $message]) :
+            redirect()
+                ->route('addresses.index', $user)
+                ->with('status', $message);
     }
 
     private function getData($data)

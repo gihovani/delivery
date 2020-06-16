@@ -30,9 +30,12 @@ class ConfigController extends Controller
         }
 
         $config->update($data);
+        $message = __('Entity updated successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => new ConfigResource($config), 'message' => __('Entity updated successfully.')]) :
-            redirect()->route('configs.edit', $config);
+                ->json(['data' => new ConfigResource($config), 'message' => $message]) :
+            redirect()
+                ->route('configs.edit', $config)
+                ->with('status', $message);
     }
 }

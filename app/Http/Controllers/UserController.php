@@ -42,10 +42,13 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $user = User::createWithAddress($this->getData($request, !$request->has('password')));
+        $message = __('Entity saved successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => new UserResource($user), 'message' => __('Entity saved successfully.')]) :
-            redirect()->route('users.index');
+                ->json(['data' => new UserResource($user), 'message' => $message]) :
+            redirect()
+                ->route('users.index')
+                ->with('status', $message);
     }
 
     private function getData(Request $request, $forcePassword = false)
@@ -82,10 +85,13 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $user->update($this->getData($request));
+        $message = __('Entity updated successfully.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $user, 'message' => __('Entity updated successfully.')]) :
-            redirect()->route('users.index');
+                ->json(['data' => $user, 'message' => $message]) :
+            redirect()
+                ->route('users.index')
+                ->with('status', $message);
     }
 
     public function destroy(User $user)
@@ -95,9 +101,12 @@ class UserController extends Controller
         }
 
         $user->delete();
+        $message = __('Entity successfully deleted.');
         return request()->ajax() ?
             response()
-                ->json(['data' => $user, 'message' => __('Entity successfully deleted.')]) :
-            redirect()->route('users.index');
+                ->json(['data' => $user, 'message' => $message]) :
+            redirect()
+                ->route('users.index')
+                ->with('status', $message);
     }
 }
