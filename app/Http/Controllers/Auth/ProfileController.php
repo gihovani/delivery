@@ -45,7 +45,8 @@ class ProfileController extends Controller
 
         return $request->wantsJson()
             ? new Response('saved', 200)
-            : redirect($this->redirectTo);
+            : redirect($this->redirectTo)
+                ->with('status', __('Entity updated successfully.'));
     }
 
     /**
