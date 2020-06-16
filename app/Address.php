@@ -163,6 +163,24 @@ class Address extends Model
                 'neighborhood' => 'Forquilhas',
                 'complement' => 'Cond. Garden Ville, Bloco:  Ap: '
             ],
+            'Rua Cristina Maria Zimmermann' => [
+                'zipcode' => '88110-122',
+                'street' => 'Rua Cristina Maria Zimmermann',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua Domingos Barbosa' => [
+                'zipcode' => '88107-590',
+                'street' => 'Rua Domingos Barbosa',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Forquilhas',
+                'complement' => ''
+            ],
             'Rua Francisco Antônio da Silva' => [
                 'zipcode' => '88122-010',
                 'street' => 'Rua Francisco Antônio da Silva',
@@ -175,33 +193,6 @@ class Address extends Model
             'Rua Jorge José Zimmermann' => [
                 'zipcode' => '88122-030',
                 'street' => 'Rua Jorge José Zimmermann',
-                'number' => '',
-                'city' => 'São José',
-                'state' => 'SC',
-                'neighborhood' => 'Sertão do Maruim',
-                'complement' => ''
-            ],
-            'Rua Maria da Silva Bach' => [
-                'zipcode' => '88122-100',
-                'street' => 'Rua Maria da Silva Bach',
-                'number' => '',
-                'city' => 'São José',
-                'state' => 'SC',
-                'neighborhood' => 'Sertão do Maruim',
-                'complement' => ''
-            ],
-            'Rua Paulo Koester' => [
-                'zipcode' => '88122-140',
-                'street' => 'Rua Paulo Koester',
-                'number' => '',
-                'city' => 'São José',
-                'state' => 'SC',
-                'neighborhood' => 'Sertão do Maruim',
-                'complement' => ''
-            ],
-            'Rua Mathias Schell' => [
-                'zipcode' => '88122-400',
-                'street' => 'Rua Mathias Schell',
                 'number' => '',
                 'city' => 'São José',
                 'state' => 'SC',
@@ -235,24 +226,51 @@ class Address extends Model
                 'neighborhood' => 'Sertão do Maruim',
                 'complement' => ''
             ],
-            'Rua Cristina Maria Zimmermann' => [
-                'zipcode' => '88110-122',
-                'street' => 'Rua Cristina Maria Zimmermann',
+            'Rua Maria da Silva Bach' => [
+                'zipcode' => '88122-100',
+                'street' => 'Rua Maria da Silva Bach',
                 'number' => '',
                 'city' => 'São José',
                 'state' => 'SC',
                 'neighborhood' => 'Sertão do Maruim',
                 'complement' => ''
             ],
-            'Rua Domingos Barbosa' => [
-                'zipcode' => '88107-590',
-                'street' => 'Rua Domingos Barbosa',
+            'Rua Mathias Schell' => [
+                'zipcode' => '88122-400',
+                'street' => 'Rua Mathias Schell',
                 'number' => '',
                 'city' => 'São José',
                 'state' => 'SC',
-                'neighborhood' => 'Forquilhas',
+                'neighborhood' => 'Sertão do Maruim',
                 'complement' => ''
             ],
+            'Rua Paulo Koester' => [
+                'zipcode' => '88122-140',
+                'street' => 'Rua Paulo Koester',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
+            'Rua Zita Althoff Koerich' => [
+                'zipcode' => '88123-100',
+                'street' => 'Rua Zita Althoff Koerich',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Colônia Santana',
+                'complement' => ''
+            ],
+            'Rodovia SC-281' => [
+                'zipcode' => '88122-001',
+                'street' => 'Rodovia SC-281',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ]
         ];
         return $ret;
     }
