@@ -69,7 +69,7 @@
 <div class="form-group row">
     {!! Form::label('city', __('City'),['class'=>'col-md-4 col-form-label text-md-right']) !!}
     <div class="col-md-7">
-        {!! Form::text('city',$address->zipcode ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'city', 'class'=>'form-control input-city'.($errors->has('city') ? ' is-invalid' : ''), 'id' => $prependId.'city' ]) !!}
+        {!! Form::text('city',$address->city ?? '',['required' => true, 'disabled' => (isset($disabled)), 'autocomplete' => 'city', 'class'=>'form-control input-city'.($errors->has('city') ? ' is-invalid' : ''), 'id' => $prependId.'city' ]) !!}
 
         <span class="invalid-feedback invalid-city" role="alert">
             <strong>@error('city') {{ $message }} @enderror</strong>
