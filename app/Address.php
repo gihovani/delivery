@@ -181,6 +181,15 @@ class Address extends Model
                 'neighborhood' => 'Forquilhas',
                 'complement' => ''
             ],
+            'Rua Espírito Santo' => [
+                'zipcode' => '88122-250',
+                'street' => 'Rua Espírito Santo',
+                'number' => '',
+                'city' => 'São José',
+                'state' => 'SC',
+                'neighborhood' => 'Sertão do Maruim',
+                'complement' => ''
+            ],
             'Rua Francisco Antônio da Silva' => [
                 'zipcode' => '88122-010',
                 'street' => 'Rua Francisco Antônio da Silva',
