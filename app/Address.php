@@ -4,7 +4,7 @@ namespace App;
 
 class Address extends Model
 {
-    const DEFAULT_ZIPCODE = '00000-000';
+    const DEFAULT_ZIPCODE = '99999-999';
     const DEFAULT_STREET = 'Pick Up in Store';
     const DEFAULT_NEIGHBORHOOD = '-';
     const DEFAULT_CITY = 'São José';
